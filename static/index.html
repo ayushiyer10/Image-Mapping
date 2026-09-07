@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single-Image Surface Map Estimation & Real-Time Physical Relighting</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#090d16',
+                        cardbg: '#111726',
+                        cardborder: '#1f293d'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        body {
+            background-color: #090d16;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(17, 23, 38, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-border:hover {
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.25);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f293d;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Header -->
+    <header class="border-b border-cardborder bg-darkbg/90 backdrop-filter backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <i class="fa-solid fa-cube text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold font-heading bg-gradient-to-r from-cyan-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                        Surface Map Estimation & Relighting
+                    </h1>
+                    <p class="text-xs text-gray-400">Classical DIP + PyTorch U-Net (Cosine Loss) + Three.js Real-Time GLSL Relighting</p>
+                </div>
+            </div>
+
+            <!-- Badges -->
+            <div class="flex items-center space-x-2 text-xs">
+                <span class="px-2.5 py-1 rounded-full bg-cyan-950/80 border border-cyan-700/50 text-cyan-400 font-mono">
+                    <i class="fa-solid fa-brain mr-1"></i> PyTorch U-Net
+                </span>
+                <span class="px-2.5 py-1 rounded-full bg-indigo-950/80 border border-indigo-700/50 text-indigo-400 font-mono">
+                    <i class="fa-solid fa-wave-square mr-1"></i> 2D DFT + Poisson
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
+
+        <!-- Controls Panel -->
+        <div class="glass-panel rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <!-- Mode Tabs -->
+            <div class="flex bg-darkbg/80 p-1.5 rounded-xl border border-cardborder w-full md:w-auto">
+                <button id="btn-benchmark-mode" class="flex-1 md:flex-none px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Dataset Benchmark</span>
+                </button>
+                <button id="btn-upload-mode" class="flex-1 md:flex-none px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 text-gray-400 hover:text-white flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-upload"></i>
+                    <span>Live Upload Mode</span>
+                </button>
+            </div>
+
+            <!-- Estimator Selection Pills -->
+            <div class="flex bg-darkbg/80 p-1 rounded-xl border border-cardborder text-xs w-full md:w-auto justify-center">
+                <button id="method-both" class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-medium shadow-md">Compare Both (DIP vs U-Net)</button>
+                <button id="method-unet" class="px-3 py-1.5 rounded-lg text-gray-400 hover:text-white font-medium">PyTorch U-Net</button>
+                <button id="method-dip" class="px-3 py-1.5 rounded-lg text-gray-400 hover:text-white font-medium">Classical DIP</button>
+            </div>
+
+            <!-- Mode-Specific Controls -->
+            <div id="benchmark-controls" class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                <select id="sample-select" class="bg-cardbg border border-cardborder text-gray-200 text-sm rounded-xl px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none cursor-pointer min-w-[200px]">
+                    <option value="">Loading dataset samples...</option>
+                </select>
+                
+                <button id="btn-run-benchmark" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-semibold text-sm rounded-xl shadow-lg shadow-cyan-500/20 transition duration-200 flex items-center space-x-2">
+                    <i class="fa-solid fa-play"></i>
+                    <span>Generate Maps</span>
+                </button>
+            </div>
+
+            <!-- Upload Controls -->
+            <div id="upload-controls" class="hidden flex flex-wrap items-center gap-3 w-full md:w-auto">
+                <label class="cursor-pointer px-4 py-2 bg-cardbg border border-cardborder hover:border-indigo-500/50 rounded-xl text-sm text-gray-300 hover:text-white transition flex items-center space-x-2">
+                    <i class="fa-solid fa-file-image text-indigo-400"></i>
+                    <span>Choose Photo</span>
+                    <input type="file" id="file-input" accept="image/*" class="hidden">
+                </label>
+                <button id="btn-webcam" class="px-4 py-2 bg-cardbg border border-cardborder hover:border-cyan-500/50 rounded-xl text-sm text-gray-300 hover:text-white transition flex items-center space-x-2">
+                    <i class="fa-solid fa-camera text-cyan-400"></i>
+                    <span>Webcam</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Quantitative Scorecard Banner -->
+        <div id="metrics-card" class="glass-panel rounded-2xl p-4 border border-cardborder">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 flex items-center space-x-2">
+                    <i class="fa-solid fa-square-poll-vertical text-indigo-400"></i>
+                    <span>Quantitative Evaluation Scorecard (Predicted vs Ground Truth)</span>
+                </h3>
+                <span id="gt-status-badge" class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-700/50 text-emerald-400 font-mono">
+                    GT Maps Active
+                </span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-mono">
+                <!-- Normal MAE -->
+                <div class="bg-darkbg/60 p-3 rounded-xl border border-cardborder">
+                    <div class="text-[10px] text-gray-400 uppercase">Normal MAE</div>
+                    <div id="metric-mae" class="text-base font-bold text-cyan-400">--°</div>
+                    <div id="metric-mae-sub" class="text-[10px] text-gray-500">Lower is better</div>
+                </div>
+
+                <!-- % < 11.25° -->
+                <div class="bg-darkbg/60 p-3 rounded-xl border border-cardborder">
+                    <div class="text-[10px] text-gray-400 uppercase">% < 11.25°</div>
+                    <div id="metric-pct-11-25" class="text-base font-bold text-indigo-400">--%</div>
+                    <div id="metric-pct-sub" class="text-[10px] text-gray-500">Higher is better</div>
+                </div>
+
+                <!-- % < 22.5° -->
+                <div class="bg-darkbg/60 p-3 rounded-xl border border-cardborder">
+                    <div class="text-[10px] text-gray-400 uppercase">% < 22.5°</div>
+                    <div id="metric-pct-22-5" class="text-base font-bold text-purple-400">--%</div>
+                    <div class="text-[10px] text-gray-500">Higher is better</div>
+                </div>
+
+                <!-- Normal PSNR -->
+                <div class="bg-darkbg/60 p-3 rounded-xl border border-cardborder">
+                    <div class="text-[10px] text-gray-400 uppercase">Normal PSNR</div>
+                    <div id="metric-normal-psnr" class="text-base font-bold text-emerald-400">-- dB</div>
+                    <div class="text-[10px] text-gray-500">Higher is better</div>
+                </div>
+
+                <!-- Roughness SSIM -->
+                <div class="bg-darkbg/60 p-3 rounded-xl border border-cardborder">
+                    <div class="text-[10px] text-gray-400 uppercase">Roughness SSIM</div>
+                    <div id="metric-rough-ssim" class="text-base font-bold text-teal-400">--</div>
+                    <div class="text-[10px] text-gray-500">Range: [0, 1]</div>
+                </div>
+
+                <!-- Height SSIM -->
+                <div class="bg-darkbg/60 p-3 rounded-xl border border-cardborder">
+                    <div class="text-[10px] text-gray-400 uppercase">Height SSIM</div>
+                    <div id="metric-height-ssim" class="text-base font-bold text-amber-400">--</div>
+                    <div class="text-[10px] text-gray-500">Range: [0, 1]</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Left: 2D Previews (7 Cols) -->
+            <div class="lg:col-span-7 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-base font-bold text-gray-200 flex items-center space-x-2">
+                        <i class="fa-solid fa-border-all text-cyan-400"></i>
+                        <span>Surface Texture Maps</span>
+                    </h2>
+
+                    <div class="flex items-center space-x-3 text-xs">
+                        <!-- Normal Model View Selector -->
+                        <div id="normal-view-selector" class="flex bg-darkbg/80 p-0.5 rounded-lg border border-cardborder text-[11px]">
+                            <button id="view-normal-unet" class="px-2 py-0.5 rounded bg-indigo-600 text-white font-medium">U-Net</button>
+                            <button id="view-normal-dip" class="px-2 py-0.5 rounded text-gray-400 hover:text-white font-medium">DIP</button>
+                        </div>
+
+                        <button id="toggle-gt-btn" class="hidden text-indigo-400 hover:text-indigo-300 font-medium flex items-center space-x-1">
+                            <i class="fa-solid fa-sliders"></i>
+                            <span id="gt-toggle-label">Show GT Maps</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    
+                    <!-- 1. Input RGB -->
+                    <div class="glass-panel rounded-2xl p-3 glow-border transition">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-semibold text-gray-300">Input RGB Photo</span>
+                            <span id="badge-source-type" class="text-[10px] px-2 py-0.5 rounded bg-gray-800 text-gray-400">Source</span>
+                        </div>
+                        <div class="aspect-square bg-darkbg rounded-xl overflow-hidden relative group border border-cardborder">
+                            <img id="img-input-rgb" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23111726'/></svg>" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <!-- 2. Predicted Normal Map -->
+                    <div class="glass-panel rounded-2xl p-3 glow-border transition">
+                        <div class="flex items-center justify-between mb-2">
+                            <span id="title-normal" class="text-xs font-semibold text-gray-300">Normal Map (OpenGL)</span>
+                            <span id="badge-normal-tech" class="text-[10px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800/40">PyTorch U-Net</span>
+                        </div>
+                        <div class="aspect-square bg-darkbg rounded-xl overflow-hidden relative group border border-cardborder">
+                            <img id="img-normal-map" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23111726'/></svg>" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <!-- 3. Predicted Roughness Map -->
+                    <div class="glass-panel rounded-2xl p-3 glow-border transition">
+                        <div class="flex items-center justify-between mb-2">
+                            <span id="title-roughness" class="text-xs font-semibold text-gray-300">Roughness Map</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-purple-950 text-purple-400 border border-purple-800/40">2D DFT High-Pass</span>
+                        </div>
+                        <div class="aspect-square bg-darkbg rounded-xl overflow-hidden relative group border border-cardborder">
+                            <img id="img-roughness-map" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23111726'/></svg>" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                    <!-- 4. Predicted Height Map -->
+                    <div class="glass-panel rounded-2xl p-3 glow-border transition">
+                        <div class="flex items-center justify-between mb-2">
+                            <span id="title-height" class="text-xs font-semibold text-gray-300">Height / Depth Map</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/40">Fourier Poisson</span>
+                        </div>
+                        <div class="aspect-square bg-darkbg rounded-xl overflow-hidden relative group border border-cardborder">
+                            <img id="img-height-map" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><rect width='100' height='100' fill='%23111726'/></svg>" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right: 3D Interactive Relighting Viewport (5 Cols) -->
+            <div class="lg:col-span-5 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-base font-bold text-gray-200 flex items-center space-x-2">
+                        <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                        <span>3D Physical Relighting Canvas</span>
+                    </h2>
+                    <span class="text-xs text-gray-400 font-mono">Three.js + GLSL Shader</span>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-3 border border-cardborder flex flex-col space-y-3">
+                    
+                    <div class="aspect-square w-full bg-black rounded-xl overflow-hidden relative border border-cardborder cursor-grab active:cursor-grabbing" id="canvas-container">
+                        <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 text-[11px] text-gray-300 flex items-center space-x-2 pointer-events-none z-10">
+                            <i class="fa-solid fa-hand-pointer text-amber-400 animate-pulse"></i>
+                            <span>Drag mouse to move Light Vector (L)</span>
+                        </div>
+
+                        <button id="btn-reset-light" class="absolute bottom-3 right-3 bg-cardbg/80 hover:bg-cardbg border border-cardborder text-gray-300 hover:text-white px-2.5 py-1 rounded-lg text-xs transition z-10">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Reset Light
+                        </button>
+                    </div>
+
+                    <!-- Relighting Sliders -->
+                    <div class="bg-darkbg/60 p-3 rounded-xl border border-cardborder space-y-2.5 text-xs">
+                        <div class="font-bold text-gray-300 flex items-center justify-between">
+                            <span>Relighting Parameters</span>
+                            <span class="text-gray-500 font-mono" id="light-pos-readout">L: (0.0, 0.0, 1.5)</span>
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-gray-400">
+                                <span>Light Height (Z)</span>
+                                <span id="val-light-z" class="font-mono text-cyan-400">1.5</span>
+                            </div>
+                            <input type="range" id="slider-light-z" min="0.1" max="5.0" step="0.1" value="1.5" class="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-gray-400">
+                                <span>Light Intensity</span>
+                                <span id="val-light-intensity" class="font-mono text-indigo-400">1.2</span>
+                            </div>
+                            <input type="range" id="slider-light-intensity" min="0.1" max="3.0" step="0.1" value="1.2" class="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-gray-400">
+                                <span>Specular Power</span>
+                                <span id="val-specular" class="font-mono text-purple-400">1.0</span>
+                            </div>
+                            <input type="range" id="slider-specular" min="0.0" max="3.0" step="0.1" value="1.0" class="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500">
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-gray-400">
+                                <span>Height 3D Displacement</span>
+                                <span id="val-displacement" class="font-mono text-emerald-400">0.15</span>
+                            </div>
+                            <input type="range" id="slider-displacement" min="0.0" max="0.5" step="0.01" value="0.15" class="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                        </div>
+
+                        <div class="flex items-center justify-between pt-1">
+                            <span class="text-gray-400">Light Color</span>
+                            <input type="color" id="color-light" value="#ffffff" class="w-8 h-6 bg-transparent border-0 rounded cursor-pointer">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="border-t border-cardborder bg-darkbg/90 py-4 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-500">
+            Single-Image Surface Map Estimation & Real-Time Physical Relighting System • Classical DIP + PyTorch U-Net Benchmark
+        </div>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

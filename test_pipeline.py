@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Automated Pipeline Verification & Testing Suite
-Iterates through all downloaded dataset samples in data/rgb/, executes Classical DIP & Deep Learning map estimators,
+Iterates through all downloaded dataset samples in data/rgb/, executes Classical DIP & Deep Learning (MiDaS) map estimators,
 evaluates quantitative metrics against ground-truth pairs in data/ground_truth/, and outputs a formatted terminal summary table.
 """
 
@@ -24,7 +24,31 @@ from dip_engine import (
     evaluate_scalar_metrics,
     diode_npy_to_rgb
 )
-from engine import estimate_normal_map_unet, evaluate_normal_angular_metrics
+from engine import process_surface_maps, estimate_normal_map_midas, evaluate_normal_angular_metrics
+
+def test_confidence_scores_without_gt():
+    """Run process_surface_maps on a random synthetic image without GT and assert confidence scores format."""
+    print("\n[TEST] Testing ground-truth-free confidence calculation on custom synthetic upload...")
+    synthetic_image = np.random.randint(0, 256, (128, 128, 3), dtype=np.uint8)
+    res = process_surface_maps(synthetic_image, method="both")
+
+    assert "confidence" in res, "Response missing 'confidence' key"
+    assert res["has_ground_truth"] is False, "has_ground_truth should be False when no GT is passed"
+
+    conf = res["confidence"]
+    assert "normal" in conf, "Confidence missing 'normal' key"
+    assert "height" in conf, "Confidence missing 'height' key"
+    assert "roughness" in conf, "Confidence missing 'roughness' key"
+    assert "disclaimer" in conf, "Confidence missing 'disclaimer' key"
+
+    for map_name in ["normal", "height", "roughness"]:
+        sub_dict = conf[map_name]
+        assert "confidence_pct" in sub_dict, f"Sub-dict {map_name} missing 'confidence_pct'"
+        assert "confidence_band" in sub_dict, f"Sub-dict {map_name} missing 'confidence_band'"
+        assert sub_dict["confidence_band"] in ["high", "medium", "low"], f"Invalid band '{sub_dict['confidence_band']}' for {map_name}"
+        assert "description" in sub_dict, f"Sub-dict {map_name} missing 'description'"
+
+    print("[TEST PASSED] Ground-truth-free confidence score verification succeeded!")
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
@@ -50,7 +74,7 @@ def run_pipeline_verification():
     print(f"   SURFACE MAP ESTIMATION & GT EVALUATION SUITE ({len(rgb_files)} DATASET SAMPLES FOUND)")
     print("=" * 105)
 
-    headers = f"{'Sample Asset ID':<24} | {'DIP MAE':<9} | {'%<11.25°':<8} | {'U-Net MAE':<9} | {'Rough PSNR':<10} | {'Rough SSIM':<10} | {'Height SSIM':<11} | {'GT Pair'}"
+    headers = f"{'Sample Asset ID':<24} | {'DIP MAE':<9} | {'%<11.25°':<8} | {'MiDaS MAE':<9} | {'Rough PSNR':<10} | {'Rough SSIM':<10} | {'Height SSIM':<11} | {'GT Pair'}"
     print(headers)
     print("-" * 105)
 
@@ -67,7 +91,7 @@ def run_pipeline_verification():
 
         # 2. Estimate Surface Maps
         pred_normal_dip = estimate_normals_sobel(rgb_img)
-        pred_normal_unet = estimate_normal_map_unet(rgb_img)
+        pred_normal_midas = estimate_normal_map_midas(rgb_img)
         pred_roughness = estimate_roughness_dft(rgb_img)
         pred_height = estimate_height_poisson(pred_normal_dip)
 
@@ -100,24 +124,23 @@ def run_pipeline_verification():
 
         # 4. Compute Metrics
         has_gt = gt_normal is not None
-        dip_mae_str, pct11_str, unet_mae_str = "N/A", "N/A", "N/A"
+        dip_mae_str, pct11_str, midas_mae_str = "N/A", "N/A", "N/A"
         rough_psnr_str, rough_ssim_str, height_ssim_str = "N/A", "N/A", "N/A"
 
-        dip_mae_val, pct11_val, unet_mae_val = None, None, None
+        dip_mae_val, pct11_val, midas_mae_val = None, None, None
         rough_psnr_val, rough_ssim_val, height_ssim_val = None, None, None
 
         if has_gt:
             # Normal MAE for DIP
-            gt_norm_rgb = gt_normal if gt_normal.dtype == np.uint8 else diode_npy_to_rgb(gt_normal, gt_mask)
             dip_mae, pct11, pct22 = evaluate_normal_mae(pred_normal_dip, gt_normal, mask=gt_mask)
             dip_mae_val, pct11_val = dip_mae, pct11
             dip_mae_str = f"{dip_mae:.2f}°"
             pct11_str = f"{pct11:.1f}%"
 
-            # Normal MAE for U-Net
-            unet_res = evaluate_normal_angular_metrics(pred_normal_unet, gt_normal, mask=gt_mask)
-            unet_mae_val = unet_res["mae"]
-            unet_mae_str = f"{unet_res['mae']:.2f}°"
+            # Normal MAE for MiDaS DL
+            midas_res = evaluate_normal_angular_metrics(pred_normal_midas, gt_normal, mask=gt_mask)
+            midas_mae_val = midas_res["mae"]
+            midas_mae_str = f"{midas_res['mae']:.2f}°"
 
             # Roughness Metrics
             if gt_roughness is not None:
@@ -132,7 +155,7 @@ def run_pipeline_verification():
                 height_ssim_val = h_metrics["ssim"]
                 height_ssim_str = f"{h_metrics['ssim']:.4f}"
 
-        row_str = f"{asset_id[:24]:<24} | {dip_mae_str:<9} | {pct11_str:<8} | {unet_mae_str:<9} | {rough_psnr_str:<10} | {rough_ssim_str:<10} | {height_ssim_str:<11} | {'[YES]' if has_gt else '[NO]'}"
+        row_str = f"{asset_id[:24]:<24} | {dip_mae_str:<9} | {pct11_str:<8} | {midas_mae_str:<9} | {rough_psnr_str:<10} | {rough_ssim_str:<10} | {height_ssim_str:<11} | {'[YES]' if has_gt else '[NO]'}"
         print(row_str)
 
         results.append({
@@ -140,7 +163,7 @@ def run_pipeline_verification():
             "has_gt": has_gt,
             "dip_mae": dip_mae_val,
             "pct11": pct11_val,
-            "unet_mae": unet_mae_val,
+            "midas_mae": midas_mae_val,
             "rough_psnr": rough_psnr_val,
             "rough_ssim": rough_ssim_val,
             "height_ssim": height_ssim_val
@@ -148,7 +171,7 @@ def run_pipeline_verification():
 
     # Summary Statistics
     valid_dip_maes = [r["dip_mae"] for r in results if r["dip_mae"] is not None]
-    valid_unet_maes = [r["unet_mae"] for r in results if r["unet_mae"] is not None]
+    valid_midas_maes = [r["midas_mae"] for r in results if r["midas_mae"] is not None]
     valid_pct11s = [r["pct11"] for r in results if r["pct11"] is not None]
     valid_rough_psnrs = [r["rough_psnr"] for r in results if r["rough_psnr"] is not None]
     valid_height_ssims = [r["height_ssim"] for r in results if r["height_ssim"] is not None]
@@ -156,12 +179,12 @@ def run_pipeline_verification():
     print("=" * 105)
     if valid_dip_maes:
         avg_dip_mae = np.mean(valid_dip_maes)
-        avg_unet_mae = np.mean(valid_unet_maes) if valid_unet_maes else 0.0
+        avg_midas_mae = np.mean(valid_midas_maes) if valid_midas_maes else 0.0
         avg_pct11 = np.mean(valid_pct11s)
         avg_rough_psnr = np.mean(valid_rough_psnrs) if valid_rough_psnrs else 0.0
         avg_height_ssim = np.mean(valid_height_ssims) if valid_height_ssims else 0.0
 
-        summary = f"{'AVERAGE OVERALL':<24} | {avg_dip_mae:.2f}°    | {avg_pct11:.1f}%   | {avg_unet_mae:.2f}°    | {avg_rough_psnr:.2f} dB   | {'--':<10} | {avg_height_ssim:.4f}      | {len(valid_dip_maes)} pairs"
+        summary = f"{'AVERAGE OVERALL':<24} | {avg_dip_mae:.2f}°    | {avg_pct11:.1f}%   | {avg_midas_mae:.2f}°    | {avg_rough_psnr:.2f} dB   | {'--':<10} | {avg_height_ssim:.4f}      | {len(valid_dip_maes)} pairs"
         print(summary)
     else:
         print("No ground-truth pairs found for evaluation.")
@@ -169,4 +192,5 @@ def run_pipeline_verification():
 
 
 if __name__ == "__main__":
+    test_confidence_scores_without_gt()
     run_pipeline_verification()

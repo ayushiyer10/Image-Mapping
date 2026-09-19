@@ -62,19 +62,28 @@ def preprocess_image(rgb_image: np.ndarray, gamma: float = 2.2) -> tuple[np.ndar
     return linear_img, gray_stretched
 
 
-def estimate_normal_map_dip(gray_img: np.ndarray, scale: float = 2.0) -> np.ndarray:
+def depth_map_to_normal_map(depth_img: np.ndarray, scale: float = 1.5, blur_ksize: int = 5) -> np.ndarray:
     """
-    Classical DIP Surface Normal Estimation:
-    1. Sobel gradient extraction: Ix = dI/dx, Iy = dI/dy
-    2. Normalized to unit vector N = (-Ix * scale, -Iy * scale, 1.0) / ||N||
-    3. Remapped to OpenGL RGB [0, 255].
+    Convert a 2D scalar depth/height map to an OpenGL uint8 RGB normal map via Sobel gradients:
+    1. Preprocess: Ensure depth_img is float64 in range [0.0, 1.0].
+    2. Denoise: Apply Gaussian blur to suppress high-frequency noise before differentiation.
+    3. Sobel gradient extraction: Ix = dI/dx, Iy = dI/dy.
+    4. L2 Unit Vector Normalization: N = (-Ix * scale, -Iy * scale, 1.0) / ||N||
+    5. Remapped to OpenGL uint8 RGB [0, 255].
     """
-    Ix = cv2.Sobel(gray_img, cv2.CV_64F, 1, 0, ksize=3)
-    Iy = cv2.Sobel(gray_img, cv2.CV_64F, 0, 1, ksize=3)
+    depth_float = depth_img.astype(np.float64)
+    if depth_float.max() > 1.0:
+        depth_float = depth_float / 255.0
+
+    if blur_ksize > 1:
+        depth_float = cv2.GaussianBlur(depth_float, (blur_ksize, blur_ksize), 1.0)
+
+    Ix = cv2.Sobel(depth_float, cv2.CV_64F, 1, 0, ksize=3)
+    Iy = cv2.Sobel(depth_float, cv2.CV_64F, 0, 1, ksize=3)
 
     Nx = -Ix * scale
     Ny = -Iy * scale
-    Nz = np.ones_like(gray_img, dtype=np.float64)
+    Nz = np.ones_like(depth_float, dtype=np.float64)
 
     magnitude = np.sqrt(Nx**2 + Ny**2 + Nz**2)
     magnitude = np.maximum(magnitude, 1e-8)
@@ -88,6 +97,14 @@ def estimate_normal_map_dip(gray_img: np.ndarray, scale: float = 2.0) -> np.ndar
     B = ((Nz_unit * 0.5 + 0.5) * 255.0).clip(0, 255).astype(np.uint8)
 
     return np.stack([R, G, B], axis=-1)
+
+
+def estimate_normal_map_dip(gray_img: np.ndarray, scale: float = 1.5) -> np.ndarray:
+    """
+    Classical DIP Surface Normal Estimation using Gaussian-smoothed Sobel gradients.
+    """
+    return depth_map_to_normal_map(gray_img, scale=scale, blur_ksize=5)
+
 
 
 def estimate_roughness_map_dft(gray_img: np.ndarray, cutoff_radius: float = 30.0) -> np.ndarray:
@@ -123,15 +140,13 @@ def estimate_roughness_map_dft(gray_img: np.ndarray, cutoff_radius: float = 30.0
     local_std = np.sqrt(local_var)
 
     # 5. Composite high-frequency magnitude & local stddev
-    roughness = high_freq_spatial * 0.5 + local_std * 0.5
+    micro_texture = high_freq_spatial * 0.5 + local_std * 0.5
 
-    p5, p95 = np.percentile(roughness, (5, 95))
-    if p95 > p5:
-        roughness_norm = np.clip((roughness - p5) / (p95 - p5), 0.0, 1.0)
-    else:
-        roughness_norm = np.clip(roughness, 0.0, 1.0)
+    # Base PBR roughness offset (0.65) + relative micro-texture variance
+    base_roughness = 0.65
+    raw_roughness = base_roughness + (micro_texture - micro_texture.mean()) * 0.8
 
-    return (roughness_norm * 255.0).astype(np.uint8)
+    return (np.clip(raw_roughness, 0.0, 1.0) * 255.0).astype(np.uint8)
 
 
 def estimate_height_map(normal_map_rgb: np.ndarray) -> np.ndarray:
@@ -178,182 +193,69 @@ def estimate_height_map(normal_map_rgb: np.ndarray) -> np.ndarray:
 
 
 # =====================================================================
-# 2. PyTorch U-Net Surface Normal Estimator & Cosine Angular Loss
+# 2. Deep Learning Surface Normal Estimator (MiDaS Monocular Depth)
 # =====================================================================
 
-class CosineAngularLoss(nn.Module):
+_midas_model = None
+_midas_transforms = None
+
+
+def get_midas_model():
+    """Instantiate and load cached MiDaS_small deep learning monocular depth model."""
+    global _midas_model, _midas_transforms
+    if _midas_model is not None and _midas_transforms is not None:
+        return _midas_model, _midas_transforms
+
+    try:
+        # Pre-trust dependent repository to prevent interactive prompt
+        torch.hub.load("rwightman/gen-efficientnet-pytorch", "efficientnet_lite0", trust_repo=True)
+    except Exception:
+        pass
+
+    _midas_model = torch.hub.load("intel-isl/MiDaS", "MiDaS_small", trust_repo=True)
+    _midas_model.eval()
+
+    midas_transforms = torch.hub.load("intel-isl/MiDaS", "transforms", trust_repo=True)
+    _midas_transforms = midas_transforms.small_transform
+
+    print("[Engine] MiDaS_small model loaded successfully.")
+    return _midas_model, _midas_transforms
+
+
+def estimate_normal_map_midas(rgb_img: np.ndarray) -> np.ndarray:
     """
-    Cosine Angular Loss for Normal Map Estimation:
-    L_angular = 1 - (1/N) * sum(pred_normal . gt_normal)
+    Predict surface normal map using Deep Learning MiDaS_small Monocular Depth Estimator.
+    1. Runs MiDaS_small inference to get relative inverse depth map.
+    2. Converts relative depth map to surface normals via Sobel gradients.
+    Returns OpenGL normal map uint8 (H, W, 3).
     """
-    def __init__(self, eps: float = 1e-7):
-        super().__init__()
-        self.eps = eps
-
-    def forward(self, pred: torch.Tensor, target: torch.Tensor, mask: torch.Tensor = None) -> torch.Tensor:
-        # L2 Normalize predicted normal vectors along channel axis
-        pred_norm = F.normalize(pred, p=2, dim=1, eps=self.eps)
-        target_norm = F.normalize(target, p=2, dim=1, eps=self.eps)
-
-        # Dot product along channel dimension (B, 1, H, W)
-        dot_product = torch.sum(pred_norm * target_norm, dim=1, keepdim=True)
-        dot_product = torch.clamp(dot_product, -1.0 + self.eps, 1.0 - self.eps)
-
-        loss = 1.0 - dot_product
-
-        if mask is not None:
-            mask = mask.float()
-            loss = torch.sum(loss * mask) / (torch.sum(mask) * pred.shape[1] + self.eps)
-        else:
-            loss = torch.mean(loss)
-
-        return loss
-
-
-class DoubleConv(nn.Module):
-    """(Conv2D -> BatchNorm -> ReLU) * 2"""
-    def __init__(self, in_channels: int, out_channels: int):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1, bias=False),
-            nn.BatchNorm2d(out_channels),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1, bias=False),
-            nn.BatchNorm2d(out_channels),
-            nn.ReLU(inplace=True)
-        )
-
-    def forward(self, x):
-        return self.net(x)
-
-
-class UNetNormalEstimator(nn.Module):
-    """
-    Lightweight Encoder-Decoder PyTorch U-Net Architecture with Skip Connections
-    Input: RGB Image (B, 3, H, W)
-    Output: Surface Normal Map Vectors (B, 3, H, W) in range [-1, 1]
-    """
-    def __init__(self, in_channels: int = 3, out_channels: int = 3):
-        super().__init__()
-        # Encoder
-        self.inc = DoubleConv(in_channels, 32)
-        self.down1 = nn.Sequential(nn.MaxPool2d(2), DoubleConv(32, 64))
-        self.down2 = nn.Sequential(nn.MaxPool2d(2), DoubleConv(64, 128))
-        self.down3 = nn.Sequential(nn.MaxPool2d(2), DoubleConv(128, 256))
-
-        # Bottleneck
-        self.bottleneck = nn.Sequential(nn.MaxPool2d(2), DoubleConv(256, 512))
-
-        # Decoder with Skip Connections
-        self.up1 = nn.ConvTranspose2d(512, 256, kernel_size=2, stride=2)
-        self.conv1 = DoubleConv(512, 256)
-
-        self.up2 = nn.ConvTranspose2d(256, 128, kernel_size=2, stride=2)
-        self.conv2 = DoubleConv(256, 128)
-
-        self.up3 = nn.ConvTranspose2d(128, 64, kernel_size=2, stride=2)
-        self.conv3 = DoubleConv(128, 64)
-
-        self.up4 = nn.ConvTranspose2d(64, 32, kernel_size=2, stride=2)
-        self.conv4 = DoubleConv(64, 32)
-
-        # Output projection layer
-        self.outc = nn.Conv2d(32, out_channels, kernel_size=1)
-
-    def forward(self, x):
-        x1 = self.inc(x)
-        x2 = self.down1(x1)
-        x3 = self.down2(x2)
-        x4 = self.down3(x3)
-
-        x_bot = self.bottleneck(x4)
-
-        x = self.up1(x_bot)
-        x = torch.cat([x, x4], dim=1)
-        x = self.conv1(x)
-
-        x = self.up2(x)
-        x = torch.cat([x, x3], dim=1)
-        x = self.conv2(x)
-
-        x = self.up3(x)
-        x = torch.cat([x, x2], dim=1)
-        x = self.conv3(x)
-
-        x = self.up4(x)
-        x = torch.cat([x, x1], dim=1)
-        x = self.conv4(x)
-
-        out = self.outc(x)
-        # Normalize to unit 3D vectors
-        out = F.normalize(out, p=2, dim=1)
-        return out
-
-
-_global_model = None
-
-def get_unet_model(model_path: str = None) -> UNetNormalEstimator:
-    """Instantiate or load cached PyTorch U-Net model."""
-    global _global_model
-    if _global_model is not None:
-        return _global_model
-
-    if model_path is None:
-        model_path = DEFAULT_MODEL_PATH
-
-    model = UNetNormalEstimator(in_channels=3, out_channels=3)
-    if os.path.exists(model_path):
-        try:
-            state_dict = torch.load(model_path, map_location='cpu')
-            model.load_state_dict(state_dict)
-            print(f"[Engine] Loaded trained U-Net model weights from '{model_path}'")
-        except Exception as e:
-            print(f"[Engine] Failed to load U-Net weights ({e}), using initialized weights.")
-    else:
-        print("[Engine] U-Net model initialized with PyTorch default weights.")
-
-    model.eval()
-    _global_model = model
-    return _global_model
-
-
-def estimate_normal_map_unet(rgb_img: np.ndarray, model_path: str = None) -> np.ndarray:
-    """
-    Predict surface normal map using PyTorch U-Net model.
-    Accepts RGB uint8 image (H, W, 3), returns OpenGL normal map uint8 (H, W, 3).
-    """
-    model = get_unet_model(model_path)
-
+    model, transform = get_midas_model()
     h_orig, w_orig = rgb_img.shape[:2]
 
-    # Resize to multiple of 16 for U-Net architecture
-    h_pad = ((h_orig + 15) // 16) * 16
-    w_pad = ((w_orig + 15) // 16) * 16
-
-    img_resized = cv2.resize(rgb_img, (w_pad, h_pad), interpolation=cv2.INTER_AREA)
-
-    # Convert to Tensor (B, 3, H, W) normalized to [0, 1]
-    tensor_in = torch.from_numpy(img_resized).permute(2, 0, 1).float().unsqueeze(0) / 255.0
+    # Transform RGB image for MiDaS input
+    input_batch = transform(rgb_img)
 
     with torch.no_grad():
-        pred_normal_tensor = model(tensor_in)  # (1, 3, H, W) in [-1, 1]
+        prediction = model(input_batch)
+        prediction = torch.nn.functional.interpolate(
+            prediction.unsqueeze(1),
+            size=(h_orig, w_orig),
+            mode="bicubic",
+            align_corners=False,
+        ).squeeze()
 
-    pred_normal_np = pred_normal_tensor.squeeze(0).permute(1, 2, 0).cpu().numpy()  # (H, W, 3)
+    depth_np = prediction.cpu().numpy()
 
-    if (h_pad, w_pad) != (h_orig, w_orig):
-        pred_normal_np = cv2.resize(pred_normal_np, (w_orig, h_orig), interpolation=cv2.INTER_LINEAR)
+    # Percentile-based contrast normalization for stable depth gradient
+    p1, p99 = np.percentile(depth_np, (1, 99))
+    if p99 > p1:
+        depth_norm = np.clip((depth_np - p1) / (p99 - p1), 0.0, 1.0)
+    else:
+        depth_norm = depth_np
 
-    # Normalize vectors
-    norm = np.linalg.norm(pred_normal_np, axis=-1, keepdims=True)
-    norm = np.maximum(norm, 1e-8)
-    unit_normals = pred_normal_np / norm
+    # Convert inverse depth map to normal map via Sobel gradients
+    return depth_map_to_normal_map(depth_norm, scale=2.0)
 
-    # Remap OpenGL vectors [-1, 1] -> [0, 255]
-    R = ((unit_normals[:, :, 0] * 0.5 + 0.5) * 255.0).clip(0, 255).astype(np.uint8)
-    G = ((unit_normals[:, :, 1] * 0.5 + 0.5) * 255.0).clip(0, 255).astype(np.uint8)
-    B = ((unit_normals[:, :, 2] * 0.5 + 0.5) * 255.0).clip(0, 255).astype(np.uint8)
-
-    return np.stack([R, G, B], axis=-1)
 
 
 # =====================================================================
@@ -449,6 +351,61 @@ def image_to_base64(img_array: np.ndarray, fmt: str = "PNG") -> str:
     return f"data:image/{fmt.lower()};base64,{img_str}"
 
 
+def compute_confidence_scores(dip_normal: np.ndarray, midas_normal: np.ndarray,
+                             primary_normal: np.ndarray, pred_height: np.ndarray,
+                             pred_roughness: np.ndarray, gray_img: np.ndarray) -> dict:
+    """
+    Compute ground-truth-free confidence scores for estimated surface maps.
+    - Normal Map: Angular agreement (MAE) between Classical DIP (Sobel) and Deep Learning (MiDaS) estimates.
+    - Height Map: Closed-loop Poisson integration consistency via re-differentiating pred_height back into a normal map.
+    - Roughness Map: SSIM stability between default (30.0) and alternate (15.0) frequency cutoff radii.
+    """
+    # 1. Normal Map Confidence
+    ang_norm = evaluate_normal_angular_metrics(dip_normal, midas_normal)
+    mae = ang_norm["mae"]
+    norm_pct = round(max(0.0, min(100.0, 100.0 - (mae / 90.0 * 100.0))), 2)
+
+    # 2. Height Map Confidence (Closed-loop re-differentiation check)
+    re_normal = estimate_normal_map_dip(pred_height, scale=2.0)
+    h_ang = evaluate_normal_angular_metrics(re_normal, primary_normal)
+    h_mae = h_ang["mae"]
+    height_pct = round(max(0.0, min(100.0, 100.0 - (h_mae / 90.0 * 100.0))), 2)
+
+    # 3. Roughness Map Confidence (SSIM stability across cutoff scales)
+    alt_roughness = estimate_roughness_map_dft(gray_img, cutoff_radius=15.0)
+    r_metrics = evaluate_map_metrics(pred_roughness, alt_roughness)
+    stability_ssim = r_metrics["ssim"]
+    rough_pct = round(max(0.0, min(100.0, stability_ssim * 100.0)), 2)
+
+    def get_confidence_band(pct: float) -> str:
+        if pct >= 75.0:
+            return "high"
+        elif pct >= 50.0:
+            return "medium"
+        else:
+            return "low"
+
+    return {
+        "normal": {
+            "confidence_pct": norm_pct,
+            "confidence_band": get_confidence_band(norm_pct),
+            "description": f"Angular agreement between Classical DIP (Sobel) and Deep Learning (MiDaS) normal estimates (MAE: {mae:.2f}°)."
+        },
+        "height": {
+            "confidence_pct": height_pct,
+            "confidence_band": get_confidence_band(height_pct),
+            "description": f"Closed-loop Poisson integration consistency (Re-diff MAE: {h_mae:.2f}°)."
+        },
+        "roughness": {
+            "confidence_pct": rough_pct,
+            "stability_ssim": stability_ssim,
+            "confidence_band": get_confidence_band(rough_pct),
+            "description": f"SSIM stability across frequency cutoff radii (SSIM: {stability_ssim:.4f})."
+        },
+        "disclaimer": "Ground-truth unavailable for custom uploaded images. Scores reflect relative consistency between Classical DIP and Deep Learning (MiDaS) estimators, not absolute ground-truth accuracy."
+    }
+
+
 # =====================================================================
 # 4. Unified Surface Map Processing Pipeline
 # =====================================================================
@@ -457,18 +414,18 @@ def process_surface_maps(rgb_image: np.ndarray, method: str = "both",
                          gt_normal: np.ndarray = None, gt_roughness: np.ndarray = None,
                          gt_height: np.ndarray = None, gt_mask: np.ndarray = None) -> dict:
     """
-    Run surface map estimation (DIP and/or PyTorch U-Net), calculate evaluation metrics against GT,
-    and return Base64 image maps and metric scorecard JSON.
-    Methods: 'dip', 'unet', or 'both'
+    Run surface map estimation (Classical DIP and Deep Learning MiDaS), calculate evaluation metrics against GT if available,
+    compute GT-free confidence scores, and return Base64 image maps and scorecard JSON.
+    Methods: 'dip', 'midas', 'dl', or 'both'
     """
     _, gray_img = preprocess_image(rgb_image)
 
     # 1. Normal Estimation
     dip_normal = estimate_normal_map_dip(gray_img, scale=2.0)
-    unet_normal = estimate_normal_map_unet(rgb_image)
+    midas_normal = estimate_normal_map_midas(rgb_image)
 
     # Active normal map to present by default in 2D/3D
-    primary_normal = unet_normal if method == "unet" else dip_normal
+    primary_normal = midas_normal if method in ["midas", "dl", "unet"] else dip_normal
 
     # 2. Roughness Map Estimation (2D DFT)
     pred_roughness = estimate_roughness_map_dft(gray_img)
@@ -478,7 +435,7 @@ def process_surface_maps(rgb_image: np.ndarray, method: str = "both",
 
     # 4. Metric Scorecard Calculation
     metrics_dip = {"mae": None, "pct_11_25": None, "pct_22_5": None, "mse": None, "psnr": None, "ssim": None}
-    metrics_unet = {"mae": None, "pct_11_25": None, "pct_22_5": None, "mse": None, "psnr": None, "ssim": None}
+    metrics_dl = {"mae": None, "pct_11_25": None, "pct_22_5": None, "mse": None, "psnr": None, "ssim": None}
 
     if gt_normal is not None:
         gt_norm_rgb = gt_normal if gt_normal.dtype == np.uint8 else diode_npy_to_rgb(gt_normal, gt_mask)
@@ -489,20 +446,30 @@ def process_surface_maps(rgb_image: np.ndarray, method: str = "both",
         metrics_dip.update(ang_dip)
         metrics_dip.update(map_dip)
 
-        # Evaluate PyTorch U-Net Normal Map
-        ang_unet = evaluate_normal_angular_metrics(unet_normal, gt_normal, mask=gt_mask)
-        map_unet = evaluate_map_metrics(unet_normal, gt_norm_rgb, mask=gt_mask)
-        metrics_unet.update(ang_unet)
-        metrics_unet.update(map_unet)
+        # Evaluate Deep Learning (MiDaS) Normal Map
+        ang_dl = evaluate_normal_angular_metrics(midas_normal, gt_normal, mask=gt_mask)
+        map_dl = evaluate_map_metrics(midas_normal, gt_norm_rgb, mask=gt_mask)
+        metrics_dl.update(ang_dl)
+        metrics_dl.update(map_dl)
 
     roughness_metrics = evaluate_map_metrics(pred_roughness, gt_roughness, mask=gt_mask) if gt_roughness is not None else {"mse": None, "psnr": None, "ssim": None}
     height_metrics = evaluate_map_metrics(pred_height, gt_height, mask=gt_mask) if gt_height is not None else {"mse": None, "psnr": None, "ssim": None}
+
+    # 5. GT-Free Confidence Scores
+    confidence_scores = compute_confidence_scores(
+        dip_normal=dip_normal,
+        midas_normal=midas_normal,
+        primary_normal=primary_normal,
+        pred_height=pred_height,
+        pred_roughness=pred_roughness,
+        gray_img=gray_img
+    )
 
     maps_b64 = {
         "input_rgb": image_to_base64(rgb_image, fmt="JPEG"),
         "normal": image_to_base64(primary_normal, fmt="PNG"),
         "normal_dip": image_to_base64(dip_normal, fmt="PNG"),
-        "normal_unet": image_to_base64(unet_normal, fmt="PNG"),
+        "normal_dl": image_to_base64(midas_normal, fmt="PNG"),
         "roughness": image_to_base64(pred_roughness, fmt="PNG"),
         "height": image_to_base64(pred_height, fmt="PNG")
     }
@@ -511,11 +478,13 @@ def process_surface_maps(rgb_image: np.ndarray, method: str = "both",
         "maps": maps_b64,
         "metrics": {
             "normal_dip": metrics_dip,
-            "normal_unet": metrics_unet,
-            "normal": metrics_unet if method == "unet" else metrics_dip,
+            "normal_dl": metrics_dl,
+            "normal": metrics_dl if method in ["midas", "dl", "unet"] else metrics_dip,
             "roughness": roughness_metrics,
             "height": height_metrics
-        }
+        },
+        "confidence": confidence_scores,
+        "has_ground_truth": gt_normal is not None
     }
 
 

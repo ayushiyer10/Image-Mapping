@@ -41,3 +41,13 @@ Thumbs.db
 
 # Sensitive / Env files
 .env
+
+# Large Datasets & Generated Archives
+data/val/
+data/*.tar.gz
+data/rgb/diode_*
+data/ground_truth/normals/diode_*
+data/ground_truth/roughness/diode_*
+data/ground_truth/height/diode_*
+scratch/
+

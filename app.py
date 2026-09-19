@@ -6,6 +6,7 @@ Supports Classical DIP (Sobel + 2D DFT + Poisson Integration) and Deep Learning 
 
 import os
 import io
+import json
 import cv2
 import numpy as np
 from pathlib import Path
@@ -151,14 +152,17 @@ async def generate_maps(
             gt_height = cv2.imread(str(height_path), cv2.IMREAD_GRAYSCALE)
 
     elif file:
-        contents = await file.read()
-        pil_img = Image.open(io.BytesIO(contents)).convert("RGB")
-        rgb_img = np.array(pil_img)
+        try:
+            contents = await file.read()
+            pil_img = Image.open(io.BytesIO(contents)).convert("RGB")
+            rgb_img = np.array(pil_img)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"Invalid or corrupt image file: {str(e)}")
     else:
         raise HTTPException(status_code=400, detail="Must provide asset_id or image file.")
 
     if rgb_img is None or rgb_img.size == 0:
-        raise HTTPException(status_code=400, detail="Invalid image input.")
+        raise HTTPException(status_code=400, detail="Invalid or corrupt image data.")
 
     # Downscale max dim to 1024 for web performance
     h, w = rgb_img.shape[:2]
@@ -195,10 +199,36 @@ async def generate_maps(
 
     if gt_roughness is not None:
         result["maps"]["gt_roughness"] = image_to_base64(gt_roughness, fmt="PNG")
-    if gt_height is not None:
-        result["maps"]["gt_height"] = image_to_base64(gt_height, fmt="PNG")
-
     return result
+
+
+@app.get("/api/benchmark")
+async def get_benchmark_results():
+    """Return benchmark metrics JSON comparing Classical DIP vs. Deep Learning (MiDaS)."""
+    benchmark_path = DATA_DIR / "benchmark_results.json"
+    if not benchmark_path.exists():
+        from benchmark import run_benchmark
+        run_benchmark(max_per_source=150)
+    
+    if benchmark_path.exists():
+        with open(benchmark_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return JSONResponse(content=data)
+    
+    raise HTTPException(status_code=404, detail="Benchmark results not found.")
+
+
+@app.get("/api/manifest")
+async def get_manifest():
+    """Return dataset manifest items JSON for sample navigation and nearest reference lookup."""
+    manifest_path = DATA_DIR / "manifest.json"
+    if not manifest_path.exists():
+        from build_manifest import build_manifest
+        manifest_data = build_manifest()
+    else:
+        with open(manifest_path, "r", encoding="utf-8") as f:
+            manifest_data = json.load(f)
+    return {"manifest": manifest_data}
 
 
 if __name__ == "__main__":

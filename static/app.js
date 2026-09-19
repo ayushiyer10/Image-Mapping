@@ -1,16 +1,13 @@
 /**
  * Single-Image Surface Map Estimation & Real-Time Physical Relighting
  * Frontend Application JavaScript
+ * Traditional DIP (Sobel + 2D DFT) vs Deep Learning (MiDaS_small)
  */
 
 const state = {
-    mode: 'benchmark', // 'benchmark' or 'upload'
-    method: 'both',    // 'both', 'unet', or 'dip'
-    activeNormalView: 'unet', // 'unet' or 'dip'
-    samples: [],
-    activeAssetId: null,
+    activeMethodView: 'both', // 'both', 'dip', or 'midas'
     currentMapData: null,
-    showingGT: false,
+    benchmarkData: null,
     lightPos: { x: 0.0, y: 0.0, z: 1.5 },
     isDraggingLight: false
 };
@@ -19,211 +16,194 @@ let scene, camera, renderer, planeMesh, shaderMaterial;
 let defaultTextures = {};
 
 const elements = {
-    btnBenchmarkMode: document.getElementById('btn-benchmark-mode'),
-    btnUploadMode: document.getElementById('btn-upload-mode'),
-    benchmarkControls: document.getElementById('benchmark-controls'),
-    uploadControls: document.getElementById('upload-controls'),
-    sampleSelect: document.getElementById('sample-select'),
-    btnRunBenchmark: document.getElementById('btn-run-benchmark'),
     fileInput: document.getElementById('file-input'),
+    fileNameLabel: document.getElementById('file-name-label'),
     btnWebcam: document.getElementById('btn-webcam'),
+    btnGenerate: document.getElementById('btn-generate'),
+    btnGenerateText: document.getElementById('btn-generate-text'),
 
-    // Method selection pills
-    methodBoth: document.getElementById('method-both'),
-    methodUnet: document.getElementById('method-unet'),
-    methodDip: document.getElementById('method-dip'),
+    // Toggle Buttons
+    toggleBoth: document.getElementById('toggle-both'),
+    toggleDip: document.getElementById('toggle-dip'),
+    toggleMidas: document.getElementById('toggle-midas'),
 
-    // Scorecard Metrics
-    metricMae: document.getElementById('metric-mae'),
-    metricMaeSub: document.getElementById('metric-mae-sub'),
-    metricPct1125: document.getElementById('metric-pct-11-25'),
-    metricPctSub: document.getElementById('metric-pct-sub'),
-    metricPct225: document.getElementById('metric-pct-22-5'),
-    metricNormalPsnr: document.getElementById('metric-normal-psnr'),
-    metricRoughSsim: document.getElementById('metric-rough-ssim'),
-    metricHeightSsim: document.getElementById('metric-height-ssim'),
-    gtStatusBadge: document.getElementById('gt-status-badge'),
-    
-    // 2D Previews & View Selectors
+    // Error Notification
+    errorBanner: document.getElementById('error-banner'),
+    errorMessage: document.getElementById('error-message'),
+    btnDismissError: document.getElementById('btn-dismiss-error'),
+
+    // 2D Map Display
     imgInputRgb: document.getElementById('img-input-rgb'),
-    imgNormalMap: document.getElementById('img-normal-map'),
+    normalSectionHeading: document.getElementById('normal-section-heading'),
+    normalMapsContainer: document.getElementById('normal-maps-container'),
+    cardNormalDip: document.getElementById('card-normal-dip'),
+    cardNormalDl: document.getElementById('card-normal-dl'),
+    imgNormalDip: document.getElementById('img-normal-dip'),
+    imgNormalDl: document.getElementById('img-normal-dl'),
     imgRoughnessMap: document.getElementById('img-roughness-map'),
     imgHeightMap: document.getElementById('img-height-map'),
-    toggleGtBtn: document.getElementById('toggle-gt-btn'),
-    gtToggleLabel: document.getElementById('gt-toggle-label'),
     badgeSourceType: document.getElementById('badge-source-type'),
 
-    viewNormalUnet: document.getElementById('view-normal-unet'),
-    viewNormalDip: document.getElementById('view-normal-dip'),
-    badgeNormalTech: document.getElementById('badge-normal-tech'),
-
-    titleNormal: document.getElementById('title-normal'),
-    titleRoughness: document.getElementById('title-roughness'),
-    titleHeight: document.getElementById('title-height'),
-
-    // 3D Viewport
+    // 3D Canvas & Relighting
     canvasContainer: document.getElementById('canvas-container'),
     btnResetLight: document.getElementById('btn-reset-light'),
     lightPosReadout: document.getElementById('light-pos-readout'),
-    
+
     sliderLightZ: document.getElementById('slider-light-z'),
     sliderLightIntensity: document.getElementById('slider-light-intensity'),
     sliderSpecular: document.getElementById('slider-specular'),
     sliderDisplacement: document.getElementById('slider-displacement'),
-    colorLight: document.getElementById('color-light'),
-    
+
     valLightZ: document.getElementById('val-light-z'),
     valLightIntensity: document.getElementById('val-light-intensity'),
     valSpecular: document.getElementById('val-specular'),
-    valDisplacement: document.getElementById('val-displacement')
+    valDisplacement: document.getElementById('val-displacement'),
+
+    // Scorecard Sections
+    scorecardConfidenceWrapper: document.getElementById('scorecard-confidence-wrapper'),
+    scorecardGtWrapper: document.getElementById('scorecard-gt-wrapper'),
+
+    // Confidence Scorecard Elements
+    confNormalVal: document.getElementById('conf-normal-val'),
+    confNormalBand: document.getElementById('conf-normal-band'),
+    confNormalDesc: document.getElementById('conf-normal-desc'),
+
+    confHeightVal: document.getElementById('conf-height-val'),
+    confHeightBand: document.getElementById('conf-height-band'),
+    confHeightDesc: document.getElementById('conf-height-desc'),
+
+    confRoughVal: document.getElementById('conf-rough-val'),
+    confRoughBand: document.getElementById('conf-rough-band'),
+    confRoughDesc: document.getElementById('conf-rough-desc'),
+    confDisclaimerText: document.getElementById('conf-disclaimer-text'),
+
+    // GT Scorecard Elements
+    gtMetricMae: document.getElementById('gt-metric-mae'),
+    gtMetricMaeSub: document.getElementById('gt-metric-mae-sub'),
+    gtMetricPct11: document.getElementById('gt-metric-pct11'),
+    gtMetricPsnr: document.getElementById('gt-metric-psnr'),
+    gtMetricSsim: document.getElementById('gt-metric-ssim'),
+
+    // Section 5: Benchmark Table
+    benchmarkTableBody: document.getElementById('benchmark-table-body')
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-    initModeSwitcher();
-    initMethodSelector();
-    initNormalViewToggle();
+    initEventListeners();
+    initMethodToggle();
     initSliderControls();
     await initThreeJS();
-    await fetchSamples();
+    
+    // Fetch benchmark results in background
+    fetchBenchmark();
 });
 
-function initModeSwitcher() {
-    elements.btnBenchmarkMode.addEventListener('click', () => setMode('benchmark'));
-    elements.btnUploadMode.addEventListener('click', () => setMode('upload'));
-
-    elements.sampleSelect.addEventListener('change', (e) => {
-        state.activeAssetId = e.target.value;
-    });
-
-    elements.btnRunBenchmark.addEventListener('click', () => {
-        if (state.activeAssetId) {
-            runMapGeneration({ assetId: state.activeAssetId });
-        }
-    });
-
-    elements.fileInput.addEventListener('change', (e) => {
-        if (e.target.files && e.target.files[0]) {
-            runMapGeneration({ file: e.target.files[0] });
-        }
-    });
-
-    elements.btnWebcam.addEventListener('click', () => {
-        captureWebcamPhoto();
-    });
-
-    elements.toggleGtBtn.addEventListener('click', () => {
-        state.showingGT = !state.showingGT;
-        update2DMapPreviews();
-    });
+function showError(message) {
+    if (elements.errorBanner && elements.errorMessage) {
+        elements.errorMessage.textContent = message || "An unexpected error occurred.";
+        elements.errorBanner.classList.remove('hidden');
+    }
 }
 
-function initMethodSelector() {
-    elements.methodBoth.addEventListener('click', () => setMethod('both'));
-    elements.methodUnet.addEventListener('click', () => setMethod('unet'));
-    elements.methodDip.addEventListener('click', () => setMethod('dip'));
+function hideError() {
+    if (elements.errorBanner) {
+        elements.errorBanner.classList.add('hidden');
+    }
 }
 
-function setMethod(method) {
-    state.method = method;
-    const buttons = [
-        { el: elements.methodBoth, id: 'both' },
-        { el: elements.methodUnet, id: 'unet' },
-        { el: elements.methodDip, id: 'dip' }
-    ];
+function initEventListeners() {
+    if (elements.btnDismissError) {
+        elements.btnDismissError.addEventListener('click', hideError);
+    }
 
-    buttons.forEach(b => {
-        if (b.id === method) {
-            b.el.className = "px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-medium shadow-md";
+    if (elements.fileInput) {
+        elements.fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                const selectedFile = e.target.files[0];
+                if (elements.fileNameLabel) {
+                    elements.fileNameLabel.textContent = selectedFile.name;
+                }
+                runMapGeneration({ file: selectedFile });
+            }
+        });
+    }
+
+    if (elements.btnWebcam) {
+        elements.btnWebcam.addEventListener('click', () => {
+            captureWebcamPhoto();
+        });
+    }
+
+    if (elements.btnGenerate) {
+        elements.btnGenerate.addEventListener('click', () => {
+            if (elements.fileInput && elements.fileInput.files && elements.fileInput.files[0]) {
+                runMapGeneration({ file: elements.fileInput.files[0] });
+            } else {
+                showError("Please select an image file first.");
+            }
+        });
+    }
+}
+
+function initMethodToggle() {
+    const setMethod = (method) => {
+        state.activeMethodView = method;
+
+        // Button styles
+        const activeClass = "flex-1 py-1.5 rounded-lg font-semibold transition text-white bg-indigo-600 shadow";
+        const inactiveClass = "flex-1 py-1.5 rounded-lg font-medium transition text-gray-400 hover:text-white";
+
+        if (elements.toggleBoth) elements.toggleBoth.className = method === 'both' ? activeClass : inactiveClass;
+        if (elements.toggleDip) elements.toggleDip.className = method === 'dip' ? activeClass : inactiveClass;
+        if (elements.toggleMidas) elements.toggleMidas.className = method === 'midas' ? activeClass : inactiveClass;
+
+        // Card visibility & layout
+        if (method === 'both') {
+            if (elements.cardNormalDip) elements.cardNormalDip.classList.remove('hidden');
+            if (elements.cardNormalDl) elements.cardNormalDl.classList.remove('hidden');
+            if (elements.normalMapsContainer) elements.normalMapsContainer.className = "grid grid-cols-1 sm:grid-cols-2 gap-3";
+            if (elements.normalSectionHeading) elements.normalSectionHeading.textContent = "Normal Map: Traditional DIP vs Deep Learning (MiDaS)";
+        } else if (method === 'dip') {
+            if (elements.cardNormalDip) elements.cardNormalDip.classList.remove('hidden');
+            if (elements.cardNormalDl) elements.cardNormalDl.classList.add('hidden');
+            if (elements.normalMapsContainer) elements.normalMapsContainer.className = "grid grid-cols-1 gap-3";
+            if (elements.normalSectionHeading) elements.normalSectionHeading.textContent = "Normal Map: Traditional DIP (Sobel)";
         } else {
-            b.el.className = "px-3 py-1.5 rounded-lg text-gray-400 hover:text-white font-medium";
+            if (elements.cardNormalDip) elements.cardNormalDip.classList.add('hidden');
+            if (elements.cardNormalDl) elements.cardNormalDl.classList.remove('hidden');
+            if (elements.normalMapsContainer) elements.normalMapsContainer.className = "grid grid-cols-1 gap-3";
+            if (elements.normalSectionHeading) elements.normalSectionHeading.textContent = "Normal Map: Deep Learning (MiDaS)";
         }
-    });
 
-    if (state.currentMapData) {
-        update2DMapPreviews();
-        updateMetricsScorecard(state.currentMapData.metrics);
-    }
-}
-
-function initNormalViewToggle() {
-    elements.viewNormalUnet.addEventListener('click', () => {
-        state.activeNormalView = 'unet';
-        elements.viewNormalUnet.className = "px-2 py-0.5 rounded bg-indigo-600 text-white font-medium";
-        elements.viewNormalDip.className = "px-2 py-0.5 rounded text-gray-400 hover:text-white font-medium";
-        update2DMapPreviews();
-    });
-
-    elements.viewNormalDip.addEventListener('click', () => {
-        state.activeNormalView = 'dip';
-        elements.viewNormalDip.className = "px-2 py-0.5 rounded bg-indigo-600 text-white font-medium";
-        elements.viewNormalUnet.className = "px-2 py-0.5 rounded text-gray-400 hover:text-white font-medium";
-        update2DMapPreviews();
-    });
-}
-
-function setMode(mode) {
-    state.mode = mode;
-    if (mode === 'benchmark') {
-        elements.btnBenchmarkMode.className = "flex-1 md:flex-none px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 flex items-center justify-center space-x-2";
-        elements.btnUploadMode.className = "flex-1 md:flex-none px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 text-gray-400 hover:text-white flex items-center justify-center space-x-2";
-        elements.benchmarkControls.classList.remove('hidden');
-        elements.uploadControls.classList.add('hidden');
-    } else {
-        elements.btnUploadMode.className = "flex-1 md:flex-none px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 flex items-center justify-center space-x-2";
-        elements.btnBenchmarkMode.className = "flex-1 md:flex-none px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 text-gray-400 hover:text-white flex items-center justify-center space-x-2";
-        elements.uploadControls.classList.remove('hidden');
-        elements.benchmarkControls.classList.add('hidden');
-    }
-}
-
-async function fetchSamples() {
-    try {
-        const resp = await fetch('/api/samples');
-        const data = await resp.json();
-        state.samples = data.samples || [];
-        populateSampleDropdown();
-
-        if (state.samples.length > 0) {
-            state.activeAssetId = state.samples[0].asset_id;
-            elements.sampleSelect.value = state.activeAssetId;
-            runMapGeneration({ assetId: state.activeAssetId });
+        if (state.currentMapData) {
+            update3DTextures(state.currentMapData.maps);
         }
-    } catch (err) {
-        console.error('Failed to load dataset samples:', err);
-    }
+    };
+
+    if (elements.toggleBoth) elements.toggleBoth.addEventListener('click', () => setMethod('both'));
+    if (elements.toggleDip) elements.toggleDip.addEventListener('click', () => setMethod('dip'));
+    if (elements.toggleMidas) elements.toggleMidas.addEventListener('click', () => setMethod('midas'));
 }
 
-function populateSampleDropdown() {
-    elements.sampleSelect.innerHTML = '';
-    
-    if (state.samples.length === 0) {
-        elements.sampleSelect.innerHTML = '<option value="">No samples found</option>';
-        return;
+async function runMapGeneration({ file = null, assetId = null }) {
+    hideError();
+
+    if (elements.btnGenerate) {
+        elements.btnGenerate.disabled = true;
+        if (elements.btnGenerateText) elements.btnGenerateText.textContent = "Estimating...";
     }
-
-    state.samples.forEach(sample => {
-        const opt = document.createElement('option');
-        opt.value = sample.asset_id;
-        opt.textContent = `${sample.name} ${sample.has_gt ? '✓ (GT)' : ''}`;
-        elements.sampleSelect.appendChild(opt);
-    });
-
-    state.activeAssetId = state.samples[0].asset_id;
-    elements.sampleSelect.value = state.activeAssetId;
-}
-
-async function runMapGeneration({ assetId = null, file = null }) {
-    elements.btnRunBenchmark.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Estimating...';
-    elements.btnRunBenchmark.disabled = true;
 
     try {
         const formData = new FormData();
-        formData.append('method', state.method);
+        formData.append('method', 'both');
 
-        if (assetId) {
-            formData.append('asset_id', assetId);
-        } else if (file) {
+        if (file) {
             formData.append('file', file);
+        } else if (assetId) {
+            formData.append('asset_id', assetId);
+        } else {
+            showError("Please choose an image file.");
+            return;
         }
 
         const resp = await fetch('/api/generate', {
@@ -232,122 +212,207 @@ async function runMapGeneration({ assetId = null, file = null }) {
         });
 
         if (!resp.ok) {
-            const errorJson = await resp.json();
-            alert(`Error: ${errorJson.detail || 'Failed to process image'}`);
+            let detail = 'Failed to process image.';
+            try {
+                const errorJson = await resp.json();
+                if (errorJson.detail) detail = errorJson.detail;
+            } catch (e) {}
+            showError(`Error: ${detail}`);
             return;
         }
 
         const data = await resp.json();
         state.currentMapData = data;
-        state.showingGT = false;
 
-        update2DMapPreviews();
-        updateMetricsScorecard(data.metrics);
+        update2DMapPreviews(data);
+        updateScorecard(data);
         update3DTextures(data.maps);
 
     } catch (err) {
         console.error('Surface Map estimation failed:', err);
+        showError(`Surface Map estimation failed: ${err.message || err}`);
     } finally {
-        elements.btnRunBenchmark.innerHTML = '<i class="fa-solid fa-play mr-1"></i> Generate Maps';
-        elements.btnRunBenchmark.disabled = false;
+        if (elements.btnGenerate) {
+            elements.btnGenerate.disabled = false;
+            if (elements.btnGenerateText) elements.btnGenerateText.textContent = "Generate Maps";
+        }
     }
 }
 
-function update2DMapPreviews() {
-    if (!state.currentMapData) return;
+function update2DMapPreviews(data) {
+    if (!data || !data.maps) return;
 
-    const maps = state.currentMapData.maps;
-    const hasGT = !!maps.gt_normal;
+    const maps = data.maps;
+    if (elements.imgInputRgb && maps.input_rgb) elements.imgInputRgb.src = maps.input_rgb;
+    if (elements.imgNormalDip && (maps.normal_dip || maps.normal)) elements.imgNormalDip.src = maps.normal_dip || maps.normal;
+    if (elements.imgNormalDl && (maps.normal_dl || maps.normal)) elements.imgNormalDl.src = maps.normal_dl || maps.normal;
+    if (elements.imgRoughnessMap && maps.roughness) elements.imgRoughnessMap.src = maps.roughness;
+    if (elements.imgHeightMap && maps.height) elements.imgHeightMap.src = maps.height;
 
-    if (hasGT) {
-        elements.toggleGtBtn.classList.remove('hidden');
-        elements.gtToggleLabel.textContent = state.showingGT ? 'Show Predicted Maps' : 'Show GT Maps';
-    } else {
-        elements.toggleGtBtn.classList.add('hidden');
-    }
-
-    elements.imgInputRgb.src = maps.input_rgb;
-
-    if (state.showingGT && hasGT) {
-        elements.imgNormalMap.src = maps.gt_normal;
-        elements.imgRoughnessMap.src = maps.gt_roughness || maps.roughness;
-        elements.imgHeightMap.src = maps.gt_height || maps.height;
-
-        elements.titleNormal.textContent = "Normal Map (Ground Truth)";
-        elements.titleRoughness.textContent = "Roughness Map (Ground Truth)";
-        elements.titleHeight.textContent = "Height Map (Ground Truth)";
-        elements.badgeNormalTech.textContent = "Ground Truth";
-    } else {
-        const showUNet = state.activeNormalView === 'unet' && maps.normal_unet;
-        elements.imgNormalMap.src = showUNet ? maps.normal_unet : (maps.normal_dip || maps.normal);
-        elements.imgRoughnessMap.src = maps.roughness;
-        elements.imgHeightMap.src = maps.height;
-
-        elements.titleNormal.textContent = showUNet ? "Normal Map (PyTorch U-Net)" : "Normal Map (Classical DIP)";
-        elements.badgeNormalTech.textContent = showUNet ? "PyTorch U-Net" : "Sobel Gradients";
-        elements.titleRoughness.textContent = "Roughness Map (2D DFT)";
-        elements.titleHeight.textContent = "Height Map (Poisson Integration)";
+    if (elements.badgeSourceType) {
+        elements.badgeSourceType.textContent = data.has_ground_truth ? "Dataset Reference (GT ✓)" : "Custom Photo Upload";
+        elements.badgeSourceType.className = data.has_ground_truth ?
+            "text-xs px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-400 font-mono border border-emerald-800/40" :
+            "text-xs px-2.5 py-0.5 rounded-full bg-indigo-950 text-indigo-400 font-mono border border-indigo-800/40";
     }
 }
 
-function updateMetricsScorecard(metrics) {
-    if (!metrics) return;
+function applyBandBadgeStyle(element, band) {
+    if (!element) return;
+    const b = (band || 'medium').toLowerCase();
+    element.textContent = b.toUpperCase();
 
-    const unet = metrics.normal_unet || {};
-    const dip = metrics.normal_dip || {};
-    const rough = metrics.roughness || {};
-    const height = metrics.height || {};
+    if (b === 'high') {
+        element.className = "text-[10px] px-2 py-0.5 rounded-full font-mono uppercase font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-700/50";
+    } else if (b === 'low') {
+        element.className = "text-[10px] px-2 py-0.5 rounded-full font-mono uppercase font-semibold bg-rose-950/80 text-rose-400 border border-rose-700/50";
+    } else {
+        element.className = "text-[10px] px-2 py-0.5 rounded-full font-mono uppercase font-semibold bg-amber-950/80 text-amber-400 border border-amber-700/50";
+    }
+}
 
-    const hasGT = unet.mae !== null && unet.mae !== undefined;
+function updateScorecard(data) {
+    if (!data) return;
+
+    const hasGT = !!data.has_ground_truth;
 
     if (hasGT) {
-        elements.gtStatusBadge.textContent = "GT Scorecard Active";
-        elements.gtStatusBadge.className = "text-xs px-2.5 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-700/50 text-emerald-400 font-mono";
+        // Show GT Scorecard, hide Confidence Scorecard
+        if (elements.scorecardGtWrapper) elements.scorecardGtWrapper.classList.remove('hidden');
+        if (elements.scorecardConfidenceWrapper) elements.scorecardConfidenceWrapper.classList.add('hidden');
 
-        if (state.method === 'both') {
-            elements.metricMae.textContent = `U-Net ${unet.mae}° | DIP ${dip.mae}°`;
-            elements.metricMaeSub.textContent = `U-Net vs DIP MAE`;
+        const metrics = data.metrics || {};
+        const dl = metrics.normal_dl || metrics.normal || {};
+        const dip = metrics.normal_dip || {};
+        const rough = metrics.roughness || {};
+        const height = metrics.height || {};
 
-            elements.metricPct1125.textContent = `${unet.pct_11_25}% | ${dip.pct_11_25}%`;
-            elements.metricPctSub.textContent = `U-Net vs DIP %<11.25°`;
+        if (elements.gtMetricMae) {
+            elements.gtMetricMae.textContent = (dl.mae !== null && dl.mae !== undefined) ? `${dl.mae}°` : (dip.mae !== null ? `${dip.mae}°` : 'N/A');
+        }
+        if (elements.gtMetricMaeSub) {
+            elements.gtMetricMaeSub.textContent = `MiDaS DL MAE (vs DIP: ${dip.mae ?? 'N/A'}°)`;
+        }
+        if (elements.gtMetricPct11) {
+            elements.gtMetricPct11.textContent = (dl.pct_11_25 !== null && dl.pct_11_25 !== undefined) ? `${dl.pct_11_25}%` : 'N/A';
+        }
+        if (elements.gtMetricPsnr) {
+            elements.gtMetricPsnr.textContent = (dl.psnr !== null && dl.psnr !== undefined) ? `${dl.psnr} dB` : 'N/A';
+        }
+        if (elements.gtMetricSsim) {
+            const r_ssim = (rough.ssim !== null && rough.ssim !== undefined) ? rough.ssim : 'N/A';
+            const h_ssim = (height.ssim !== null && height.ssim !== undefined) ? height.ssim : 'N/A';
+            elements.gtMetricSsim.textContent = `R: ${r_ssim} | H: ${h_ssim}`;
+        }
+    } else {
+        // Live Upload (No GT): Show Confidence Scorecard, hide GT Scorecard
+        if (elements.scorecardConfidenceWrapper) elements.scorecardConfidenceWrapper.classList.remove('hidden');
+        if (elements.scorecardGtWrapper) elements.scorecardGtWrapper.classList.add('hidden');
 
-            elements.metricPct225.textContent = `${unet.pct_22_5}% | ${dip.pct_22_5}%`;
-            elements.metricNormalPsnr.textContent = `${unet.psnr} | ${dip.psnr} dB`;
-        } else if (state.method === 'unet') {
-            elements.metricMae.textContent = `${unet.mae}°`;
-            elements.metricMaeSub.textContent = `PyTorch U-Net MAE`;
-            elements.metricPct1125.textContent = `${unet.pct_11_25}%`;
-            elements.metricPctSub.textContent = `Higher is better`;
-            elements.metricPct225.textContent = `${unet.pct_22_5}%`;
-            elements.metricNormalPsnr.textContent = `${unet.psnr} dB`;
-        } else {
-            elements.metricMae.textContent = `${dip.mae}°`;
-            elements.metricMaeSub.textContent = `Classical DIP MAE`;
-            elements.metricPct1125.textContent = `${dip.pct_11_25}%`;
-            elements.metricPctSub.textContent = `Higher is better`;
-            elements.metricPct225.textContent = `${dip.pct_22_5}%`;
-            elements.metricNormalPsnr.textContent = `${dip.psnr} dB`;
+        const conf = data.confidence || {};
+
+        if (elements.confNormalVal) {
+            elements.confNormalVal.textContent = (conf.normal && conf.normal.confidence_pct !== undefined) ? `${conf.normal.confidence_pct}%` : 'N/A';
+        }
+        applyBandBadgeStyle(elements.confNormalBand, conf.normal?.confidence_band);
+        if (elements.confNormalDesc) {
+            elements.confNormalDesc.textContent = conf.normal?.description || 'Angular vector similarity between Classical DIP and MiDaS Deep Learning normal estimates.';
         }
 
-        elements.metricRoughSsim.textContent = `${rough.ssim || '--'}`;
-        elements.metricHeightSsim.textContent = `${height.ssim || '--'}`;
-    } else {
-        elements.gtStatusBadge.textContent = "Live Mode (No GT)";
-        elements.gtStatusBadge.className = "text-xs px-2.5 py-0.5 rounded-full bg-gray-800 border border-gray-700 text-gray-400 font-mono";
+        if (elements.confHeightVal) {
+            elements.confHeightVal.textContent = (conf.height && conf.height.confidence_pct !== undefined) ? `${conf.height.confidence_pct}%` : 'N/A';
+        }
+        applyBandBadgeStyle(elements.confHeightBand, conf.height?.confidence_band);
+        if (elements.confHeightDesc) {
+            elements.confHeightDesc.textContent = conf.height?.description || 'Closed-loop Poisson height integration consistency check.';
+        }
 
-        elements.metricMae.textContent = '--°';
-        elements.metricMaeSub.textContent = 'Lower is better';
-        elements.metricPct1125.textContent = '--%';
-        elements.metricPctSub.textContent = 'Higher is better';
-        elements.metricPct225.textContent = '--%';
-        elements.metricNormalPsnr.textContent = '-- dB';
-        elements.metricRoughSsim.textContent = '--';
-        elements.metricHeightSsim.textContent = '--';
+        if (elements.confRoughVal) {
+            elements.confRoughVal.textContent = (conf.roughness && conf.roughness.confidence_pct !== undefined) ? `${conf.roughness.confidence_pct}%` : 'N/A';
+        }
+        applyBandBadgeStyle(elements.confRoughBand, conf.roughness?.confidence_band);
+        if (elements.confRoughDesc) {
+            elements.confRoughDesc.textContent = conf.roughness?.description || 'SSIM structural stability across 2D DFT frequency cutoff radii.';
+        }
+
+        if (elements.confDisclaimerText) {
+            elements.confDisclaimerText.textContent = conf.disclaimer || 'Ground-truth unavailable for custom uploaded images. Scores reflect algorithm consistency and structural stability.';
+        }
     }
+}
+
+async function fetchBenchmark() {
+    try {
+        const resp = await fetch('/api/benchmark');
+        if (!resp.ok) return;
+        const data = await resp.json();
+        state.benchmarkData = data;
+        renderBenchmarkTable(data);
+    } catch (err) {
+        console.error('Failed to fetch benchmark results:', err);
+        if (elements.benchmarkTableBody) {
+            elements.benchmarkTableBody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-400">Failed to load benchmark data. Run benchmark.py to generate data.</td></tr>`;
+        }
+    }
+}
+
+function renderBenchmarkTable(data) {
+    if (!elements.benchmarkTableBody || !data || !data.summary) return;
+
+    let html = '';
+    const summary = data.summary;
+
+    Object.keys(summary).forEach(sourceKey => {
+        const item = summary[sourceKey];
+        if (!item.normal_dip || !item.normal_dl) return;
+
+        const sourceLabel = sourceKey.toUpperCase();
+        const count = item.count || 0;
+
+        const dip = item.normal_dip;
+        const dl = item.normal_dl;
+
+        const fmt = (val, suffix = '') => (val !== null && val !== undefined) ? `${val}${suffix}` : 'N/A';
+
+        html += `
+            <tr class="border-b border-cardborder/40 hover:bg-white/[0.02] transition">
+                <td class="p-3 font-semibold text-gray-300" rowspan="2">
+                    <div class="font-bold text-gray-200">${sourceLabel}</div>
+                    <div class="text-[10px] text-gray-500 font-normal">N=${count} samples</div>
+                </td>
+                <td class="p-3 text-cyan-400 font-semibold flex items-center space-x-1.5">
+                    <i class="fa-solid fa-wave-square text-xs"></i>
+                    <span>Traditional DIP (Sobel)</span>
+                </td>
+                <td class="p-3 font-mono text-gray-300">${fmt(dip.mean_mae, '°')}</td>
+                <td class="p-3 font-mono text-gray-400">${fmt(dip.median_mae, '°')}</td>
+                <td class="p-3 font-mono text-gray-400">${fmt(dip.pct_11_25, '%')}</td>
+                <td class="p-3 font-mono text-gray-400">${fmt(dip.pct_22_5, '%')}</td>
+                <td class="p-3 font-mono text-gray-400">${fmt(dip.mean_psnr, ' dB')}</td>
+                <td class="p-3 font-mono text-gray-400">${fmt(dip.mean_ssim)}</td>
+            </tr>
+            <tr class="border-b border-cardborder/80 bg-purple-950/20 hover:bg-purple-950/30 transition">
+                <td class="p-3 text-purple-400 font-bold flex items-center space-x-1.5">
+                    <i class="fa-solid fa-brain text-xs"></i>
+                    <span>Deep Learning (MiDaS)</span>
+                </td>
+                <td class="p-3 font-mono text-emerald-400 font-bold">${fmt(dl.mean_mae, '°')}</td>
+                <td class="p-3 font-mono text-emerald-400 font-semibold">${fmt(dl.median_mae, '°')}</td>
+                <td class="p-3 font-mono text-emerald-400 font-semibold">${fmt(dl.pct_11_25, '%')}</td>
+                <td class="p-3 font-mono text-emerald-400 font-semibold">${fmt(dl.pct_22_5, '%')}</td>
+                <td class="p-3 font-mono text-emerald-400 font-semibold">${fmt(dl.mean_psnr, ' dB')}</td>
+                <td class="p-3 font-mono text-emerald-400 font-semibold">${fmt(dl.mean_ssim)}</td>
+            </tr>
+        `;
+    });
+
+    elements.benchmarkTableBody.innerHTML = html || `<tr><td colspan="8" class="p-4 text-center text-gray-500">No benchmark summary data found.</td></tr>`;
 }
 
 async function initThreeJS() {
     const container = elements.canvasContainer;
+    if (!container) return;
+
     const width = container.clientWidth || 400;
     const height = container.clientHeight || 400;
 
@@ -436,7 +501,9 @@ function initMouseLightControls(container) {
             state.lightPos.z
         );
 
-        elements.lightPosReadout.textContent = `L: (${state.lightPos.x.toFixed(1)}, ${state.lightPos.y.toFixed(1)}, ${state.lightPos.z.toFixed(1)})`;
+        if (elements.lightPosReadout) {
+            elements.lightPosReadout.textContent = `L: (${state.lightPos.x.toFixed(1)}, ${state.lightPos.y.toFixed(1)}, ${state.lightPos.z.toFixed(1)})`;
+        }
     };
 
     container.addEventListener('mousedown', (e) => {
@@ -454,48 +521,54 @@ function initMouseLightControls(container) {
         state.isDraggingLight = false;
     });
 
-    elements.btnResetLight.addEventListener('click', () => {
-        state.lightPos = { x: 0.0, y: 0.0, z: 1.5 };
-        elements.sliderLightZ.value = 1.5;
-        elements.valLightZ.textContent = '1.5';
+    if (elements.btnResetLight) {
+        elements.btnResetLight.addEventListener('click', () => {
+            state.lightPos = { x: 0.0, y: 0.0, z: 1.5 };
+            if (elements.sliderLightZ) elements.sliderLightZ.value = 1.5;
+            if (elements.valLightZ) elements.valLightZ.textContent = '1.5';
 
-        shaderMaterial.uniforms.uLightPosition.value.set(0.0, 0.0, 1.5);
-        elements.lightPosReadout.textContent = `L: (0.0, 0.0, 1.5)`;
-    });
+            shaderMaterial.uniforms.uLightPosition.value.set(0.0, 0.0, 1.5);
+            if (elements.lightPosReadout) elements.lightPosReadout.textContent = `L: (0.0, 0.0, 1.5)`;
+        });
+    }
 }
 
 function initSliderControls() {
-    elements.sliderLightZ.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
-        state.lightPos.z = val;
-        elements.valLightZ.textContent = val.toFixed(1);
-        shaderMaterial.uniforms.uLightPosition.value.z = val;
-        elements.lightPosReadout.textContent = `L: (${state.lightPos.x.toFixed(1)}, ${state.lightPos.y.toFixed(1)}, ${state.lightPos.z.toFixed(1)})`;
-    });
+    if (elements.sliderLightZ) {
+        elements.sliderLightZ.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            state.lightPos.z = val;
+            if (elements.valLightZ) elements.valLightZ.textContent = val.toFixed(1);
+            shaderMaterial.uniforms.uLightPosition.value.z = val;
+            if (elements.lightPosReadout) {
+                elements.lightPosReadout.textContent = `L: (${state.lightPos.x.toFixed(1)}, ${state.lightPos.y.toFixed(1)}, ${state.lightPos.z.toFixed(1)})`;
+            }
+        });
+    }
 
-    elements.sliderLightIntensity.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
-        elements.valLightIntensity.textContent = val.toFixed(1);
-        shaderMaterial.uniforms.uLightIntensity.value = val;
-    });
+    if (elements.sliderLightIntensity) {
+        elements.sliderLightIntensity.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            if (elements.valLightIntensity) elements.valLightIntensity.textContent = val.toFixed(1);
+            shaderMaterial.uniforms.uLightIntensity.value = val;
+        });
+    }
 
-    elements.sliderSpecular.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
-        elements.valSpecular.textContent = val.toFixed(1);
-        shaderMaterial.uniforms.uSpecularStrength.value = val;
-    });
+    if (elements.sliderSpecular) {
+        elements.sliderSpecular.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            if (elements.valSpecular) elements.valSpecular.textContent = val.toFixed(1);
+            shaderMaterial.uniforms.uSpecularStrength.value = val;
+        });
+    }
 
-    elements.sliderDisplacement.addEventListener('input', (e) => {
-        const val = parseFloat(e.target.value);
-        elements.valDisplacement.textContent = val.toFixed(2);
-        shaderMaterial.uniforms.uDisplacementScale.value = val;
-    });
-
-    elements.colorLight.addEventListener('input', (e) => {
-        const hex = e.target.value;
-        const color = new THREE.Color(hex);
-        shaderMaterial.uniforms.uLightColor.value.set(color.r, color.g, color.b);
-    });
+    if (elements.sliderDisplacement) {
+        elements.sliderDisplacement.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            if (elements.valDisplacement) elements.valDisplacement.textContent = val.toFixed(2);
+            shaderMaterial.uniforms.uDisplacementScale.value = val;
+        });
+    }
 }
 
 function update3DTextures(maps) {
@@ -503,22 +576,30 @@ function update3DTextures(maps) {
 
     const loader = new THREE.TextureLoader();
 
-    loader.load(maps.input_rgb, (tex) => {
-        shaderMaterial.uniforms.uDiffuseMap.value = tex;
-    });
+    if (maps.input_rgb) {
+        loader.load(maps.input_rgb, (tex) => {
+            shaderMaterial.uniforms.uDiffuseMap.value = tex;
+        });
+    }
 
-    const activeNormal = (state.activeNormalView === 'unet' && maps.normal_unet) ? maps.normal_unet : (maps.normal_dip || maps.normal);
-    loader.load(activeNormal, (tex) => {
-        shaderMaterial.uniforms.uNormalMap.value = tex;
-    });
+    const activeNormal = (state.activeMethodView === 'dip' && maps.normal_dip) ? maps.normal_dip : (maps.normal_dl || maps.normal);
+    if (activeNormal) {
+        loader.load(activeNormal, (tex) => {
+            shaderMaterial.uniforms.uNormalMap.value = tex;
+        });
+    }
 
-    loader.load(maps.roughness, (tex) => {
-        shaderMaterial.uniforms.uRoughnessMap.value = tex;
-    });
+    if (maps.roughness) {
+        loader.load(maps.roughness, (tex) => {
+            shaderMaterial.uniforms.uRoughnessMap.value = tex;
+        });
+    }
 
-    loader.load(maps.height, (tex) => {
-        shaderMaterial.uniforms.uHeightMap.value = tex;
-    });
+    if (maps.height) {
+        loader.load(maps.height, (tex) => {
+            shaderMaterial.uniforms.uHeightMap.value = tex;
+        });
+    }
 }
 
 async function captureWebcamPhoto() {
@@ -538,10 +619,11 @@ async function captureWebcamPhoto() {
 
         canvas.toBlob((blob) => {
             const file = new File([blob], 'webcam_capture.jpg', { type: 'image/jpeg' });
+            if (elements.fileNameLabel) elements.fileNameLabel.textContent = "Webcam Capture.jpg";
             runMapGeneration({ file });
         }, 'image/jpeg');
 
     } catch (err) {
-        alert('Could not access camera: ' + err.message);
+        showError('Could not access camera: ' + err.message);
     }
 }

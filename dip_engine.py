@@ -50,19 +50,25 @@ def preprocess_image(rgb_image: np.ndarray, gamma: float = 2.2) -> tuple[np.ndar
     return linear_img, gray_stretched
 
 
-def estimate_normal_map(gray_img: np.ndarray, scale: float = 2.0) -> np.ndarray:
+def estimate_normal_map(gray_img: np.ndarray, scale: float = 1.5) -> np.ndarray:
     """
-    Estimate OpenGL Normal Map from grayscale intensity image using Sobel gradient operators.
+    Estimate OpenGL Normal Map from grayscale intensity image using Gaussian-smoothed Sobel gradient operators.
     Gradient: Ix = dI/dx, Iy = dI/dy
     Surface Normal: N = (-Ix * scale, -Iy * scale, 1.0) / ||N||
     OpenGL Normal Map encoding: R=Nx, G=Ny, B=Nz mapped from [-1, 1] to uint8 [0, 255].
     """
-    Ix = cv2.Sobel(gray_img, cv2.CV_64F, 1, 0, ksize=3)
-    Iy = cv2.Sobel(gray_img, cv2.CV_64F, 0, 1, ksize=3)
+    gray_float = gray_img.astype(np.float64)
+    if gray_float.max() > 1.0:
+        gray_float = gray_float / 255.0
+
+    gray_smooth = cv2.GaussianBlur(gray_float, (5, 5), 1.0)
+
+    Ix = cv2.Sobel(gray_smooth, cv2.CV_64F, 1, 0, ksize=3)
+    Iy = cv2.Sobel(gray_smooth, cv2.CV_64F, 0, 1, ksize=3)
 
     Nx = -Ix * scale
-    Ny = Iy * scale
-    Nz = np.ones_like(gray_img, dtype=np.float64)
+    Ny = -Iy * scale
+    Nz = np.ones_like(gray_smooth, dtype=np.float64)
 
     magnitude = np.sqrt(Nx**2 + Ny**2 + Nz**2)
     magnitude = np.maximum(magnitude, 1e-8)
@@ -136,15 +142,13 @@ def estimate_roughness_map_dft(gray_img: np.ndarray, cutoff_radius: float = 30.0
     local_std = np.sqrt(local_var)
 
     # 6. Combine high-pass magnitude with local variance
-    roughness = high_freq_spatial * 0.5 + local_std * 0.5
+    micro_texture = high_freq_spatial * 0.5 + local_std * 0.5
 
-    p5, p95 = np.percentile(roughness, (5, 95))
-    if p95 > p5:
-        roughness_norm = np.clip((roughness - p5) / (p95 - p5), 0.0, 1.0)
-    else:
-        roughness_norm = np.clip(roughness, 0.0, 1.0)
+    # Base PBR roughness offset (0.65) + relative micro-texture variance
+    base_roughness = 0.65
+    raw_roughness = base_roughness + (micro_texture - micro_texture.mean()) * 0.8
 
-    return (roughness_norm * 255.0).astype(np.uint8)
+    return (np.clip(raw_roughness, 0.0, 1.0) * 255.0).astype(np.uint8)
 
 
 def estimate_height_map(normal_map_rgb: np.ndarray) -> np.ndarray:

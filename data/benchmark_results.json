@@ -1,0 +1,6757 @@
+{
+  "metadata": {
+    "total_samples_evaluated": 166,
+    "samples_skipped": 2,
+    "wall_clock_seconds": 416.34,
+    "max_per_source": 150
+  },
+  "summary": {
+    "diode": {
+      "count": 150,
+      "normal_flat": {
+        "mean_mae": 42.54,
+        "median_mae": 41.98,
+        "pct_11_25": 5.97,
+        "pct_22_5": 24.79,
+        "mean_psnr": 13.21,
+        "mean_ssim": 0.6993
+      },
+      "normal_dip": {
+        "mean_mae": 44.15,
+        "median_mae": 43.47,
+        "pct_11_25": 5.94,
+        "pct_22_5": 22.46,
+        "mean_psnr": 12.88,
+        "mean_ssim": 0.5069
+      },
+      "normal_dl": {
+        "mean_mae": 42.64,
+        "median_mae": 41.76,
+        "pct_11_25": 6.06,
+        "pct_22_5": 24.64,
+        "mean_psnr": 13.21,
+        "mean_ssim": 0.695
+      },
+      "roughness": {
+        "mean_psnr": null,
+        "mean_ssim": null
+      },
+      "height": {
+        "mean_psnr": null,
+        "mean_ssim": null
+      }
+    },
+    "polyhaven": {
+      "count": 16,
+      "normal_flat": {
+        "mean_mae": 10.92,
+        "median_mae": 10.61,
+        "pct_11_25": 65.5,
+        "pct_22_5": 86.45,
+        "mean_psnr": 26.12,
+        "mean_ssim": 0.5456
+      },
+      "normal_dip": {
+        "mean_mae": 34.2,
+        "median_mae": 33.7,
+        "pct_11_25": 9.14,
+        "pct_22_5": 29.91,
+        "mean_psnr": 14.72,
+        "mean_ssim": 0.1187
+      },
+      "normal_dl": {
+        "mean_mae": 11.13,
+        "median_mae": 10.7,
+        "pct_11_25": 64.64,
+        "pct_22_5": 86.25,
+        "mean_psnr": 25.48,
+        "mean_ssim": 0.5441
+      },
+      "roughness": {
+        "mean_psnr": 16.24,
+        "mean_ssim": 0.2729
+      },
+      "height": {
+        "mean_psnr": 11.52,
+        "mean_ssim": 0.2725
+      }
+    },
+    "overall": {
+      "count": 166,
+      "normal_flat": {
+        "mean_mae": 39.47,
+        "median_mae": 40.82,
+        "pct_11_25": 11.75,
+        "pct_22_5": 30.77,
+        "mean_psnr": 14.46,
+        "mean_ssim": 0.6844
+      },
+      "normal_dip": {
+        "mean_mae": 43.18,
+        "median_mae": 42.6,
+        "pct_11_25": 6.25,
+        "pct_22_5": 23.19,
+        "mean_psnr": 13.06,
+        "mean_ssim": 0.4693
+      },
+      "normal_dl": {
+        "mean_mae": 39.59,
+        "median_mae": 40.58,
+        "pct_11_25": 11.74,
+        "pct_22_5": 30.61,
+        "mean_psnr": 14.4,
+        "mean_ssim": 0.6804
+      },
+      "roughness": {
+        "mean_psnr": 16.24,
+        "mean_ssim": 0.2729
+      },
+      "height": {
+        "mean_psnr": 11.52,
+        "mean_ssim": 0.2725
+      }
+    }
+  },
+  "samples": [
+    {
+      "asset_id": "diode_00019_00183_indoors_170_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 56.16,
+        "pct_11_25": 0.75,
+        "pct_22_5": 12.91,
+        "mse": 5177.002,
+        "psnr": 10.99,
+        "ssim": 0.6916
+      },
+      "normal_dip": {
+        "mae": 56.24,
+        "pct_11_25": 1.58,
+        "pct_22_5": 13.09,
+        "mse": 5182.6419,
+        "psnr": 10.99,
+        "ssim": 0.5904
+      },
+      "normal_dl": {
+        "mae": 56.87,
+        "pct_11_25": 0.98,
+        "pct_22_5": 13.03,
+        "mse": 5286.5669,
+        "psnr": 10.9,
+        "ssim": 0.6874
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_030_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 55.09,
+        "pct_11_25": 1.08,
+        "pct_22_5": 18.78,
+        "mse": 4900.4193,
+        "psnr": 11.23,
+        "ssim": 0.7354
+      },
+      "normal_dip": {
+        "mae": 58.03,
+        "pct_11_25": 1.51,
+        "pct_22_5": 12.86,
+        "mse": 5307.3782,
+        "psnr": 10.88,
+        "ssim": 0.5224
+      },
+      "normal_dl": {
+        "mae": 55.22,
+        "pct_11_25": 1.03,
+        "pct_22_5": 18.6,
+        "mse": 4878.8265,
+        "psnr": 11.25,
+        "ssim": 0.7326
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_350_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 57.55,
+        "pct_11_25": 0.82,
+        "pct_22_5": 17.51,
+        "mse": 5517.0295,
+        "psnr": 10.71,
+        "ssim": 0.6413
+      },
+      "normal_dip": {
+        "mae": 58.38,
+        "pct_11_25": 1.54,
+        "pct_22_5": 14.75,
+        "mse": 5627.7574,
+        "psnr": 10.63,
+        "ssim": 0.4332
+      },
+      "normal_dl": {
+        "mae": 58.08,
+        "pct_11_25": 0.88,
+        "pct_22_5": 17.53,
+        "mse": 5576.4766,
+        "psnr": 10.67,
+        "ssim": 0.6345
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_310_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 43.91,
+        "pct_11_25": 2.24,
+        "pct_22_5": 18.97,
+        "mse": 3423.6082,
+        "psnr": 12.79,
+        "ssim": 0.5895
+      },
+      "normal_dip": {
+        "mae": 45.05,
+        "pct_11_25": 3.07,
+        "pct_22_5": 14.26,
+        "mse": 3600.1783,
+        "psnr": 12.57,
+        "ssim": 0.4236
+      },
+      "normal_dl": {
+        "mae": 43.62,
+        "pct_11_25": 2.24,
+        "pct_22_5": 20.61,
+        "mse": 3365.0899,
+        "psnr": 12.86,
+        "ssim": 0.5876
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_300_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 38.18,
+        "pct_11_25": 2.35,
+        "pct_22_5": 41.75,
+        "mse": 2845.1517,
+        "psnr": 13.59,
+        "ssim": 0.6336
+      },
+      "normal_dip": {
+        "mae": 39.67,
+        "pct_11_25": 5.78,
+        "pct_22_5": 39.44,
+        "mse": 3135.2599,
+        "psnr": 13.17,
+        "ssim": 0.498
+      },
+      "normal_dl": {
+        "mae": 38.89,
+        "pct_11_25": 2.55,
+        "pct_22_5": 39.9,
+        "mse": 2918.4967,
+        "psnr": 13.48,
+        "ssim": 0.6285
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_200_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 36.61,
+        "pct_11_25": 0.63,
+        "pct_22_5": 55.75,
+        "mse": 2398.016,
+        "psnr": 14.33,
+        "ssim": 0.6736
+      },
+      "normal_dip": {
+        "mae": 37.48,
+        "pct_11_25": 1.36,
+        "pct_22_5": 50.43,
+        "mse": 2509.4328,
+        "psnr": 14.14,
+        "ssim": 0.5886
+      },
+      "normal_dl": {
+        "mae": 36.98,
+        "pct_11_25": 0.48,
+        "pct_22_5": 56.47,
+        "mse": 2451.4787,
+        "psnr": 14.24,
+        "ssim": 0.6673
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_160_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 32.78,
+        "pct_11_25": 0.55,
+        "pct_22_5": 5.18,
+        "mse": 1885.299,
+        "psnr": 15.38,
+        "ssim": 0.8211
+      },
+      "normal_dip": {
+        "mae": 34.2,
+        "pct_11_25": 1.08,
+        "pct_22_5": 12.1,
+        "mse": 2099.1841,
+        "psnr": 14.91,
+        "ssim": 0.4463
+      },
+      "normal_dl": {
+        "mae": 32.6,
+        "pct_11_25": 0.66,
+        "pct_22_5": 5.39,
+        "mse": 1851.2114,
+        "psnr": 15.46,
+        "ssim": 0.8178
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_080_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 25.77,
+        "pct_11_25": 63.89,
+        "pct_22_5": 68.04,
+        "mse": 1989.2944,
+        "psnr": 15.14,
+        "ssim": 0.6725
+      },
+      "normal_dip": {
+        "mae": 29.97,
+        "pct_11_25": 51.29,
+        "pct_22_5": 63.64,
+        "mse": 2377.3093,
+        "psnr": 14.37,
+        "ssim": 0.4789
+      },
+      "normal_dl": {
+        "mae": 26.71,
+        "pct_11_25": 63.26,
+        "pct_22_5": 67.75,
+        "mse": 2073.0143,
+        "psnr": 14.96,
+        "ssim": 0.6671
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_140_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 40.99,
+        "pct_11_25": 9.69,
+        "pct_22_5": 18.26,
+        "mse": 3048.4041,
+        "psnr": 13.29,
+        "ssim": 0.7334
+      },
+      "normal_dip": {
+        "mae": 42.89,
+        "pct_11_25": 5.85,
+        "pct_22_5": 15.96,
+        "mse": 3297.4399,
+        "psnr": 12.95,
+        "ssim": 0.4067
+      },
+      "normal_dl": {
+        "mae": 40.96,
+        "pct_11_25": 10.34,
+        "pct_22_5": 18.33,
+        "mse": 3012.9366,
+        "psnr": 13.34,
+        "ssim": 0.7301
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_050_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 16.45,
+        "pct_11_25": 79.0,
+        "pct_22_5": 85.69,
+        "mse": 1167.1278,
+        "psnr": 17.46,
+        "ssim": 0.8524
+      },
+      "normal_dip": {
+        "mae": 19.0,
+        "pct_11_25": 61.9,
+        "pct_22_5": 84.86,
+        "mse": 1338.0462,
+        "psnr": 16.87,
+        "ssim": 0.5732
+      },
+      "normal_dl": {
+        "mae": 17.4,
+        "pct_11_25": 78.31,
+        "pct_22_5": 85.43,
+        "mse": 1247.9156,
+        "psnr": 17.17,
+        "ssim": 0.8469
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_040_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 60.97,
+        "pct_11_25": 0.35,
+        "pct_22_5": 3.48,
+        "mse": 5419.9223,
+        "psnr": 10.79,
+        "ssim": 0.7054
+      },
+      "normal_dip": {
+        "mae": 62.87,
+        "pct_11_25": 1.09,
+        "pct_22_5": 4.05,
+        "mse": 5761.5346,
+        "psnr": 10.53,
+        "ssim": 0.4759
+      },
+      "normal_dl": {
+        "mae": 61.42,
+        "pct_11_25": 0.37,
+        "pct_22_5": 3.5,
+        "mse": 5460.4852,
+        "psnr": 10.76,
+        "ssim": 0.7022
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_030_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 56.48,
+        "pct_11_25": 0.3,
+        "pct_22_5": 2.4,
+        "mse": 5115.6844,
+        "psnr": 11.04,
+        "ssim": 0.7292
+      },
+      "normal_dip": {
+        "mae": 56.88,
+        "pct_11_25": 0.32,
+        "pct_22_5": 2.98,
+        "mse": 5150.429,
+        "psnr": 11.01,
+        "ssim": 0.6586
+      },
+      "normal_dl": {
+        "mae": 56.44,
+        "pct_11_25": 0.29,
+        "pct_22_5": 2.4,
+        "mse": 5057.3033,
+        "psnr": 11.09,
+        "ssim": 0.7282
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_150_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 45.53,
+        "pct_11_25": 2.2,
+        "pct_22_5": 43.14,
+        "mse": 4141.762,
+        "psnr": 11.96,
+        "ssim": 0.7114
+      },
+      "normal_dip": {
+        "mae": 47.7,
+        "pct_11_25": 8.8,
+        "pct_22_5": 36.37,
+        "mse": 4463.6775,
+        "psnr": 11.63,
+        "ssim": 0.3655
+      },
+      "normal_dl": {
+        "mae": 45.62,
+        "pct_11_25": 3.05,
+        "pct_22_5": 43.38,
+        "mse": 4172.9872,
+        "psnr": 11.93,
+        "ssim": 0.7086
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_290_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 31.66,
+        "pct_11_25": 15.58,
+        "pct_22_5": 46.61,
+        "mse": 2114.6482,
+        "psnr": 14.88,
+        "ssim": 0.6221
+      },
+      "normal_dip": {
+        "mae": 34.46,
+        "pct_11_25": 15.55,
+        "pct_22_5": 44.66,
+        "mse": 2555.4456,
+        "psnr": 14.06,
+        "ssim": 0.4185
+      },
+      "normal_dl": {
+        "mae": 32.17,
+        "pct_11_25": 14.48,
+        "pct_22_5": 46.33,
+        "mse": 2163.204,
+        "psnr": 14.78,
+        "ssim": 0.6163
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_300_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 39.33,
+        "pct_11_25": 1.63,
+        "pct_22_5": 38.67,
+        "mse": 2988.8378,
+        "psnr": 13.38,
+        "ssim": 0.5267
+      },
+      "normal_dip": {
+        "mae": 41.29,
+        "pct_11_25": 4.28,
+        "pct_22_5": 25.98,
+        "mse": 3241.0944,
+        "psnr": 13.02,
+        "ssim": 0.3202
+      },
+      "normal_dl": {
+        "mae": 38.71,
+        "pct_11_25": 1.75,
+        "pct_22_5": 38.85,
+        "mse": 2901.2448,
+        "psnr": 13.5,
+        "ssim": 0.5269
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_000_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 24.96,
+        "pct_11_25": 13.42,
+        "pct_22_5": 77.06,
+        "mse": 1433.9665,
+        "psnr": 16.57,
+        "ssim": 0.677
+      },
+      "normal_dip": {
+        "mae": 27.6,
+        "pct_11_25": 20.46,
+        "pct_22_5": 60.74,
+        "mse": 1668.6925,
+        "psnr": 15.91,
+        "ssim": 0.3639
+      },
+      "normal_dl": {
+        "mae": 24.28,
+        "pct_11_25": 19.86,
+        "pct_22_5": 77.4,
+        "mse": 1392.005,
+        "psnr": 16.69,
+        "ssim": 0.6769
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00022_00196_outdoor_010_000",
+      "source": "diode",
+      "scene_type": "outdoor",
+      "has_gt": false,
+      "normal_flat": {
+        "mae": null,
+        "pct_11_25": null,
+        "pct_22_5": null,
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "normal_dip": {
+        "mae": null,
+        "pct_11_25": null,
+        "pct_22_5": null,
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "normal_dl": {
+        "mae": null,
+        "pct_11_25": null,
+        "pct_22_5": null,
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_260_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 32.38,
+        "pct_11_25": 12.51,
+        "pct_22_5": 43.92,
+        "mse": 2410.3128,
+        "psnr": 14.31,
+        "ssim": 0.5502
+      },
+      "normal_dip": {
+        "mae": 34.27,
+        "pct_11_25": 10.79,
+        "pct_22_5": 44.98,
+        "mse": 2572.184,
+        "psnr": 14.03,
+        "ssim": 0.3989
+      },
+      "normal_dl": {
+        "mae": 32.06,
+        "pct_11_25": 13.34,
+        "pct_22_5": 53.3,
+        "mse": 2361.5181,
+        "psnr": 14.4,
+        "ssim": 0.5427
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_040_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 33.25,
+        "pct_11_25": 0.51,
+        "pct_22_5": 65.66,
+        "mse": 2300.6576,
+        "psnr": 14.51,
+        "ssim": 0.7412
+      },
+      "normal_dip": {
+        "mae": 35.1,
+        "pct_11_25": 2.0,
+        "pct_22_5": 48.14,
+        "mse": 2560.8313,
+        "psnr": 14.05,
+        "ssim": 0.5106
+      },
+      "normal_dl": {
+        "mae": 34.02,
+        "pct_11_25": 0.74,
+        "pct_22_5": 64.1,
+        "mse": 2412.6343,
+        "psnr": 14.31,
+        "ssim": 0.7307
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_290_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 39.29,
+        "pct_11_25": 0.85,
+        "pct_22_5": 23.08,
+        "mse": 2890.9806,
+        "psnr": 13.52,
+        "ssim": 0.5759
+      },
+      "normal_dip": {
+        "mae": 40.96,
+        "pct_11_25": 4.23,
+        "pct_22_5": 18.97,
+        "mse": 3128.0099,
+        "psnr": 13.18,
+        "ssim": 0.3934
+      },
+      "normal_dl": {
+        "mae": 38.63,
+        "pct_11_25": 1.02,
+        "pct_22_5": 26.06,
+        "mse": 2810.4846,
+        "psnr": 13.64,
+        "ssim": 0.5658
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_170_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 64.6,
+        "pct_11_25": 0.42,
+        "pct_22_5": 2.27,
+        "mse": 6314.1597,
+        "psnr": 10.13,
+        "ssim": 0.737
+      },
+      "normal_dip": {
+        "mae": 65.79,
+        "pct_11_25": 0.41,
+        "pct_22_5": 2.26,
+        "mse": 6491.8581,
+        "psnr": 10.01,
+        "ssim": 0.562
+      },
+      "normal_dl": {
+        "mae": 65.03,
+        "pct_11_25": 0.42,
+        "pct_22_5": 2.57,
+        "mse": 6344.2983,
+        "psnr": 10.11,
+        "ssim": 0.734
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_350_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 41.06,
+        "pct_11_25": 0.53,
+        "pct_22_5": 40.61,
+        "mse": 3190.9597,
+        "psnr": 13.09,
+        "ssim": 0.7404
+      },
+      "normal_dip": {
+        "mae": 42.86,
+        "pct_11_25": 1.61,
+        "pct_22_5": 32.66,
+        "mse": 3384.9641,
+        "psnr": 12.84,
+        "ssim": 0.5614
+      },
+      "normal_dl": {
+        "mae": 41.25,
+        "pct_11_25": 0.47,
+        "pct_22_5": 40.24,
+        "mse": 3167.7791,
+        "psnr": 13.12,
+        "ssim": 0.7379
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_000_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 46.72,
+        "pct_11_25": 1.67,
+        "pct_22_5": 11.21,
+        "mse": 3727.6348,
+        "psnr": 12.42,
+        "ssim": 0.6601
+      },
+      "normal_dip": {
+        "mae": 47.75,
+        "pct_11_25": 2.42,
+        "pct_22_5": 9.71,
+        "mse": 3873.317,
+        "psnr": 12.25,
+        "ssim": 0.5136
+      },
+      "normal_dl": {
+        "mae": 46.43,
+        "pct_11_25": 1.68,
+        "pct_22_5": 11.24,
+        "mse": 3653.0309,
+        "psnr": 12.5,
+        "ssim": 0.6572
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_230_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 37.86,
+        "pct_11_25": 15.53,
+        "pct_22_5": 29.58,
+        "mse": 2829.8479,
+        "psnr": 13.61,
+        "ssim": 0.6117
+      },
+      "normal_dip": {
+        "mae": 38.49,
+        "pct_11_25": 14.58,
+        "pct_22_5": 29.53,
+        "mse": 2892.8754,
+        "psnr": 13.52,
+        "ssim": 0.5442
+      },
+      "normal_dl": {
+        "mae": 38.51,
+        "pct_11_25": 15.49,
+        "pct_22_5": 28.07,
+        "mse": 2895.0578,
+        "psnr": 13.51,
+        "ssim": 0.6069
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_090_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 24.36,
+        "pct_11_25": 26.8,
+        "pct_22_5": 79.5,
+        "mse": 1627.6009,
+        "psnr": 16.02,
+        "ssim": 0.7893
+      },
+      "normal_dip": {
+        "mae": 25.77,
+        "pct_11_25": 25.96,
+        "pct_22_5": 76.0,
+        "mse": 1740.7283,
+        "psnr": 15.72,
+        "ssim": 0.6412
+      },
+      "normal_dl": {
+        "mae": 24.1,
+        "pct_11_25": 39.5,
+        "pct_22_5": 79.31,
+        "mse": 1615.8893,
+        "psnr": 16.05,
+        "ssim": 0.7864
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_240_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 35.27,
+        "pct_11_25": 10.81,
+        "pct_22_5": 34.3,
+        "mse": 2390.6743,
+        "psnr": 14.35,
+        "ssim": 0.589
+      },
+      "normal_dip": {
+        "mae": 37.53,
+        "pct_11_25": 10.37,
+        "pct_22_5": 33.05,
+        "mse": 2735.4183,
+        "psnr": 13.76,
+        "ssim": 0.4006
+      },
+      "normal_dl": {
+        "mae": 36.13,
+        "pct_11_25": 9.31,
+        "pct_22_5": 33.16,
+        "mse": 2468.3381,
+        "psnr": 14.21,
+        "ssim": 0.5819
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_120_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 51.82,
+        "pct_11_25": 0.37,
+        "pct_22_5": 1.46,
+        "mse": 4245.2187,
+        "psnr": 11.85,
+        "ssim": 0.6908
+      },
+      "normal_dip": {
+        "mae": 51.9,
+        "pct_11_25": 0.42,
+        "pct_22_5": 1.92,
+        "mse": 4254.7144,
+        "psnr": 11.84,
+        "ssim": 0.6355
+      },
+      "normal_dl": {
+        "mae": 52.01,
+        "pct_11_25": 0.39,
+        "pct_22_5": 1.57,
+        "mse": 4260.7492,
+        "psnr": 11.84,
+        "ssim": 0.684
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_130_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 39.54,
+        "pct_11_25": 0.66,
+        "pct_22_5": 2.79,
+        "mse": 2633.3309,
+        "psnr": 13.93,
+        "ssim": 0.793
+      },
+      "normal_dip": {
+        "mae": 40.63,
+        "pct_11_25": 0.96,
+        "pct_22_5": 7.69,
+        "mse": 2828.0546,
+        "psnr": 13.62,
+        "ssim": 0.4949
+      },
+      "normal_dl": {
+        "mae": 39.48,
+        "pct_11_25": 0.71,
+        "pct_22_5": 2.78,
+        "mse": 2591.0533,
+        "psnr": 14.0,
+        "ssim": 0.7906
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_160_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 40.71,
+        "pct_11_25": 0.79,
+        "pct_22_5": 26.77,
+        "mse": 3007.6788,
+        "psnr": 13.35,
+        "ssim": 0.7237
+      },
+      "normal_dip": {
+        "mae": 43.16,
+        "pct_11_25": 3.79,
+        "pct_22_5": 16.75,
+        "mse": 3360.0905,
+        "psnr": 12.87,
+        "ssim": 0.3623
+      },
+      "normal_dl": {
+        "mae": 40.57,
+        "pct_11_25": 0.93,
+        "pct_22_5": 27.1,
+        "mse": 2978.2929,
+        "psnr": 13.39,
+        "ssim": 0.721
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_300_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 45.89,
+        "pct_11_25": 0.29,
+        "pct_22_5": 1.51,
+        "mse": 3591.5863,
+        "psnr": 12.58,
+        "ssim": 0.6618
+      },
+      "normal_dip": {
+        "mae": 48.66,
+        "pct_11_25": 1.44,
+        "pct_22_5": 5.94,
+        "mse": 4060.0435,
+        "psnr": 12.05,
+        "ssim": 0.3796
+      },
+      "normal_dl": {
+        "mae": 46.14,
+        "pct_11_25": 0.28,
+        "pct_22_5": 1.54,
+        "mse": 3579.5915,
+        "psnr": 12.59,
+        "ssim": 0.6575
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_200_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 59.87,
+        "pct_11_25": 0.38,
+        "pct_22_5": 21.9,
+        "mse": 5726.4999,
+        "psnr": 10.55,
+        "ssim": 0.7594
+      },
+      "normal_dip": {
+        "mae": 61.02,
+        "pct_11_25": 1.65,
+        "pct_22_5": 16.21,
+        "mse": 5910.8132,
+        "psnr": 10.41,
+        "ssim": 0.5167
+      },
+      "normal_dl": {
+        "mae": 60.04,
+        "pct_11_25": 0.46,
+        "pct_22_5": 24.27,
+        "mse": 5759.1554,
+        "psnr": 10.53,
+        "ssim": 0.7558
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_340_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 34.08,
+        "pct_11_25": 1.47,
+        "pct_22_5": 60.4,
+        "mse": 2478.4265,
+        "psnr": 14.19,
+        "ssim": 0.6568
+      },
+      "normal_dip": {
+        "mae": 37.28,
+        "pct_11_25": 3.63,
+        "pct_22_5": 44.27,
+        "mse": 2893.9918,
+        "psnr": 13.52,
+        "ssim": 0.4395
+      },
+      "normal_dl": {
+        "mae": 33.8,
+        "pct_11_25": 1.65,
+        "pct_22_5": 61.21,
+        "mse": 2437.9307,
+        "psnr": 14.26,
+        "ssim": 0.6557
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_110_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 37.24,
+        "pct_11_25": 2.67,
+        "pct_22_5": 62.0,
+        "mse": 3059.1077,
+        "psnr": 13.27,
+        "ssim": 0.7443
+      },
+      "normal_dip": {
+        "mae": 38.95,
+        "pct_11_25": 4.47,
+        "pct_22_5": 55.31,
+        "mse": 3286.8645,
+        "psnr": 12.96,
+        "ssim": 0.585
+      },
+      "normal_dl": {
+        "mae": 37.24,
+        "pct_11_25": 3.94,
+        "pct_22_5": 63.07,
+        "mse": 3107.8997,
+        "psnr": 13.21,
+        "ssim": 0.7407
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_060_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 47.97,
+        "pct_11_25": 0.04,
+        "pct_22_5": 0.67,
+        "mse": 3716.8813,
+        "psnr": 12.43,
+        "ssim": 0.7481
+      },
+      "normal_dip": {
+        "mae": 50.93,
+        "pct_11_25": 0.73,
+        "pct_22_5": 2.74,
+        "mse": 4188.1685,
+        "psnr": 11.91,
+        "ssim": 0.5608
+      },
+      "normal_dl": {
+        "mae": 48.67,
+        "pct_11_25": 0.05,
+        "pct_22_5": 0.66,
+        "mse": 3812.0265,
+        "psnr": 12.32,
+        "ssim": 0.7439
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_260_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 29.63,
+        "pct_11_25": 14.93,
+        "pct_22_5": 54.22,
+        "mse": 1892.2313,
+        "psnr": 15.36,
+        "ssim": 0.6302
+      },
+      "normal_dip": {
+        "mae": 32.64,
+        "pct_11_25": 15.29,
+        "pct_22_5": 49.75,
+        "mse": 2315.5873,
+        "psnr": 14.48,
+        "ssim": 0.4358
+      },
+      "normal_dl": {
+        "mae": 30.38,
+        "pct_11_25": 13.61,
+        "pct_22_5": 53.0,
+        "mse": 1957.9718,
+        "psnr": 15.21,
+        "ssim": 0.6243
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_080_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 31.72,
+        "pct_11_25": 1.11,
+        "pct_22_5": 70.52,
+        "mse": 2236.836,
+        "psnr": 14.63,
+        "ssim": 0.7708
+      },
+      "normal_dip": {
+        "mae": 33.93,
+        "pct_11_25": 2.04,
+        "pct_22_5": 65.58,
+        "mse": 2505.3957,
+        "psnr": 14.14,
+        "ssim": 0.6739
+      },
+      "normal_dl": {
+        "mae": 32.27,
+        "pct_11_25": 1.47,
+        "pct_22_5": 70.48,
+        "mse": 2311.1267,
+        "psnr": 14.49,
+        "ssim": 0.767
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_240_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 41.87,
+        "pct_11_25": 1.65,
+        "pct_22_5": 16.66,
+        "mse": 3176.5974,
+        "psnr": 13.11,
+        "ssim": 0.5731
+      },
+      "normal_dip": {
+        "mae": 43.89,
+        "pct_11_25": 3.33,
+        "pct_22_5": 14.76,
+        "mse": 3484.9439,
+        "psnr": 12.71,
+        "ssim": 0.4014
+      },
+      "normal_dl": {
+        "mae": 41.13,
+        "pct_11_25": 1.81,
+        "pct_22_5": 18.0,
+        "mse": 3046.4484,
+        "psnr": 13.29,
+        "ssim": 0.5626
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_350_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 44.45,
+        "pct_11_25": 0.79,
+        "pct_22_5": 3.65,
+        "mse": 3437.4431,
+        "psnr": 12.77,
+        "ssim": 0.6237
+      },
+      "normal_dip": {
+        "mae": 46.21,
+        "pct_11_25": 1.36,
+        "pct_22_5": 13.19,
+        "mse": 3729.6296,
+        "psnr": 12.41,
+        "ssim": 0.4494
+      },
+      "normal_dl": {
+        "mae": 44.09,
+        "pct_11_25": 1.05,
+        "pct_22_5": 5.06,
+        "mse": 3397.2841,
+        "psnr": 12.82,
+        "ssim": 0.6204
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_240_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 38.12,
+        "pct_11_25": 1.3,
+        "pct_22_5": 28.22,
+        "mse": 2743.0351,
+        "psnr": 13.75,
+        "ssim": 0.6195
+      },
+      "normal_dip": {
+        "mae": 39.75,
+        "pct_11_25": 3.14,
+        "pct_22_5": 29.1,
+        "mse": 2988.1942,
+        "psnr": 13.38,
+        "ssim": 0.4861
+      },
+      "normal_dl": {
+        "mae": 38.89,
+        "pct_11_25": 1.39,
+        "pct_22_5": 27.28,
+        "mse": 2816.555,
+        "psnr": 13.63,
+        "ssim": 0.6131
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_070_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 33.47,
+        "pct_11_25": 2.06,
+        "pct_22_5": 36.72,
+        "mse": 2266.6315,
+        "psnr": 14.58,
+        "ssim": 0.7637
+      },
+      "normal_dip": {
+        "mae": 34.57,
+        "pct_11_25": 2.24,
+        "pct_22_5": 33.68,
+        "mse": 2401.7757,
+        "psnr": 14.33,
+        "ssim": 0.5773
+      },
+      "normal_dl": {
+        "mae": 33.83,
+        "pct_11_25": 1.82,
+        "pct_22_5": 34.56,
+        "mse": 2296.1402,
+        "psnr": 14.52,
+        "ssim": 0.7584
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_180_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 39.06,
+        "pct_11_25": 18.62,
+        "pct_22_5": 23.38,
+        "mse": 2971.9446,
+        "psnr": 13.4,
+        "ssim": 0.6594
+      },
+      "normal_dip": {
+        "mae": 43.38,
+        "pct_11_25": 7.72,
+        "pct_22_5": 19.78,
+        "mse": 3459.5824,
+        "psnr": 12.74,
+        "ssim": 0.3471
+      },
+      "normal_dl": {
+        "mae": 38.76,
+        "pct_11_25": 18.51,
+        "pct_22_5": 23.18,
+        "mse": 2907.9966,
+        "psnr": 13.49,
+        "ssim": 0.6567
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_010_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 55.39,
+        "pct_11_25": 0.1,
+        "pct_22_5": 0.41,
+        "mse": 4768.4248,
+        "psnr": 11.35,
+        "ssim": 0.7335
+      },
+      "normal_dip": {
+        "mae": 56.03,
+        "pct_11_25": 0.09,
+        "pct_22_5": 0.43,
+        "mse": 4878.6614,
+        "psnr": 11.25,
+        "ssim": 0.464
+      },
+      "normal_dl": {
+        "mae": 55.37,
+        "pct_11_25": 0.11,
+        "pct_22_5": 0.47,
+        "mse": 4759.7234,
+        "psnr": 11.35,
+        "ssim": 0.7294
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_020_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 54.01,
+        "pct_11_25": 0.83,
+        "pct_22_5": 7.0,
+        "mse": 4913.266,
+        "psnr": 11.22,
+        "ssim": 0.6314
+      },
+      "normal_dip": {
+        "mae": 54.21,
+        "pct_11_25": 0.73,
+        "pct_22_5": 9.03,
+        "mse": 4905.8024,
+        "psnr": 11.22,
+        "ssim": 0.5816
+      },
+      "normal_dl": {
+        "mae": 53.82,
+        "pct_11_25": 0.83,
+        "pct_22_5": 6.2,
+        "mse": 4838.0009,
+        "psnr": 11.28,
+        "ssim": 0.6303
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_180_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 34.07,
+        "pct_11_25": 57.5,
+        "pct_22_5": 59.62,
+        "mse": 3478.8563,
+        "psnr": 12.72,
+        "ssim": 0.7745
+      },
+      "normal_dip": {
+        "mae": 37.39,
+        "pct_11_25": 51.73,
+        "pct_22_5": 57.24,
+        "mse": 3684.0232,
+        "psnr": 12.47,
+        "ssim": 0.595
+      },
+      "normal_dl": {
+        "mae": 34.18,
+        "pct_11_25": 57.27,
+        "pct_22_5": 59.54,
+        "mse": 3468.5058,
+        "psnr": 12.73,
+        "ssim": 0.7699
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_300_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 44.51,
+        "pct_11_25": 0.61,
+        "pct_22_5": 4.21,
+        "mse": 3497.5776,
+        "psnr": 12.69,
+        "ssim": 0.6244
+      },
+      "normal_dip": {
+        "mae": 45.33,
+        "pct_11_25": 0.64,
+        "pct_22_5": 8.15,
+        "mse": 3629.2944,
+        "psnr": 12.53,
+        "ssim": 0.4897
+      },
+      "normal_dl": {
+        "mae": 44.55,
+        "pct_11_25": 0.65,
+        "pct_22_5": 4.41,
+        "mse": 3476.9197,
+        "psnr": 12.72,
+        "ssim": 0.6195
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_340_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 45.3,
+        "pct_11_25": 1.42,
+        "pct_22_5": 8.46,
+        "mse": 3617.8734,
+        "psnr": 12.55,
+        "ssim": 0.6392
+      },
+      "normal_dip": {
+        "mae": 46.11,
+        "pct_11_25": 2.05,
+        "pct_22_5": 12.16,
+        "mse": 3722.3093,
+        "psnr": 12.42,
+        "ssim": 0.5377
+      },
+      "normal_dl": {
+        "mae": 46.0,
+        "pct_11_25": 1.34,
+        "pct_22_5": 7.64,
+        "mse": 3696.8385,
+        "psnr": 12.45,
+        "ssim": 0.6336
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_120_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 26.83,
+        "pct_11_25": 10.37,
+        "pct_22_5": 33.89,
+        "mse": 1482.3591,
+        "psnr": 16.42,
+        "ssim": 0.7849
+      },
+      "normal_dip": {
+        "mae": 30.87,
+        "pct_11_25": 8.55,
+        "pct_22_5": 28.25,
+        "mse": 1980.2081,
+        "psnr": 15.16,
+        "ssim": 0.5267
+      },
+      "normal_dl": {
+        "mae": 26.16,
+        "pct_11_25": 10.54,
+        "pct_22_5": 34.79,
+        "mse": 1426.5519,
+        "psnr": 16.59,
+        "ssim": 0.7839
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_270_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 44.59,
+        "pct_11_25": 0.52,
+        "pct_22_5": 1.83,
+        "mse": 3296.1658,
+        "psnr": 12.95,
+        "ssim": 0.7848
+      },
+      "normal_dip": {
+        "mae": 44.78,
+        "pct_11_25": 0.96,
+        "pct_22_5": 5.21,
+        "mse": 3408.7928,
+        "psnr": 12.8,
+        "ssim": 0.4183
+      },
+      "normal_dl": {
+        "mae": 43.92,
+        "pct_11_25": 0.59,
+        "pct_22_5": 2.04,
+        "mse": 3210.7961,
+        "psnr": 13.06,
+        "ssim": 0.7839
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_050_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 46.4,
+        "pct_11_25": 0.52,
+        "pct_22_5": 1.2,
+        "mse": 3406.1237,
+        "psnr": 12.81,
+        "ssim": 0.7896
+      },
+      "normal_dip": {
+        "mae": 48.84,
+        "pct_11_25": 1.32,
+        "pct_22_5": 3.03,
+        "mse": 3838.1873,
+        "psnr": 12.29,
+        "ssim": 0.606
+      },
+      "normal_dl": {
+        "mae": 46.28,
+        "pct_11_25": 0.51,
+        "pct_22_5": 1.19,
+        "mse": 3369.6218,
+        "psnr": 12.85,
+        "ssim": 0.788
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_140_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 46.61,
+        "pct_11_25": 0.29,
+        "pct_22_5": 1.72,
+        "mse": 3413.8638,
+        "psnr": 12.8,
+        "ssim": 0.6804
+      },
+      "normal_dip": {
+        "mae": 47.91,
+        "pct_11_25": 0.65,
+        "pct_22_5": 3.0,
+        "mse": 3644.8638,
+        "psnr": 12.51,
+        "ssim": 0.4933
+      },
+      "normal_dl": {
+        "mae": 46.31,
+        "pct_11_25": 0.31,
+        "pct_22_5": 1.77,
+        "mse": 3349.2276,
+        "psnr": 12.88,
+        "ssim": 0.6787
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_210_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 39.5,
+        "pct_11_25": 0.19,
+        "pct_22_5": 3.18,
+        "mse": 2622.5694,
+        "psnr": 13.94,
+        "ssim": 0.6561
+      },
+      "normal_dip": {
+        "mae": 39.89,
+        "pct_11_25": 0.33,
+        "pct_22_5": 4.2,
+        "mse": 2688.4759,
+        "psnr": 13.84,
+        "ssim": 0.5903
+      },
+      "normal_dl": {
+        "mae": 39.41,
+        "pct_11_25": 0.27,
+        "pct_22_5": 3.47,
+        "mse": 2602.8776,
+        "psnr": 13.98,
+        "ssim": 0.6394
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_100_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 33.3,
+        "pct_11_25": 2.94,
+        "pct_22_5": 58.47,
+        "mse": 2560.8315,
+        "psnr": 14.05,
+        "ssim": 0.7747
+      },
+      "normal_dip": {
+        "mae": 35.98,
+        "pct_11_25": 9.32,
+        "pct_22_5": 49.26,
+        "mse": 2906.6991,
+        "psnr": 13.5,
+        "ssim": 0.3888
+      },
+      "normal_dl": {
+        "mae": 33.76,
+        "pct_11_25": 3.46,
+        "pct_22_5": 58.31,
+        "mse": 2664.9655,
+        "psnr": 13.87,
+        "ssim": 0.7696
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_080_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 16.12,
+        "pct_11_25": 71.66,
+        "pct_22_5": 83.1,
+        "mse": 760.3234,
+        "psnr": 19.32,
+        "ssim": 0.8646
+      },
+      "normal_dip": {
+        "mae": 19.61,
+        "pct_11_25": 39.51,
+        "pct_22_5": 76.41,
+        "mse": 1033.4457,
+        "psnr": 17.99,
+        "ssim": 0.5461
+      },
+      "normal_dl": {
+        "mae": 16.65,
+        "pct_11_25": 65.5,
+        "pct_22_5": 81.88,
+        "mse": 786.648,
+        "psnr": 19.17,
+        "ssim": 0.8576
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_250_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 32.3,
+        "pct_11_25": 4.23,
+        "pct_22_5": 47.7,
+        "mse": 2063.6555,
+        "psnr": 14.98,
+        "ssim": 0.6621
+      },
+      "normal_dip": {
+        "mae": 34.33,
+        "pct_11_25": 7.01,
+        "pct_22_5": 41.75,
+        "mse": 2374.7737,
+        "psnr": 14.37,
+        "ssim": 0.5015
+      },
+      "normal_dl": {
+        "mae": 33.21,
+        "pct_11_25": 3.65,
+        "pct_22_5": 45.26,
+        "mse": 2152.6403,
+        "psnr": 14.8,
+        "ssim": 0.6566
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_050_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 45.4,
+        "pct_11_25": 2.0,
+        "pct_22_5": 14.58,
+        "mse": 3366.6963,
+        "psnr": 12.86,
+        "ssim": 0.6642
+      },
+      "normal_dip": {
+        "mae": 48.79,
+        "pct_11_25": 1.12,
+        "pct_22_5": 7.55,
+        "mse": 3776.5467,
+        "psnr": 12.36,
+        "ssim": 0.5718
+      },
+      "normal_dl": {
+        "mae": 45.6,
+        "pct_11_25": 2.14,
+        "pct_22_5": 14.1,
+        "mse": 3369.8802,
+        "psnr": 12.85,
+        "ssim": 0.6551
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_150_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 22.39,
+        "pct_11_25": 1.65,
+        "pct_22_5": 80.47,
+        "mse": 1118.7893,
+        "psnr": 17.64,
+        "ssim": 0.7989
+      },
+      "normal_dip": {
+        "mae": 24.33,
+        "pct_11_25": 11.47,
+        "pct_22_5": 68.83,
+        "mse": 1316.2942,
+        "psnr": 16.94,
+        "ssim": 0.4969
+      },
+      "normal_dl": {
+        "mae": 22.5,
+        "pct_11_25": 1.38,
+        "pct_22_5": 80.13,
+        "mse": 1121.0774,
+        "psnr": 17.63,
+        "ssim": 0.7948
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_160_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 51.62,
+        "pct_11_25": 0.14,
+        "pct_22_5": 1.85,
+        "mse": 4573.9492,
+        "psnr": 11.53,
+        "ssim": 0.7158
+      },
+      "normal_dip": {
+        "mae": 53.13,
+        "pct_11_25": 0.23,
+        "pct_22_5": 3.15,
+        "mse": 4749.8788,
+        "psnr": 11.36,
+        "ssim": 0.4995
+      },
+      "normal_dl": {
+        "mae": 52.62,
+        "pct_11_25": 0.13,
+        "pct_22_5": 1.79,
+        "mse": 4701.075,
+        "psnr": 11.41,
+        "ssim": 0.7143
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_090_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 32.95,
+        "pct_11_25": 19.63,
+        "pct_22_5": 64.99,
+        "mse": 2542.6188,
+        "psnr": 14.08,
+        "ssim": 0.6588
+      },
+      "normal_dip": {
+        "mae": 35.66,
+        "pct_11_25": 31.83,
+        "pct_22_5": 59.6,
+        "mse": 2958.5534,
+        "psnr": 13.42,
+        "ssim": 0.4823
+      },
+      "normal_dl": {
+        "mae": 33.05,
+        "pct_11_25": 28.09,
+        "pct_22_5": 64.63,
+        "mse": 2585.9077,
+        "psnr": 14.0,
+        "ssim": 0.6531
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_070_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 33.85,
+        "pct_11_25": 1.15,
+        "pct_22_5": 64.54,
+        "mse": 2495.4189,
+        "psnr": 14.16,
+        "ssim": 0.6818
+      },
+      "normal_dip": {
+        "mae": 36.19,
+        "pct_11_25": 2.77,
+        "pct_22_5": 57.78,
+        "mse": 2871.8465,
+        "psnr": 13.55,
+        "ssim": 0.5191
+      },
+      "normal_dl": {
+        "mae": 33.51,
+        "pct_11_25": 1.8,
+        "pct_22_5": 65.53,
+        "mse": 2490.5971,
+        "psnr": 14.17,
+        "ssim": 0.6765
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_120_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 41.59,
+        "pct_11_25": 0.02,
+        "pct_22_5": 0.16,
+        "mse": 3064.978,
+        "psnr": 13.27,
+        "ssim": 0.843
+      },
+      "normal_dip": {
+        "mae": 42.74,
+        "pct_11_25": 0.45,
+        "pct_22_5": 3.64,
+        "mse": 3270.7078,
+        "psnr": 12.98,
+        "ssim": 0.5172
+      },
+      "normal_dl": {
+        "mae": 40.9,
+        "pct_11_25": 0.02,
+        "pct_22_5": 0.21,
+        "mse": 2993.1566,
+        "psnr": 13.37,
+        "ssim": 0.8439
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_170_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 35.49,
+        "pct_11_25": 1.32,
+        "pct_22_5": 32.39,
+        "mse": 2237.206,
+        "psnr": 14.63,
+        "ssim": 0.7272
+      },
+      "normal_dip": {
+        "mae": 35.72,
+        "pct_11_25": 2.21,
+        "pct_22_5": 30.35,
+        "mse": 2240.8194,
+        "psnr": 14.63,
+        "ssim": 0.6678
+      },
+      "normal_dl": {
+        "mae": 35.46,
+        "pct_11_25": 1.1,
+        "pct_22_5": 32.07,
+        "mse": 2213.2101,
+        "psnr": 14.68,
+        "ssim": 0.724
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_000_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 48.07,
+        "pct_11_25": 0.45,
+        "pct_22_5": 1.5,
+        "mse": 3709.5139,
+        "psnr": 12.44,
+        "ssim": 0.6859
+      },
+      "normal_dip": {
+        "mae": 49.11,
+        "pct_11_25": 0.56,
+        "pct_22_5": 2.05,
+        "mse": 3888.0708,
+        "psnr": 12.23,
+        "ssim": 0.5167
+      },
+      "normal_dl": {
+        "mae": 47.55,
+        "pct_11_25": 0.69,
+        "pct_22_5": 2.02,
+        "mse": 3636.991,
+        "psnr": 12.52,
+        "ssim": 0.679
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_080_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 30.61,
+        "pct_11_25": 0.64,
+        "pct_22_5": 6.96,
+        "mse": 1770.5651,
+        "psnr": 15.65,
+        "ssim": 0.7782
+      },
+      "normal_dip": {
+        "mae": 31.37,
+        "pct_11_25": 1.18,
+        "pct_22_5": 22.4,
+        "mse": 1913.1186,
+        "psnr": 15.31,
+        "ssim": 0.6444
+      },
+      "normal_dl": {
+        "mae": 29.64,
+        "pct_11_25": 0.76,
+        "pct_22_5": 16.92,
+        "mse": 1700.5614,
+        "psnr": 15.82,
+        "ssim": 0.7757
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_170_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 46.48,
+        "pct_11_25": 2.65,
+        "pct_22_5": 46.19,
+        "mse": 4207.4373,
+        "psnr": 11.89,
+        "ssim": 0.6125
+      },
+      "normal_dip": {
+        "mae": 49.07,
+        "pct_11_25": 7.8,
+        "pct_22_5": 40.78,
+        "mse": 4552.6384,
+        "psnr": 11.55,
+        "ssim": 0.4258
+      },
+      "normal_dl": {
+        "mae": 47.24,
+        "pct_11_25": 2.98,
+        "pct_22_5": 45.98,
+        "mse": 4315.3145,
+        "psnr": 11.78,
+        "ssim": 0.6055
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_190_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 50.75,
+        "pct_11_25": 0.33,
+        "pct_22_5": 1.56,
+        "mse": 4046.1226,
+        "psnr": 12.06,
+        "ssim": 0.7794
+      },
+      "normal_dip": {
+        "mae": 52.34,
+        "pct_11_25": 0.52,
+        "pct_22_5": 2.45,
+        "mse": 4388.9407,
+        "psnr": 11.71,
+        "ssim": 0.3473
+      },
+      "normal_dl": {
+        "mae": 50.96,
+        "pct_11_25": 0.3,
+        "pct_22_5": 1.46,
+        "mse": 4052.553,
+        "psnr": 12.05,
+        "ssim": 0.7776
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_020_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 48.58,
+        "pct_11_25": 0.64,
+        "pct_22_5": 2.92,
+        "mse": 3821.5466,
+        "psnr": 12.31,
+        "ssim": 0.6742
+      },
+      "normal_dip": {
+        "mae": 49.38,
+        "pct_11_25": 0.7,
+        "pct_22_5": 3.82,
+        "mse": 3953.9657,
+        "psnr": 12.16,
+        "ssim": 0.5449
+      },
+      "normal_dl": {
+        "mae": 48.78,
+        "pct_11_25": 0.69,
+        "pct_22_5": 2.93,
+        "mse": 3831.8046,
+        "psnr": 12.3,
+        "ssim": 0.6707
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_340_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 38.83,
+        "pct_11_25": 1.12,
+        "pct_22_5": 54.46,
+        "mse": 2992.0013,
+        "psnr": 13.37,
+        "ssim": 0.5901
+      },
+      "normal_dip": {
+        "mae": 40.96,
+        "pct_11_25": 3.33,
+        "pct_22_5": 43.65,
+        "mse": 3322.6332,
+        "psnr": 12.92,
+        "ssim": 0.4159
+      },
+      "normal_dl": {
+        "mae": 38.65,
+        "pct_11_25": 1.58,
+        "pct_22_5": 56.1,
+        "mse": 2984.1969,
+        "psnr": 13.38,
+        "ssim": 0.5844
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_040_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 47.79,
+        "pct_11_25": 0.04,
+        "pct_22_5": 0.27,
+        "mse": 3573.9627,
+        "psnr": 12.6,
+        "ssim": 0.8017
+      },
+      "normal_dip": {
+        "mae": 47.6,
+        "pct_11_25": 0.35,
+        "pct_22_5": 0.93,
+        "mse": 3606.411,
+        "psnr": 12.56,
+        "ssim": 0.4426
+      },
+      "normal_dl": {
+        "mae": 47.03,
+        "pct_11_25": 0.03,
+        "pct_22_5": 0.27,
+        "mse": 3446.4165,
+        "psnr": 12.76,
+        "ssim": 0.8019
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_110_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 28.14,
+        "pct_11_25": 0.48,
+        "pct_22_5": 69.48,
+        "mse": 1589.5053,
+        "psnr": 16.12,
+        "ssim": 0.8337
+      },
+      "normal_dip": {
+        "mae": 30.84,
+        "pct_11_25": 2.4,
+        "pct_22_5": 42.48,
+        "mse": 1940.51,
+        "psnr": 15.25,
+        "ssim": 0.4522
+      },
+      "normal_dl": {
+        "mae": 27.84,
+        "pct_11_25": 0.61,
+        "pct_22_5": 75.73,
+        "mse": 1591.8299,
+        "psnr": 16.11,
+        "ssim": 0.8306
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_200_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 65.27,
+        "pct_11_25": 0.03,
+        "pct_22_5": 0.25,
+        "mse": 6507.7987,
+        "psnr": 10.0,
+        "ssim": 0.8056
+      },
+      "normal_dip": {
+        "mae": 65.98,
+        "pct_11_25": 0.07,
+        "pct_22_5": 1.84,
+        "mse": 6613.3745,
+        "psnr": 9.93,
+        "ssim": 0.4362
+      },
+      "normal_dl": {
+        "mae": 65.18,
+        "pct_11_25": 0.03,
+        "pct_22_5": 0.27,
+        "mse": 6450.0262,
+        "psnr": 10.04,
+        "ssim": 0.805
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_140_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 24.91,
+        "pct_11_25": 50.64,
+        "pct_22_5": 56.02,
+        "mse": 1989.5477,
+        "psnr": 15.14,
+        "ssim": 0.7466
+      },
+      "normal_dip": {
+        "mae": 29.61,
+        "pct_11_25": 38.45,
+        "pct_22_5": 54.5,
+        "mse": 2309.9267,
+        "psnr": 14.49,
+        "ssim": 0.4796
+      },
+      "normal_dl": {
+        "mae": 24.72,
+        "pct_11_25": 50.39,
+        "pct_22_5": 57.96,
+        "mse": 1974.7851,
+        "psnr": 15.18,
+        "ssim": 0.7423
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_250_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 36.65,
+        "pct_11_25": 0.31,
+        "pct_22_5": 4.28,
+        "mse": 2401.1189,
+        "psnr": 14.33,
+        "ssim": 0.6606
+      },
+      "normal_dip": {
+        "mae": 38.31,
+        "pct_11_25": 0.69,
+        "pct_22_5": 9.62,
+        "mse": 2653.5579,
+        "psnr": 13.89,
+        "ssim": 0.4987
+      },
+      "normal_dl": {
+        "mae": 36.89,
+        "pct_11_25": 0.41,
+        "pct_22_5": 3.86,
+        "mse": 2421.5693,
+        "psnr": 14.29,
+        "ssim": 0.6522
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_180_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 61.44,
+        "pct_11_25": 0.0,
+        "pct_22_5": 0.05,
+        "mse": 5669.7729,
+        "psnr": 10.6,
+        "ssim": 0.8283
+      },
+      "normal_dip": {
+        "mae": 62.86,
+        "pct_11_25": 0.08,
+        "pct_22_5": 0.36,
+        "mse": 5928.1091,
+        "psnr": 10.4,
+        "ssim": 0.4896
+      },
+      "normal_dl": {
+        "mae": 61.16,
+        "pct_11_25": 0.0,
+        "pct_22_5": 0.04,
+        "mse": 5581.3838,
+        "psnr": 10.66,
+        "ssim": 0.8288
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_110_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 53.75,
+        "pct_11_25": 0.1,
+        "pct_22_5": 0.52,
+        "mse": 4740.3211,
+        "psnr": 11.37,
+        "ssim": 0.7705
+      },
+      "normal_dip": {
+        "mae": 53.71,
+        "pct_11_25": 0.1,
+        "pct_22_5": 1.0,
+        "mse": 4714.8422,
+        "psnr": 11.4,
+        "ssim": 0.7219
+      },
+      "normal_dl": {
+        "mae": 53.48,
+        "pct_11_25": 0.09,
+        "pct_22_5": 0.51,
+        "mse": 4658.4545,
+        "psnr": 11.45,
+        "ssim": 0.7694
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_190_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 37.15,
+        "pct_11_25": 2.02,
+        "pct_22_5": 19.29,
+        "mse": 2502.0021,
+        "psnr": 14.15,
+        "ssim": 0.6941
+      },
+      "normal_dip": {
+        "mae": 38.41,
+        "pct_11_25": 4.19,
+        "pct_22_5": 17.01,
+        "mse": 2681.3485,
+        "psnr": 13.85,
+        "ssim": 0.5424
+      },
+      "normal_dl": {
+        "mae": 37.21,
+        "pct_11_25": 2.26,
+        "pct_22_5": 19.37,
+        "mse": 2484.2863,
+        "psnr": 14.18,
+        "ssim": 0.6854
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_040_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 54.19,
+        "pct_11_25": 0.45,
+        "pct_22_5": 4.49,
+        "mse": 4616.8006,
+        "psnr": 11.49,
+        "ssim": 0.794
+      },
+      "normal_dip": {
+        "mae": 54.82,
+        "pct_11_25": 0.44,
+        "pct_22_5": 3.07,
+        "mse": 4696.9035,
+        "psnr": 11.41,
+        "ssim": 0.7325
+      },
+      "normal_dl": {
+        "mae": 54.15,
+        "pct_11_25": 0.41,
+        "pct_22_5": 3.18,
+        "mse": 4571.7782,
+        "psnr": 11.53,
+        "ssim": 0.7926
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_140_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 30.07,
+        "pct_11_25": 0.44,
+        "pct_22_5": 60.72,
+        "mse": 1753.0857,
+        "psnr": 15.69,
+        "ssim": 0.8089
+      },
+      "normal_dip": {
+        "mae": 31.7,
+        "pct_11_25": 5.07,
+        "pct_22_5": 37.76,
+        "mse": 1971.1036,
+        "psnr": 15.18,
+        "ssim": 0.4897
+      },
+      "normal_dl": {
+        "mae": 30.05,
+        "pct_11_25": 0.46,
+        "pct_22_5": 56.63,
+        "mse": 1707.9319,
+        "psnr": 15.81,
+        "ssim": 0.8059
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_030_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 40.82,
+        "pct_11_25": 0.42,
+        "pct_22_5": 1.6,
+        "mse": 3014.1252,
+        "psnr": 13.34,
+        "ssim": 0.7666
+      },
+      "normal_dip": {
+        "mae": 42.06,
+        "pct_11_25": 0.45,
+        "pct_22_5": 8.28,
+        "mse": 3195.3452,
+        "psnr": 13.09,
+        "ssim": 0.539
+      },
+      "normal_dl": {
+        "mae": 41.37,
+        "pct_11_25": 0.4,
+        "pct_22_5": 1.56,
+        "mse": 3074.496,
+        "psnr": 13.25,
+        "ssim": 0.7588
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_180_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 44.09,
+        "pct_11_25": 23.48,
+        "pct_22_5": 29.21,
+        "mse": 3638.7358,
+        "psnr": 12.52,
+        "ssim": 0.6315
+      },
+      "normal_dip": {
+        "mae": 44.59,
+        "pct_11_25": 21.79,
+        "pct_22_5": 28.58,
+        "mse": 3651.9461,
+        "psnr": 12.51,
+        "ssim": 0.5861
+      },
+      "normal_dl": {
+        "mae": 44.43,
+        "pct_11_25": 23.45,
+        "pct_22_5": 29.25,
+        "mse": 3658.1333,
+        "psnr": 12.5,
+        "ssim": 0.6275
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_120_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 49.29,
+        "pct_11_25": 0.51,
+        "pct_22_5": 2.04,
+        "mse": 4180.1843,
+        "psnr": 11.92,
+        "ssim": 0.7472
+      },
+      "normal_dip": {
+        "mae": 50.16,
+        "pct_11_25": 0.7,
+        "pct_22_5": 3.66,
+        "mse": 4366.1855,
+        "psnr": 11.73,
+        "ssim": 0.4688
+      },
+      "normal_dl": {
+        "mae": 49.65,
+        "pct_11_25": 0.52,
+        "pct_22_5": 2.14,
+        "mse": 4254.6124,
+        "psnr": 11.84,
+        "ssim": 0.7434
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_070_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 24.56,
+        "pct_11_25": 0.52,
+        "pct_22_5": 84.13,
+        "mse": 1162.4801,
+        "psnr": 17.48,
+        "ssim": 0.7946
+      },
+      "normal_dip": {
+        "mae": 26.03,
+        "pct_11_25": 1.55,
+        "pct_22_5": 70.71,
+        "mse": 1313.0297,
+        "psnr": 16.95,
+        "ssim": 0.6396
+      },
+      "normal_dl": {
+        "mae": 25.57,
+        "pct_11_25": 0.49,
+        "pct_22_5": 78.48,
+        "mse": 1239.5294,
+        "psnr": 17.2,
+        "ssim": 0.7875
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_130_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 58.47,
+        "pct_11_25": 0.01,
+        "pct_22_5": 0.08,
+        "mse": 5338.2354,
+        "psnr": 10.86,
+        "ssim": 0.7328
+      },
+      "normal_dip": {
+        "mae": 58.71,
+        "pct_11_25": 0.1,
+        "pct_22_5": 0.65,
+        "mse": 5383.1308,
+        "psnr": 10.82,
+        "ssim": 0.5353
+      },
+      "normal_dl": {
+        "mae": 59.05,
+        "pct_11_25": 0.01,
+        "pct_22_5": 0.07,
+        "mse": 5414.4865,
+        "psnr": 10.8,
+        "ssim": 0.7313
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_150_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 64.14,
+        "pct_11_25": 2.9,
+        "pct_22_5": 12.71,
+        "mse": 6411.1469,
+        "psnr": 10.06,
+        "ssim": 0.617
+      },
+      "normal_dip": {
+        "mae": 66.12,
+        "pct_11_25": 2.96,
+        "pct_22_5": 11.96,
+        "mse": 6716.9332,
+        "psnr": 9.86,
+        "ssim": 0.4955
+      },
+      "normal_dl": {
+        "mae": 64.38,
+        "pct_11_25": 3.79,
+        "pct_22_5": 12.48,
+        "mse": 6412.8875,
+        "psnr": 10.06,
+        "ssim": 0.6124
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00022_00196_outdoor_350_020",
+      "source": "diode",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 79.35,
+        "pct_11_25": 1.14,
+        "pct_22_5": 8.1,
+        "mse": 5436.7035,
+        "psnr": 10.78,
+        "ssim": 0.6454
+      },
+      "normal_dip": {
+        "mae": 81.09,
+        "pct_11_25": 1.17,
+        "pct_22_5": 5.02,
+        "mse": 5621.2054,
+        "psnr": 10.63,
+        "ssim": 0.1626
+      },
+      "normal_dl": {
+        "mae": 79.53,
+        "pct_11_25": 1.04,
+        "pct_22_5": 8.06,
+        "mse": 5406.7952,
+        "psnr": 10.8,
+        "ssim": 0.6348
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_230_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 41.98,
+        "pct_11_25": 1.84,
+        "pct_22_5": 25.04,
+        "mse": 3171.479,
+        "psnr": 13.12,
+        "ssim": 0.6154
+      },
+      "normal_dip": {
+        "mae": 42.6,
+        "pct_11_25": 2.01,
+        "pct_22_5": 21.62,
+        "mse": 3253.789,
+        "psnr": 13.01,
+        "ssim": 0.5366
+      },
+      "normal_dl": {
+        "mae": 41.76,
+        "pct_11_25": 1.64,
+        "pct_22_5": 23.09,
+        "mse": 3100.8003,
+        "psnr": 13.22,
+        "ssim": 0.6085
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_080_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 36.41,
+        "pct_11_25": 0.84,
+        "pct_22_5": 57.49,
+        "mse": 2706.3657,
+        "psnr": 13.81,
+        "ssim": 0.7658
+      },
+      "normal_dip": {
+        "mae": 37.59,
+        "pct_11_25": 1.32,
+        "pct_22_5": 37.74,
+        "mse": 2818.3042,
+        "psnr": 13.63,
+        "ssim": 0.6072
+      },
+      "normal_dl": {
+        "mae": 37.92,
+        "pct_11_25": 0.78,
+        "pct_22_5": 40.26,
+        "mse": 2875.492,
+        "psnr": 13.54,
+        "ssim": 0.7619
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_140_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 54.5,
+        "pct_11_25": 0.24,
+        "pct_22_5": 0.86,
+        "mse": 4753.2578,
+        "psnr": 11.36,
+        "ssim": 0.6999
+      },
+      "normal_dip": {
+        "mae": 54.78,
+        "pct_11_25": 0.83,
+        "pct_22_5": 2.53,
+        "mse": 4835.4917,
+        "psnr": 11.29,
+        "ssim": 0.5116
+      },
+      "normal_dl": {
+        "mae": 54.15,
+        "pct_11_25": 0.19,
+        "pct_22_5": 0.85,
+        "mse": 4695.0444,
+        "psnr": 11.41,
+        "ssim": 0.6994
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_020_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 53.0,
+        "pct_11_25": 0.08,
+        "pct_22_5": 1.06,
+        "mse": 4653.8801,
+        "psnr": 11.45,
+        "ssim": 0.7731
+      },
+      "normal_dip": {
+        "mae": 53.67,
+        "pct_11_25": 0.2,
+        "pct_22_5": 2.22,
+        "mse": 4723.2207,
+        "psnr": 11.39,
+        "ssim": 0.6575
+      },
+      "normal_dl": {
+        "mae": 52.84,
+        "pct_11_25": 0.07,
+        "pct_22_5": 0.99,
+        "mse": 4581.2701,
+        "psnr": 11.52,
+        "ssim": 0.7712
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_350_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 42.2,
+        "pct_11_25": 0.1,
+        "pct_22_5": 0.51,
+        "mse": 3094.8821,
+        "psnr": 13.22,
+        "ssim": 0.7768
+      },
+      "normal_dip": {
+        "mae": 43.46,
+        "pct_11_25": 0.37,
+        "pct_22_5": 3.59,
+        "mse": 3298.4577,
+        "psnr": 12.95,
+        "ssim": 0.4687
+      },
+      "normal_dl": {
+        "mae": 41.78,
+        "pct_11_25": 0.09,
+        "pct_22_5": 0.68,
+        "mse": 3043.2934,
+        "psnr": 13.3,
+        "ssim": 0.7742
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_160_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 35.1,
+        "pct_11_25": 6.3,
+        "pct_22_5": 51.22,
+        "mse": 2580.6296,
+        "psnr": 14.01,
+        "ssim": 0.7129
+      },
+      "normal_dip": {
+        "mae": 36.72,
+        "pct_11_25": 8.2,
+        "pct_22_5": 38.46,
+        "mse": 2795.8002,
+        "psnr": 13.67,
+        "ssim": 0.4473
+      },
+      "normal_dl": {
+        "mae": 34.92,
+        "pct_11_25": 6.5,
+        "pct_22_5": 53.83,
+        "mse": 2579.7196,
+        "psnr": 14.02,
+        "ssim": 0.7093
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_130_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 44.89,
+        "pct_11_25": 3.42,
+        "pct_22_5": 31.19,
+        "mse": 3938.8867,
+        "psnr": 12.18,
+        "ssim": 0.7009
+      },
+      "normal_dip": {
+        "mae": 45.71,
+        "pct_11_25": 6.17,
+        "pct_22_5": 30.31,
+        "mse": 4064.3529,
+        "psnr": 12.04,
+        "ssim": 0.5423
+      },
+      "normal_dl": {
+        "mae": 44.97,
+        "pct_11_25": 3.78,
+        "pct_22_5": 31.26,
+        "mse": 3959.5312,
+        "psnr": 12.15,
+        "ssim": 0.6982
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_320_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 45.15,
+        "pct_11_25": 0.76,
+        "pct_22_5": 11.39,
+        "mse": 3386.0866,
+        "psnr": 12.83,
+        "ssim": 0.6534
+      },
+      "normal_dip": {
+        "mae": 45.94,
+        "pct_11_25": 1.12,
+        "pct_22_5": 10.62,
+        "mse": 3526.6456,
+        "psnr": 12.66,
+        "ssim": 0.5249
+      },
+      "normal_dl": {
+        "mae": 45.4,
+        "pct_11_25": 0.79,
+        "pct_22_5": 9.49,
+        "mse": 3387.3009,
+        "psnr": 12.83,
+        "ssim": 0.6442
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_290_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 45.44,
+        "pct_11_25": 0.47,
+        "pct_22_5": 2.37,
+        "mse": 3407.1246,
+        "psnr": 12.81,
+        "ssim": 0.679
+      },
+      "normal_dip": {
+        "mae": 45.82,
+        "pct_11_25": 1.73,
+        "pct_22_5": 5.2,
+        "mse": 3537.0795,
+        "psnr": 12.64,
+        "ssim": 0.453
+      },
+      "normal_dl": {
+        "mae": 45.2,
+        "pct_11_25": 0.47,
+        "pct_22_5": 2.47,
+        "mse": 3347.3487,
+        "psnr": 12.88,
+        "ssim": 0.6741
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_170_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 32.3,
+        "pct_11_25": 2.49,
+        "pct_22_5": 69.23,
+        "mse": 2609.6968,
+        "psnr": 13.96,
+        "ssim": 0.7569
+      },
+      "normal_dip": {
+        "mae": 35.26,
+        "pct_11_25": 8.69,
+        "pct_22_5": 63.64,
+        "mse": 2905.7925,
+        "psnr": 13.5,
+        "ssim": 0.5497
+      },
+      "normal_dl": {
+        "mae": 33.23,
+        "pct_11_25": 1.86,
+        "pct_22_5": 68.71,
+        "mse": 2703.0999,
+        "psnr": 13.81,
+        "ssim": 0.7529
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_200_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 34.43,
+        "pct_11_25": 2.2,
+        "pct_22_5": 42.86,
+        "mse": 2419.774,
+        "psnr": 14.29,
+        "ssim": 0.6354
+      },
+      "normal_dip": {
+        "mae": 36.11,
+        "pct_11_25": 11.21,
+        "pct_22_5": 36.41,
+        "mse": 2619.8391,
+        "psnr": 13.95,
+        "ssim": 0.4598
+      },
+      "normal_dl": {
+        "mae": 34.19,
+        "pct_11_25": 2.43,
+        "pct_22_5": 42.6,
+        "mse": 2380.5942,
+        "psnr": 14.36,
+        "ssim": 0.6258
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_040_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 54.18,
+        "pct_11_25": 0.31,
+        "pct_22_5": 1.44,
+        "mse": 4310.5754,
+        "psnr": 11.79,
+        "ssim": 0.6292
+      },
+      "normal_dip": {
+        "mae": 55.28,
+        "pct_11_25": 0.41,
+        "pct_22_5": 1.72,
+        "mse": 4520.3067,
+        "psnr": 11.58,
+        "ssim": 0.4544
+      },
+      "normal_dl": {
+        "mae": 53.75,
+        "pct_11_25": 0.32,
+        "pct_22_5": 1.47,
+        "mse": 4221.2126,
+        "psnr": 11.88,
+        "ssim": 0.6274
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_290_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 48.76,
+        "pct_11_25": 0.01,
+        "pct_22_5": 0.21,
+        "mse": 3891.491,
+        "psnr": 12.23,
+        "ssim": 0.7228
+      },
+      "normal_dip": {
+        "mae": 49.15,
+        "pct_11_25": 0.02,
+        "pct_22_5": 0.34,
+        "mse": 3933.5785,
+        "psnr": 12.18,
+        "ssim": 0.668
+      },
+      "normal_dl": {
+        "mae": 48.97,
+        "pct_11_25": 0.01,
+        "pct_22_5": 0.3,
+        "mse": 3901.6939,
+        "psnr": 12.22,
+        "ssim": 0.7218
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_350_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 42.99,
+        "pct_11_25": 7.86,
+        "pct_22_5": 25.66,
+        "mse": 3478.6942,
+        "psnr": 12.72,
+        "ssim": 0.5863
+      },
+      "normal_dip": {
+        "mae": 43.47,
+        "pct_11_25": 8.28,
+        "pct_22_5": 24.45,
+        "mse": 3500.3745,
+        "psnr": 12.69,
+        "ssim": 0.5061
+      },
+      "normal_dl": {
+        "mae": 42.77,
+        "pct_11_25": 5.76,
+        "pct_22_5": 25.61,
+        "mse": 3408.9256,
+        "psnr": 12.8,
+        "ssim": 0.5836
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_020_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 37.36,
+        "pct_11_25": 0.38,
+        "pct_22_5": 1.4,
+        "mse": 2440.386,
+        "psnr": 14.26,
+        "ssim": 0.7162
+      },
+      "normal_dip": {
+        "mae": 38.56,
+        "pct_11_25": 1.21,
+        "pct_22_5": 15.45,
+        "mse": 2653.6063,
+        "psnr": 13.89,
+        "ssim": 0.3535
+      },
+      "normal_dl": {
+        "mae": 36.41,
+        "pct_11_25": 0.5,
+        "pct_22_5": 2.13,
+        "mse": 2337.0084,
+        "psnr": 14.44,
+        "ssim": 0.7143
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_330_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 40.95,
+        "pct_11_25": 1.83,
+        "pct_22_5": 5.37,
+        "mse": 3074.2413,
+        "psnr": 13.25,
+        "ssim": 0.5448
+      },
+      "normal_dip": {
+        "mae": 44.61,
+        "pct_11_25": 2.37,
+        "pct_22_5": 14.29,
+        "mse": 3571.9576,
+        "psnr": 12.6,
+        "ssim": 0.2747
+      },
+      "normal_dl": {
+        "mae": 40.95,
+        "pct_11_25": 1.74,
+        "pct_22_5": 5.41,
+        "mse": 3038.2282,
+        "psnr": 13.3,
+        "ssim": 0.5408
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_300_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 37.24,
+        "pct_11_25": 1.08,
+        "pct_22_5": 5.46,
+        "mse": 2580.5245,
+        "psnr": 14.01,
+        "ssim": 0.6346
+      },
+      "normal_dip": {
+        "mae": 40.08,
+        "pct_11_25": 3.24,
+        "pct_22_5": 15.42,
+        "mse": 3046.2328,
+        "psnr": 13.29,
+        "ssim": 0.3809
+      },
+      "normal_dl": {
+        "mae": 37.55,
+        "pct_11_25": 1.51,
+        "pct_22_5": 8.31,
+        "mse": 2604.073,
+        "psnr": 13.97,
+        "ssim": 0.6248
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_130_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 53.13,
+        "pct_11_25": 0.1,
+        "pct_22_5": 0.46,
+        "mse": 4339.9698,
+        "psnr": 11.76,
+        "ssim": 0.7518
+      },
+      "normal_dip": {
+        "mae": 53.36,
+        "pct_11_25": 0.11,
+        "pct_22_5": 0.61,
+        "mse": 4356.5574,
+        "psnr": 11.74,
+        "ssim": 0.6891
+      },
+      "normal_dl": {
+        "mae": 53.12,
+        "pct_11_25": 0.12,
+        "pct_22_5": 0.55,
+        "mse": 4314.0247,
+        "psnr": 11.78,
+        "ssim": 0.7487
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_270_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 34.48,
+        "pct_11_25": 3.28,
+        "pct_22_5": 38.65,
+        "mse": 2395.9579,
+        "psnr": 14.34,
+        "ssim": 0.5941
+      },
+      "normal_dip": {
+        "mae": 36.38,
+        "pct_11_25": 9.11,
+        "pct_22_5": 29.09,
+        "mse": 2628.93,
+        "psnr": 13.93,
+        "ssim": 0.4295
+      },
+      "normal_dl": {
+        "mae": 34.53,
+        "pct_11_25": 3.26,
+        "pct_22_5": 38.19,
+        "mse": 2374.1452,
+        "psnr": 14.38,
+        "ssim": 0.5869
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_330_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 48.07,
+        "pct_11_25": 3.99,
+        "pct_22_5": 11.21,
+        "mse": 3951.1107,
+        "psnr": 12.16,
+        "ssim": 0.5811
+      },
+      "normal_dip": {
+        "mae": 48.58,
+        "pct_11_25": 4.1,
+        "pct_22_5": 12.08,
+        "mse": 4049.3258,
+        "psnr": 12.06,
+        "ssim": 0.4869
+      },
+      "normal_dl": {
+        "mae": 48.44,
+        "pct_11_25": 3.75,
+        "pct_22_5": 11.36,
+        "mse": 3986.4928,
+        "psnr": 12.12,
+        "ssim": 0.5777
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_060_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 46.38,
+        "pct_11_25": 0.03,
+        "pct_22_5": 8.65,
+        "mse": 3736.7552,
+        "psnr": 12.41,
+        "ssim": 0.7712
+      },
+      "normal_dip": {
+        "mae": 49.17,
+        "pct_11_25": 0.03,
+        "pct_22_5": 2.46,
+        "mse": 4066.5999,
+        "psnr": 12.04,
+        "ssim": 0.6529
+      },
+      "normal_dl": {
+        "mae": 46.92,
+        "pct_11_25": 0.02,
+        "pct_22_5": 5.94,
+        "mse": 3792.4371,
+        "psnr": 12.34,
+        "ssim": 0.7674
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_120_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 33.27,
+        "pct_11_25": 0.57,
+        "pct_22_5": 7.03,
+        "mse": 1933.7866,
+        "psnr": 15.27,
+        "ssim": 0.8028
+      },
+      "normal_dip": {
+        "mae": 34.59,
+        "pct_11_25": 0.9,
+        "pct_22_5": 9.19,
+        "mse": 2126.6464,
+        "psnr": 14.85,
+        "ssim": 0.5683
+      },
+      "normal_dl": {
+        "mae": 33.22,
+        "pct_11_25": 0.55,
+        "pct_22_5": 6.89,
+        "mse": 1911.2197,
+        "psnr": 15.32,
+        "ssim": 0.8003
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_180_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 55.42,
+        "pct_11_25": 0.33,
+        "pct_22_5": 35.11,
+        "mse": 5421.4366,
+        "psnr": 10.79,
+        "ssim": 0.7673
+      },
+      "normal_dip": {
+        "mae": 56.68,
+        "pct_11_25": 0.74,
+        "pct_22_5": 19.32,
+        "mse": 5534.8899,
+        "psnr": 10.7,
+        "ssim": 0.503
+      },
+      "normal_dl": {
+        "mae": 56.06,
+        "pct_11_25": 0.32,
+        "pct_22_5": 34.36,
+        "mse": 5468.0444,
+        "psnr": 10.75,
+        "ssim": 0.7655
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_020_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 46.86,
+        "pct_11_25": 0.28,
+        "pct_22_5": 0.96,
+        "mse": 3516.8764,
+        "psnr": 12.67,
+        "ssim": 0.759
+      },
+      "normal_dip": {
+        "mae": 47.98,
+        "pct_11_25": 0.3,
+        "pct_22_5": 1.04,
+        "mse": 3694.193,
+        "psnr": 12.46,
+        "ssim": 0.5256
+      },
+      "normal_dl": {
+        "mae": 46.44,
+        "pct_11_25": 0.3,
+        "pct_22_5": 1.1,
+        "mse": 3442.8486,
+        "psnr": 12.76,
+        "ssim": 0.7543
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_130_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 48.79,
+        "pct_11_25": 0.51,
+        "pct_22_5": 1.55,
+        "mse": 3884.0474,
+        "psnr": 12.24,
+        "ssim": 0.7084
+      },
+      "normal_dip": {
+        "mae": 48.69,
+        "pct_11_25": 1.03,
+        "pct_22_5": 3.05,
+        "mse": 3928.0807,
+        "psnr": 12.19,
+        "ssim": 0.504
+      },
+      "normal_dl": {
+        "mae": 48.52,
+        "pct_11_25": 0.49,
+        "pct_22_5": 1.55,
+        "mse": 3836.1558,
+        "psnr": 12.29,
+        "ssim": 0.7065
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_340_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 44.36,
+        "pct_11_25": 0.96,
+        "pct_22_5": 4.91,
+        "mse": 3459.7312,
+        "psnr": 12.74,
+        "ssim": 0.6381
+      },
+      "normal_dip": {
+        "mae": 45.56,
+        "pct_11_25": 1.15,
+        "pct_22_5": 10.44,
+        "mse": 3625.7232,
+        "psnr": 12.54,
+        "ssim": 0.4797
+      },
+      "normal_dl": {
+        "mae": 44.36,
+        "pct_11_25": 0.98,
+        "pct_22_5": 4.26,
+        "mse": 3418.0713,
+        "psnr": 12.79,
+        "ssim": 0.6324
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_110_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 43.74,
+        "pct_11_25": 0.0,
+        "pct_22_5": 0.18,
+        "mse": 3478.4756,
+        "psnr": 12.72,
+        "ssim": 0.8198
+      },
+      "normal_dip": {
+        "mae": 46.69,
+        "pct_11_25": 0.83,
+        "pct_22_5": 6.07,
+        "mse": 3898.1694,
+        "psnr": 12.22,
+        "ssim": 0.4696
+      },
+      "normal_dl": {
+        "mae": 44.38,
+        "pct_11_25": 0.0,
+        "pct_22_5": 0.3,
+        "mse": 3577.6348,
+        "psnr": 12.59,
+        "ssim": 0.8181
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_190_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 56.83,
+        "pct_11_25": 0.93,
+        "pct_22_5": 31.56,
+        "mse": 5515.9464,
+        "psnr": 10.71,
+        "ssim": 0.6415
+      },
+      "normal_dip": {
+        "mae": 57.89,
+        "pct_11_25": 3.92,
+        "pct_22_5": 29.59,
+        "mse": 5678.7589,
+        "psnr": 10.59,
+        "ssim": 0.5035
+      },
+      "normal_dl": {
+        "mae": 56.95,
+        "pct_11_25": 1.12,
+        "pct_22_5": 31.5,
+        "mse": 5514.9167,
+        "psnr": 10.72,
+        "ssim": 0.6389
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_320_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 29.15,
+        "pct_11_25": 15.36,
+        "pct_22_5": 69.01,
+        "mse": 2075.2575,
+        "psnr": 14.96,
+        "ssim": 0.5755
+      },
+      "normal_dip": {
+        "mae": 34.24,
+        "pct_11_25": 14.52,
+        "pct_22_5": 53.75,
+        "mse": 2617.7042,
+        "psnr": 13.95,
+        "ssim": 0.3507
+      },
+      "normal_dl": {
+        "mae": 29.68,
+        "pct_11_25": 13.68,
+        "pct_22_5": 68.61,
+        "mse": 2118.9441,
+        "psnr": 14.87,
+        "ssim": 0.5728
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_320_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 42.33,
+        "pct_11_25": 7.98,
+        "pct_22_5": 19.6,
+        "mse": 3210.5914,
+        "psnr": 13.06,
+        "ssim": 0.6028
+      },
+      "normal_dip": {
+        "mae": 43.0,
+        "pct_11_25": 8.09,
+        "pct_22_5": 20.63,
+        "mse": 3331.0448,
+        "psnr": 12.9,
+        "ssim": 0.5271
+      },
+      "normal_dl": {
+        "mae": 43.01,
+        "pct_11_25": 7.96,
+        "pct_22_5": 18.73,
+        "mse": 3282.9319,
+        "psnr": 12.97,
+        "ssim": 0.5977
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_050_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 49.29,
+        "pct_11_25": 0.62,
+        "pct_22_5": 1.82,
+        "mse": 3782.7733,
+        "psnr": 12.35,
+        "ssim": 0.7057
+      },
+      "normal_dip": {
+        "mae": 49.81,
+        "pct_11_25": 0.99,
+        "pct_22_5": 2.73,
+        "mse": 3893.6134,
+        "psnr": 12.23,
+        "ssim": 0.5079
+      },
+      "normal_dl": {
+        "mae": 48.71,
+        "pct_11_25": 0.66,
+        "pct_22_5": 1.88,
+        "mse": 3662.4066,
+        "psnr": 12.49,
+        "ssim": 0.7047
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_110_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 49.78,
+        "pct_11_25": 0.41,
+        "pct_22_5": 1.96,
+        "mse": 4158.1812,
+        "psnr": 11.94,
+        "ssim": 0.6755
+      },
+      "normal_dip": {
+        "mae": 50.92,
+        "pct_11_25": 1.0,
+        "pct_22_5": 6.26,
+        "mse": 4387.5578,
+        "psnr": 11.71,
+        "ssim": 0.5048
+      },
+      "normal_dl": {
+        "mae": 49.43,
+        "pct_11_25": 0.42,
+        "pct_22_5": 2.41,
+        "mse": 4106.7487,
+        "psnr": 12.0,
+        "ssim": 0.6717
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_110_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 44.26,
+        "pct_11_25": 0.2,
+        "pct_22_5": 7.03,
+        "mse": 3257.8896,
+        "psnr": 13.0,
+        "ssim": 0.7575
+      },
+      "normal_dip": {
+        "mae": 44.99,
+        "pct_11_25": 0.82,
+        "pct_22_5": 6.86,
+        "mse": 3363.0601,
+        "psnr": 12.86,
+        "ssim": 0.5887
+      },
+      "normal_dl": {
+        "mae": 44.68,
+        "pct_11_25": 0.72,
+        "pct_22_5": 7.04,
+        "mse": 3293.3812,
+        "psnr": 12.95,
+        "ssim": 0.7554
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_070_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 49.88,
+        "pct_11_25": 0.03,
+        "pct_22_5": 0.32,
+        "mse": 4072.0062,
+        "psnr": 12.03,
+        "ssim": 0.7541
+      },
+      "normal_dip": {
+        "mae": 50.4,
+        "pct_11_25": 0.25,
+        "pct_22_5": 1.17,
+        "mse": 4133.8894,
+        "psnr": 11.97,
+        "ssim": 0.6018
+      },
+      "normal_dl": {
+        "mae": 51.04,
+        "pct_11_25": 0.03,
+        "pct_22_5": 0.38,
+        "mse": 4214.3592,
+        "psnr": 11.88,
+        "ssim": 0.7513
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_180_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 36.72,
+        "pct_11_25": 1.71,
+        "pct_22_5": 40.11,
+        "mse": 2405.7378,
+        "psnr": 14.32,
+        "ssim": 0.7193
+      },
+      "normal_dip": {
+        "mae": 37.44,
+        "pct_11_25": 2.09,
+        "pct_22_5": 32.73,
+        "mse": 2472.3732,
+        "psnr": 14.2,
+        "ssim": 0.6534
+      },
+      "normal_dl": {
+        "mae": 36.74,
+        "pct_11_25": 1.69,
+        "pct_22_5": 31.53,
+        "mse": 2362.6861,
+        "psnr": 14.4,
+        "ssim": 0.7181
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_270_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 25.7,
+        "pct_11_25": 36.06,
+        "pct_22_5": 59.74,
+        "mse": 1681.5108,
+        "psnr": 15.87,
+        "ssim": 0.7008
+      },
+      "normal_dip": {
+        "mae": 28.79,
+        "pct_11_25": 30.48,
+        "pct_22_5": 57.72,
+        "mse": 2023.6687,
+        "psnr": 15.07,
+        "ssim": 0.537
+      },
+      "normal_dl": {
+        "mae": 26.71,
+        "pct_11_25": 34.58,
+        "pct_22_5": 57.11,
+        "mse": 1778.8981,
+        "psnr": 15.63,
+        "ssim": 0.6934
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_030_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 41.46,
+        "pct_11_25": 0.32,
+        "pct_22_5": 0.76,
+        "mse": 2792.6857,
+        "psnr": 13.67,
+        "ssim": 0.7782
+      },
+      "normal_dip": {
+        "mae": 41.86,
+        "pct_11_25": 0.48,
+        "pct_22_5": 2.71,
+        "mse": 2910.7635,
+        "psnr": 13.49,
+        "ssim": 0.4306
+      },
+      "normal_dl": {
+        "mae": 40.65,
+        "pct_11_25": 0.36,
+        "pct_22_5": 0.84,
+        "mse": 2688.5359,
+        "psnr": 13.84,
+        "ssim": 0.7787
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_190_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 55.69,
+        "pct_11_25": 0.53,
+        "pct_22_5": 35.68,
+        "mse": 5618.4096,
+        "psnr": 10.63,
+        "ssim": 0.8034
+      },
+      "normal_dip": {
+        "mae": 56.84,
+        "pct_11_25": 6.02,
+        "pct_22_5": 32.55,
+        "mse": 5730.3687,
+        "psnr": 10.55,
+        "ssim": 0.5245
+      },
+      "normal_dl": {
+        "mae": 55.22,
+        "pct_11_25": 1.07,
+        "pct_22_5": 35.48,
+        "mse": 5505.4135,
+        "psnr": 10.72,
+        "ssim": 0.8013
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_060_030",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 48.33,
+        "pct_11_25": 0.08,
+        "pct_22_5": 0.51,
+        "mse": 3954.1441,
+        "psnr": 12.16,
+        "ssim": 0.7327
+      },
+      "normal_dip": {
+        "mae": 48.67,
+        "pct_11_25": 0.28,
+        "pct_22_5": 2.24,
+        "mse": 3987.3719,
+        "psnr": 12.12,
+        "ssim": 0.5766
+      },
+      "normal_dl": {
+        "mae": 49.04,
+        "pct_11_25": 0.08,
+        "pct_22_5": 0.45,
+        "mse": 4018.7075,
+        "psnr": 12.09,
+        "ssim": 0.7304
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_220_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 41.18,
+        "pct_11_25": 1.09,
+        "pct_22_5": 12.31,
+        "mse": 2957.8019,
+        "psnr": 13.42,
+        "ssim": 0.6245
+      },
+      "normal_dip": {
+        "mae": 42.47,
+        "pct_11_25": 1.71,
+        "pct_22_5": 11.31,
+        "mse": 3164.8375,
+        "psnr": 13.13,
+        "ssim": 0.4615
+      },
+      "normal_dl": {
+        "mae": 40.52,
+        "pct_11_25": 0.99,
+        "pct_22_5": 12.56,
+        "mse": 2848.9864,
+        "psnr": 13.58,
+        "ssim": 0.6207
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_010_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 48.18,
+        "pct_11_25": 2.38,
+        "pct_22_5": 9.8,
+        "mse": 3991.1348,
+        "psnr": 12.12,
+        "ssim": 0.7555
+      },
+      "normal_dip": {
+        "mae": 49.17,
+        "pct_11_25": 2.26,
+        "pct_22_5": 9.37,
+        "mse": 4118.9065,
+        "psnr": 11.98,
+        "ssim": 0.5893
+      },
+      "normal_dl": {
+        "mae": 48.01,
+        "pct_11_25": 1.55,
+        "pct_22_5": 9.52,
+        "mse": 3923.8597,
+        "psnr": 12.19,
+        "ssim": 0.754
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_310_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 39.49,
+        "pct_11_25": 9.61,
+        "pct_22_5": 29.38,
+        "mse": 2933.9084,
+        "psnr": 13.46,
+        "ssim": 0.5808
+      },
+      "normal_dip": {
+        "mae": 39.79,
+        "pct_11_25": 10.18,
+        "pct_22_5": 30.37,
+        "mse": 2999.6638,
+        "psnr": 13.36,
+        "ssim": 0.5301
+      },
+      "normal_dl": {
+        "mae": 39.88,
+        "pct_11_25": 8.71,
+        "pct_22_5": 29.7,
+        "mse": 2969.2029,
+        "psnr": 13.4,
+        "ssim": 0.5767
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_280_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 31.8,
+        "pct_11_25": 36.08,
+        "pct_22_5": 41.86,
+        "mse": 2406.7008,
+        "psnr": 14.32,
+        "ssim": 0.5555
+      },
+      "normal_dip": {
+        "mae": 33.79,
+        "pct_11_25": 22.01,
+        "pct_22_5": 39.75,
+        "mse": 2555.8635,
+        "psnr": 14.06,
+        "ssim": 0.3832
+      },
+      "normal_dl": {
+        "mae": 30.95,
+        "pct_11_25": 37.18,
+        "pct_22_5": 42.0,
+        "mse": 2335.2346,
+        "psnr": 14.45,
+        "ssim": 0.554
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_090_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 54.98,
+        "pct_11_25": 0.57,
+        "pct_22_5": 1.99,
+        "mse": 4483.7579,
+        "psnr": 11.61,
+        "ssim": 0.5215
+      },
+      "normal_dip": {
+        "mae": 56.07,
+        "pct_11_25": 0.61,
+        "pct_22_5": 2.43,
+        "mse": 4679.6872,
+        "psnr": 11.43,
+        "ssim": 0.4271
+      },
+      "normal_dl": {
+        "mae": 54.97,
+        "pct_11_25": 0.59,
+        "pct_22_5": 2.28,
+        "mse": 4487.9473,
+        "psnr": 11.61,
+        "ssim": 0.5151
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_060_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 29.63,
+        "pct_11_25": 16.75,
+        "pct_22_5": 21.15,
+        "mse": 1753.3277,
+        "psnr": 15.69,
+        "ssim": 0.8139
+      },
+      "normal_dip": {
+        "mae": 34.8,
+        "pct_11_25": 4.61,
+        "pct_22_5": 12.62,
+        "mse": 2261.6342,
+        "psnr": 14.59,
+        "ssim": 0.701
+      },
+      "normal_dl": {
+        "mae": 29.97,
+        "pct_11_25": 14.97,
+        "pct_22_5": 21.34,
+        "mse": 1764.5538,
+        "psnr": 15.66,
+        "ssim": 0.8046
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_280_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 32.26,
+        "pct_11_25": 17.2,
+        "pct_22_5": 44.16,
+        "mse": 2161.0821,
+        "psnr": 14.78,
+        "ssim": 0.6636
+      },
+      "normal_dip": {
+        "mae": 34.09,
+        "pct_11_25": 12.64,
+        "pct_22_5": 41.96,
+        "mse": 2379.9105,
+        "psnr": 14.37,
+        "ssim": 0.5253
+      },
+      "normal_dl": {
+        "mae": 33.2,
+        "pct_11_25": 13.96,
+        "pct_22_5": 43.53,
+        "mse": 2254.6248,
+        "psnr": 14.6,
+        "ssim": 0.656
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_330_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 26.58,
+        "pct_11_25": 55.76,
+        "pct_22_5": 65.85,
+        "mse": 2081.279,
+        "psnr": 14.95,
+        "ssim": 0.565
+      },
+      "normal_dip": {
+        "mae": 32.62,
+        "pct_11_25": 37.16,
+        "pct_22_5": 55.38,
+        "mse": 2679.7112,
+        "psnr": 13.85,
+        "ssim": 0.367
+      },
+      "normal_dl": {
+        "mae": 26.44,
+        "pct_11_25": 55.68,
+        "pct_22_5": 65.67,
+        "mse": 2070.4868,
+        "psnr": 14.97,
+        "ssim": 0.5622
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_010_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 64.49,
+        "pct_11_25": 1.86,
+        "pct_22_5": 7.02,
+        "mse": 6320.6364,
+        "psnr": 10.12,
+        "ssim": 0.6847
+      },
+      "normal_dip": {
+        "mae": 65.45,
+        "pct_11_25": 1.5,
+        "pct_22_5": 5.84,
+        "mse": 6472.3886,
+        "psnr": 10.02,
+        "ssim": 0.4004
+      },
+      "normal_dl": {
+        "mae": 64.89,
+        "pct_11_25": 2.77,
+        "pct_22_5": 7.0,
+        "mse": 6345.7872,
+        "psnr": 10.11,
+        "ssim": 0.6816
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_140_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 58.26,
+        "pct_11_25": 0.8,
+        "pct_22_5": 3.85,
+        "mse": 5382.2956,
+        "psnr": 10.82,
+        "ssim": 0.6257
+      },
+      "normal_dip": {
+        "mae": 59.49,
+        "pct_11_25": 1.43,
+        "pct_22_5": 4.84,
+        "mse": 5627.6003,
+        "psnr": 10.63,
+        "ssim": 0.4171
+      },
+      "normal_dl": {
+        "mae": 58.82,
+        "pct_11_25": 0.88,
+        "pct_22_5": 3.81,
+        "mse": 5449.3401,
+        "psnr": 10.77,
+        "ssim": 0.6202
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_130_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 52.53,
+        "pct_11_25": 0.64,
+        "pct_22_5": 1.91,
+        "mse": 4264.213,
+        "psnr": 11.83,
+        "ssim": 0.6323
+      },
+      "normal_dip": {
+        "mae": 52.74,
+        "pct_11_25": 0.73,
+        "pct_22_5": 2.2,
+        "mse": 4291.9062,
+        "psnr": 11.8,
+        "ssim": 0.5762
+      },
+      "normal_dl": {
+        "mae": 52.66,
+        "pct_11_25": 0.68,
+        "pct_22_5": 2.0,
+        "mse": 4263.4762,
+        "psnr": 11.83,
+        "ssim": 0.6221
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_290_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 48.87,
+        "pct_11_25": 0.21,
+        "pct_22_5": 1.0,
+        "mse": 3936.9116,
+        "psnr": 12.18,
+        "ssim": 0.6895
+      },
+      "normal_dip": {
+        "mae": 50.07,
+        "pct_11_25": 1.5,
+        "pct_22_5": 4.55,
+        "mse": 4197.2823,
+        "psnr": 11.9,
+        "ssim": 0.4335
+      },
+      "normal_dl": {
+        "mae": 49.15,
+        "pct_11_25": 0.3,
+        "pct_22_5": 1.4,
+        "mse": 3944.9382,
+        "psnr": 12.17,
+        "ssim": 0.6802
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_260_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 31.34,
+        "pct_11_25": 9.01,
+        "pct_22_5": 46.14,
+        "mse": 1998.1045,
+        "psnr": 15.12,
+        "ssim": 0.6621
+      },
+      "normal_dip": {
+        "mae": 33.13,
+        "pct_11_25": 7.99,
+        "pct_22_5": 42.22,
+        "mse": 2218.9849,
+        "psnr": 14.67,
+        "ssim": 0.5265
+      },
+      "normal_dl": {
+        "mae": 32.38,
+        "pct_11_25": 6.93,
+        "pct_22_5": 44.48,
+        "mse": 2096.5219,
+        "psnr": 14.92,
+        "ssim": 0.6541
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_230_050",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 39.52,
+        "pct_11_25": 17.17,
+        "pct_22_5": 25.16,
+        "mse": 3162.9156,
+        "psnr": 13.13,
+        "ssim": 0.5358
+      },
+      "normal_dip": {
+        "mae": 40.86,
+        "pct_11_25": 12.64,
+        "pct_22_5": 24.99,
+        "mse": 3337.5197,
+        "psnr": 12.9,
+        "ssim": 0.3909
+      },
+      "normal_dl": {
+        "mae": 39.07,
+        "pct_11_25": 19.1,
+        "pct_22_5": 25.28,
+        "mse": 3105.7335,
+        "psnr": 13.21,
+        "ssim": 0.5321
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_160_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 65.74,
+        "pct_11_25": 2.39,
+        "pct_22_5": 10.53,
+        "mse": 6600.9723,
+        "psnr": 9.93,
+        "ssim": 0.6864
+      },
+      "normal_dip": {
+        "mae": 67.8,
+        "pct_11_25": 3.16,
+        "pct_22_5": 9.79,
+        "mse": 6931.4651,
+        "psnr": 9.72,
+        "ssim": 0.5517
+      },
+      "normal_dl": {
+        "mae": 65.76,
+        "pct_11_25": 2.95,
+        "pct_22_5": 10.44,
+        "mse": 6555.3625,
+        "psnr": 9.96,
+        "ssim": 0.6821
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00186_indoors_100_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 39.8,
+        "pct_11_25": 1.45,
+        "pct_22_5": 56.5,
+        "mse": 3332.2161,
+        "psnr": 12.9,
+        "ssim": 0.6941
+      },
+      "normal_dip": {
+        "mae": 41.1,
+        "pct_11_25": 6.01,
+        "pct_22_5": 53.16,
+        "mse": 3539.0456,
+        "psnr": 12.64,
+        "ssim": 0.5318
+      },
+      "normal_dl": {
+        "mae": 39.94,
+        "pct_11_25": 1.84,
+        "pct_22_5": 56.24,
+        "mse": 3374.6957,
+        "psnr": 12.85,
+        "ssim": 0.6875
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_000_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 47.54,
+        "pct_11_25": 18.03,
+        "pct_22_5": 19.7,
+        "mse": 4093.2411,
+        "psnr": 12.01,
+        "ssim": 0.697
+      },
+      "normal_dip": {
+        "mae": 50.32,
+        "pct_11_25": 12.36,
+        "pct_22_5": 18.78,
+        "mse": 4423.6732,
+        "psnr": 11.67,
+        "ssim": 0.4351
+      },
+      "normal_dl": {
+        "mae": 47.87,
+        "pct_11_25": 17.9,
+        "pct_22_5": 19.65,
+        "mse": 4098.2486,
+        "psnr": 12.0,
+        "ssim": 0.6946
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_160_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 34.24,
+        "pct_11_25": 3.07,
+        "pct_22_5": 64.62,
+        "mse": 2433.69,
+        "psnr": 14.27,
+        "ssim": 0.6574
+      },
+      "normal_dip": {
+        "mae": 36.71,
+        "pct_11_25": 3.78,
+        "pct_22_5": 49.45,
+        "mse": 2759.3462,
+        "psnr": 13.72,
+        "ssim": 0.5047
+      },
+      "normal_dl": {
+        "mae": 34.64,
+        "pct_11_25": 2.89,
+        "pct_22_5": 61.89,
+        "mse": 2457.631,
+        "psnr": 14.23,
+        "ssim": 0.6476
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_010_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 50.95,
+        "pct_11_25": 0.55,
+        "pct_22_5": 1.38,
+        "mse": 4011.6149,
+        "psnr": 12.1,
+        "ssim": 0.6868
+      },
+      "normal_dip": {
+        "mae": 52.28,
+        "pct_11_25": 0.49,
+        "pct_22_5": 1.68,
+        "mse": 4237.2116,
+        "psnr": 11.86,
+        "ssim": 0.5329
+      },
+      "normal_dl": {
+        "mae": 50.97,
+        "pct_11_25": 0.51,
+        "pct_22_5": 1.47,
+        "mse": 4007.6731,
+        "psnr": 12.1,
+        "ssim": 0.6775
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_310_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 43.84,
+        "pct_11_25": 1.66,
+        "pct_22_5": 24.19,
+        "mse": 3450.6108,
+        "psnr": 12.75,
+        "ssim": 0.6371
+      },
+      "normal_dip": {
+        "mae": 44.39,
+        "pct_11_25": 2.38,
+        "pct_22_5": 24.47,
+        "mse": 3530.8641,
+        "psnr": 12.65,
+        "ssim": 0.5623
+      },
+      "normal_dl": {
+        "mae": 44.75,
+        "pct_11_25": 1.24,
+        "pct_22_5": 23.96,
+        "mse": 3538.7683,
+        "psnr": 12.64,
+        "ssim": 0.6323
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_070_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 24.22,
+        "pct_11_25": 1.05,
+        "pct_22_5": 58.69,
+        "mse": 1059.0601,
+        "psnr": 17.88,
+        "ssim": 0.8999
+      },
+      "normal_dip": {
+        "mae": 25.97,
+        "pct_11_25": 1.19,
+        "pct_22_5": 38.98,
+        "mse": 1237.1756,
+        "psnr": 17.21,
+        "ssim": 0.6895
+      },
+      "normal_dl": {
+        "mae": 24.14,
+        "pct_11_25": 0.91,
+        "pct_22_5": 58.73,
+        "mse": 1039.3403,
+        "psnr": 17.96,
+        "ssim": 0.8954
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_170_040",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 40.7,
+        "pct_11_25": 0.75,
+        "pct_22_5": 7.17,
+        "mse": 2811.1164,
+        "psnr": 13.64,
+        "ssim": 0.7467
+      },
+      "normal_dip": {
+        "mae": 41.33,
+        "pct_11_25": 1.0,
+        "pct_22_5": 6.92,
+        "mse": 2899.7691,
+        "psnr": 13.51,
+        "ssim": 0.6221
+      },
+      "normal_dl": {
+        "mae": 40.58,
+        "pct_11_25": 0.78,
+        "pct_22_5": 7.54,
+        "mse": 2773.9624,
+        "psnr": 13.7,
+        "ssim": 0.7463
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_130_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 28.06,
+        "pct_11_25": 3.47,
+        "pct_22_5": 51.84,
+        "mse": 1680.4328,
+        "psnr": 15.88,
+        "ssim": 0.7863
+      },
+      "normal_dip": {
+        "mae": 30.54,
+        "pct_11_25": 9.23,
+        "pct_22_5": 43.15,
+        "mse": 1937.7797,
+        "psnr": 15.26,
+        "ssim": 0.5543
+      },
+      "normal_dl": {
+        "mae": 27.67,
+        "pct_11_25": 2.74,
+        "pct_22_5": 51.92,
+        "mse": 1603.6083,
+        "psnr": 16.08,
+        "ssim": 0.785
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00019_00183_indoors_220_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 39.42,
+        "pct_11_25": 2.02,
+        "pct_22_5": 20.67,
+        "mse": 2753.2557,
+        "psnr": 13.73,
+        "ssim": 0.6451
+      },
+      "normal_dip": {
+        "mae": 39.68,
+        "pct_11_25": 2.44,
+        "pct_22_5": 20.86,
+        "mse": 2785.7806,
+        "psnr": 13.68,
+        "ssim": 0.6002
+      },
+      "normal_dl": {
+        "mae": 39.87,
+        "pct_11_25": 1.48,
+        "pct_22_5": 20.54,
+        "mse": 2793.3102,
+        "psnr": 13.67,
+        "ssim": 0.6389
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00184_indoors_050_020",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 39.36,
+        "pct_11_25": 3.36,
+        "pct_22_5": 21.09,
+        "mse": 2690.124,
+        "psnr": 13.83,
+        "ssim": 0.7673
+      },
+      "normal_dip": {
+        "mae": 45.6,
+        "pct_11_25": 1.88,
+        "pct_22_5": 8.9,
+        "mse": 3466.9913,
+        "psnr": 12.73,
+        "ssim": 0.6688
+      },
+      "normal_dl": {
+        "mae": 39.7,
+        "pct_11_25": 2.34,
+        "pct_22_5": 18.38,
+        "mse": 2689.0547,
+        "psnr": 13.83,
+        "ssim": 0.7625
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_280_010",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 47.03,
+        "pct_11_25": 0.48,
+        "pct_22_5": 1.47,
+        "mse": 3517.153,
+        "psnr": 12.67,
+        "ssim": 0.7695
+      },
+      "normal_dip": {
+        "mae": 46.55,
+        "pct_11_25": 1.58,
+        "pct_22_5": 4.09,
+        "mse": 3527.7544,
+        "psnr": 12.66,
+        "ssim": 0.5055
+      },
+      "normal_dl": {
+        "mae": 46.32,
+        "pct_11_25": 0.52,
+        "pct_22_5": 1.55,
+        "mse": 3398.6127,
+        "psnr": 12.82,
+        "ssim": 0.7665
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "diode_00020_00185_indoors_000_000",
+      "source": "diode",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 49.0,
+        "pct_11_25": 0.66,
+        "pct_22_5": 2.3,
+        "mse": 3831.2856,
+        "psnr": 12.3,
+        "ssim": 0.6474
+      },
+      "normal_dip": {
+        "mae": 50.01,
+        "pct_11_25": 0.94,
+        "pct_22_5": 3.08,
+        "mse": 4019.3853,
+        "psnr": 12.09,
+        "ssim": 0.4979
+      },
+      "normal_dl": {
+        "mae": 48.78,
+        "pct_11_25": 0.76,
+        "pct_22_5": 2.6,
+        "mse": 3802.3199,
+        "psnr": 12.33,
+        "ssim": 0.6405
+      },
+      "roughness": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      },
+      "height": {
+        "mse": null,
+        "psnr": null,
+        "ssim": null
+      }
+    },
+    {
+      "asset_id": "aerial_asphalt_01",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 5.99,
+        "pct_11_25": 97.11,
+        "pct_22_5": 99.99,
+        "mse": 71.0085,
+        "psnr": 29.62,
+        "ssim": 0.7489
+      },
+      "normal_dip": {
+        "mae": 32.19,
+        "pct_11_25": 7.54,
+        "pct_22_5": 27.84,
+        "mse": 1938.3842,
+        "psnr": 15.26,
+        "ssim": 0.1025
+      },
+      "normal_dl": {
+        "mae": 7.11,
+        "pct_11_25": 93.92,
+        "pct_22_5": 99.99,
+        "mse": 94.9877,
+        "psnr": 28.35,
+        "ssim": 0.7479
+      },
+      "roughness": {
+        "mse": 1292.9149,
+        "psnr": 17.02,
+        "ssim": 0.1774
+      },
+      "height": {
+        "mse": 3403.9158,
+        "psnr": 12.81,
+        "ssim": 0.1734
+      }
+    },
+    {
+      "asset_id": "aerial_beach_01",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 13.7,
+        "pct_11_25": 40.94,
+        "pct_22_5": 87.25,
+        "mse": 387.0407,
+        "psnr": 22.25,
+        "ssim": 0.444
+      },
+      "normal_dip": {
+        "mae": 35.65,
+        "pct_11_25": 5.9,
+        "pct_22_5": 22.36,
+        "mse": 2288.0213,
+        "psnr": 14.54,
+        "ssim": 0.1475
+      },
+      "normal_dl": {
+        "mae": 13.79,
+        "pct_11_25": 39.98,
+        "pct_22_5": 87.4,
+        "mse": 384.1788,
+        "psnr": 22.29,
+        "ssim": 0.4437
+      },
+      "roughness": {
+        "mse": 329.0827,
+        "psnr": 22.96,
+        "ssim": 0.3297
+      },
+      "height": {
+        "mse": 7355.9659,
+        "psnr": 9.46,
+        "ssim": -0.2504
+      }
+    },
+    {
+      "asset_id": "aerial_beach_02",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 4.47,
+        "pct_11_25": 96.09,
+        "pct_22_5": 99.79,
+        "mse": 65.5336,
+        "psnr": 29.97,
+        "ssim": 0.6828
+      },
+      "normal_dip": {
+        "mae": 24.94,
+        "pct_11_25": 17.48,
+        "pct_22_5": 49.68,
+        "mse": 1275.089,
+        "psnr": 17.08,
+        "ssim": 0.1807
+      },
+      "normal_dl": {
+        "mae": 4.69,
+        "pct_11_25": 95.9,
+        "pct_22_5": 99.8,
+        "mse": 66.3457,
+        "psnr": 29.91,
+        "ssim": 0.6818
+      },
+      "roughness": {
+        "mse": 792.3278,
+        "psnr": 19.14,
+        "ssim": 0.5432
+      },
+      "height": {
+        "mse": 6190.6922,
+        "psnr": 10.21,
+        "ssim": 0.3409
+      }
+    },
+    {
+      "asset_id": "aerial_beach_03",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 11.09,
+        "pct_11_25": 65.39,
+        "pct_22_5": 85.06,
+        "mse": 389.9783,
+        "psnr": 22.22,
+        "ssim": 0.4829
+      },
+      "normal_dip": {
+        "mae": 30.45,
+        "pct_11_25": 15.2,
+        "pct_22_5": 41.24,
+        "mse": 1937.9976,
+        "psnr": 15.26,
+        "ssim": 0.1437
+      },
+      "normal_dl": {
+        "mae": 11.2,
+        "pct_11_25": 65.22,
+        "pct_22_5": 84.89,
+        "mse": 388.7432,
+        "psnr": 22.23,
+        "ssim": 0.4827
+      },
+      "roughness": {
+        "mse": 608.6449,
+        "psnr": 20.29,
+        "ssim": 0.2875
+      },
+      "height": {
+        "mse": 6091.6365,
+        "psnr": 10.28,
+        "ssim": 0.287
+      }
+    },
+    {
+      "asset_id": "aerial_grass_rock",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 10.12,
+        "pct_11_25": 64.22,
+        "pct_22_5": 95.86,
+        "mse": 238.392,
+        "psnr": 24.36,
+        "ssim": 0.4455
+      },
+      "normal_dip": {
+        "mae": 33.11,
+        "pct_11_25": 8.19,
+        "pct_22_5": 29.15,
+        "mse": 2022.1452,
+        "psnr": 15.07,
+        "ssim": 0.1227
+      },
+      "normal_dl": {
+        "mae": 10.19,
+        "pct_11_25": 63.76,
+        "pct_22_5": 95.79,
+        "mse": 235.3922,
+        "psnr": 24.41,
+        "ssim": 0.4454
+      },
+      "roughness": {
+        "mse": 2025.3592,
+        "psnr": 15.07,
+        "ssim": 0.2493
+      },
+      "height": {
+        "mse": 5082.0176,
+        "psnr": 11.07,
+        "ssim": 0.187
+      }
+    },
+    {
+      "asset_id": "aerial_ground_rock",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 7.76,
+        "pct_11_25": 83.29,
+        "pct_22_5": 98.37,
+        "mse": 137.979,
+        "psnr": 26.73,
+        "ssim": 0.6641
+      },
+      "normal_dip": {
+        "mae": 28.97,
+        "pct_11_25": 13.05,
+        "pct_22_5": 40.22,
+        "mse": 1691.0453,
+        "psnr": 15.85,
+        "ssim": 0.1506
+      },
+      "normal_dl": {
+        "mae": 7.07,
+        "pct_11_25": 86.28,
+        "pct_22_5": 98.53,
+        "mse": 118.8378,
+        "psnr": 27.38,
+        "ssim": 0.6634
+      },
+      "roughness": {
+        "mse": 2743.4051,
+        "psnr": 13.75,
+        "ssim": 0.2472
+      },
+      "height": {
+        "mse": 4618.0219,
+        "psnr": 11.49,
+        "ssim": 0.2968
+      }
+    },
+    {
+      "asset_id": "aerial_mud_1",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 12.99,
+        "pct_11_25": 53.63,
+        "pct_22_5": 85.8,
+        "mse": 397.3423,
+        "psnr": 22.14,
+        "ssim": 0.4718
+      },
+      "normal_dip": {
+        "mae": 33.43,
+        "pct_11_25": 9.74,
+        "pct_22_5": 32.1,
+        "mse": 2235.588,
+        "psnr": 14.64,
+        "ssim": 0.128
+      },
+      "normal_dl": {
+        "mae": 13.67,
+        "pct_11_25": 49.52,
+        "pct_22_5": 84.92,
+        "mse": 424.2405,
+        "psnr": 21.85,
+        "ssim": 0.4713
+      },
+      "roughness": {
+        "mse": 6297.1562,
+        "psnr": 10.14,
+        "ssim": 0.3503
+      },
+      "height": {
+        "mse": 2753.638,
+        "psnr": 13.73,
+        "ssim": 0.2748
+      }
+    },
+    {
+      "asset_id": "aerial_rocks_01",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 26.17,
+        "pct_11_25": 13.79,
+        "pct_22_5": 44.53,
+        "mse": 1368.202,
+        "psnr": 16.77,
+        "ssim": 0.163
+      },
+      "normal_dip": {
+        "mae": 41.59,
+        "pct_11_25": 5.58,
+        "pct_22_5": 20.47,
+        "mse": 3148.5,
+        "psnr": 13.15,
+        "ssim": 0.0742
+      },
+      "normal_dl": {
+        "mae": 26.33,
+        "pct_11_25": 13.44,
+        "pct_22_5": 43.91,
+        "mse": 1367.5055,
+        "psnr": 16.77,
+        "ssim": 0.163
+      },
+      "roughness": {
+        "mse": 1669.3626,
+        "psnr": 15.91,
+        "ssim": 0.1886
+      },
+      "height": {
+        "mse": 4611.1847,
+        "psnr": 11.49,
+        "ssim": 0.3421
+      }
+    },
+    {
+      "asset_id": "aerial_rocks_02",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 20.98,
+        "pct_11_25": 29.16,
+        "pct_22_5": 61.4,
+        "mse": 997.4518,
+        "psnr": 18.14,
+        "ssim": 0.3159
+      },
+      "normal_dip": {
+        "mae": 34.4,
+        "pct_11_25": 9.72,
+        "pct_22_5": 31.68,
+        "mse": 2328.3194,
+        "psnr": 14.46,
+        "ssim": 0.1314
+      },
+      "normal_dl": {
+        "mae": 20.99,
+        "pct_11_25": 29.1,
+        "pct_22_5": 61.3,
+        "mse": 988.128,
+        "psnr": 18.18,
+        "ssim": 0.3157
+      },
+      "roughness": {
+        "mse": 2650.8305,
+        "psnr": 13.9,
+        "ssim": 0.2589
+      },
+      "height": {
+        "mse": 2427.4039,
+        "psnr": 14.28,
+        "ssim": 0.4432
+      }
+    },
+    {
+      "asset_id": "aerial_rocks_04",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 23.27,
+        "pct_11_25": 18.59,
+        "pct_22_5": 54.35,
+        "mse": 1131.2317,
+        "psnr": 17.6,
+        "ssim": 0.2296
+      },
+      "normal_dip": {
+        "mae": 37.08,
+        "pct_11_25": 8.36,
+        "pct_22_5": 28.28,
+        "mse": 2679.3763,
+        "psnr": 13.85,
+        "ssim": 0.1168
+      },
+      "normal_dl": {
+        "mae": 23.22,
+        "pct_11_25": 18.43,
+        "pct_22_5": 54.23,
+        "mse": 1111.6532,
+        "psnr": 17.67,
+        "ssim": 0.2297
+      },
+      "roughness": {
+        "mse": 2328.5256,
+        "psnr": 14.46,
+        "ssim": 0.1677
+      },
+      "height": {
+        "mse": 7843.8417,
+        "psnr": 9.19,
+        "ssim": 0.205
+      }
+    },
+    {
+      "asset_id": "aerial_sand",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 11.46,
+        "pct_11_25": 54.59,
+        "pct_22_5": 92.18,
+        "mse": 291.3214,
+        "psnr": 23.49,
+        "ssim": 0.5004
+      },
+      "normal_dip": {
+        "mae": 39.31,
+        "pct_11_25": 6.57,
+        "pct_22_5": 21.59,
+        "mse": 2835.9109,
+        "psnr": 13.6,
+        "ssim": 0.0827
+      },
+      "normal_dl": {
+        "mae": 11.47,
+        "pct_11_25": 54.53,
+        "pct_22_5": 92.11,
+        "mse": 288.9408,
+        "psnr": 23.52,
+        "ssim": 0.5003
+      },
+      "roughness": {
+        "mse": 4670.0795,
+        "psnr": 11.44,
+        "ssim": 0.4415
+      },
+      "height": {
+        "mse": 4023.086,
+        "psnr": 12.09,
+        "ssim": 0.1888
+      }
+    },
+    {
+      "asset_id": "aerial_wood_snips",
+      "source": "polyhaven",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 12.73,
+        "pct_11_25": 52.15,
+        "pct_22_5": 87.83,
+        "mse": 380.1594,
+        "psnr": 22.33,
+        "ssim": 0.3413
+      },
+      "normal_dip": {
+        "mae": 33.01,
+        "pct_11_25": 10.27,
+        "pct_22_5": 32.74,
+        "mse": 2104.7663,
+        "psnr": 14.9,
+        "ssim": 0.1297
+      },
+      "normal_dl": {
+        "mae": 13.3,
+        "pct_11_25": 48.39,
+        "pct_22_5": 86.98,
+        "mse": 398.6105,
+        "psnr": 22.13,
+        "ssim": 0.3411
+      },
+      "roughness": {
+        "mse": 874.7738,
+        "psnr": 18.71,
+        "ssim": 0.0266
+      },
+      "height": {
+        "mse": 5515.5998,
+        "psnr": 10.71,
+        "ssim": 0.4518
+      }
+    },
+    {
+      "asset_id": "american_walnut_veneer",
+      "source": "polyhaven",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 1.6,
+        "pct_11_25": 100.0,
+        "pct_22_5": 100.0,
+        "mse": 5.3723,
+        "psnr": 40.83,
+        "ssim": 0.9538
+      },
+      "normal_dip": {
+        "mae": 33.96,
+        "pct_11_25": 8.0,
+        "pct_22_5": 27.41,
+        "mse": 2189.4849,
+        "psnr": 14.73,
+        "ssim": 0.0963
+      },
+      "normal_dl": {
+        "mae": 1.49,
+        "pct_11_25": 99.99,
+        "pct_22_5": 100.0,
+        "mse": 5.3639,
+        "psnr": 40.84,
+        "ssim": 0.9521
+      },
+      "roughness": {
+        "mse": 821.1118,
+        "psnr": 18.99,
+        "ssim": 0.2385
+      },
+      "height": {
+        "mse": 3490.0568,
+        "psnr": 12.7,
+        "ssim": 0.4193
+      }
+    },
+    {
+      "asset_id": "angli_veneer",
+      "source": "polyhaven",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 1.35,
+        "pct_11_25": 100.0,
+        "pct_22_5": 100.0,
+        "mse": 3.6663,
+        "psnr": 42.49,
+        "ssim": 0.9736
+      },
+      "normal_dip": {
+        "mae": 38.57,
+        "pct_11_25": 5.89,
+        "pct_22_5": 20.73,
+        "mse": 2730.0165,
+        "psnr": 13.77,
+        "ssim": 0.0794
+      },
+      "normal_dl": {
+        "mae": 1.97,
+        "pct_11_25": 98.12,
+        "pct_22_5": 99.44,
+        "mse": 21.9735,
+        "psnr": 34.71,
+        "ssim": 0.9612
+      },
+      "roughness": {
+        "mse": 890.396,
+        "psnr": 18.63,
+        "ssim": 0.1549
+      },
+      "height": {
+        "mse": 2419.9923,
+        "psnr": 14.29,
+        "ssim": 0.1808
+      }
+    },
+    {
+      "asset_id": "anti_skid_tiles",
+      "source": "polyhaven",
+      "scene_type": "indoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 1.93,
+        "pct_11_25": 99.31,
+        "pct_22_5": 100.0,
+        "mse": 17.2673,
+        "psnr": 35.76,
+        "ssim": 0.834
+      },
+      "normal_dip": {
+        "mae": 28.27,
+        "pct_11_25": 10.85,
+        "pct_22_5": 37.98,
+        "mse": 1571.5029,
+        "psnr": 16.17,
+        "ssim": 0.1388
+      },
+      "normal_dl": {
+        "mae": 2.45,
+        "pct_11_25": 98.3,
+        "pct_22_5": 99.87,
+        "mse": 24.3593,
+        "psnr": 34.26,
+        "ssim": 0.8299
+      },
+      "roughness": {
+        "mse": 842.4056,
+        "psnr": 18.88,
+        "ssim": 0.415
+      },
+      "height": {
+        "mse": 11255.9601,
+        "psnr": 7.62,
+        "ssim": 0.4009
+      }
+    },
+    {
+      "asset_id": "anti_slip_concrete",
+      "source": "polyhaven",
+      "scene_type": "outdoor",
+      "has_gt": true,
+      "normal_flat": {
+        "mae": 9.13,
+        "pct_11_25": 79.66,
+        "pct_22_5": 90.74,
+        "mse": 308.6557,
+        "psnr": 23.24,
+        "ssim": 0.4773
+      },
+      "normal_dip": {
+        "mae": 42.25,
+        "pct_11_25": 3.92,
+        "pct_22_5": 15.05,
+        "mse": 3146.459,
+        "psnr": 13.15,
+        "ssim": 0.0743
+      },
+      "normal_dl": {
+        "mae": 9.22,
+        "pct_11_25": 79.43,
+        "pct_22_5": 90.77,
+        "mse": 307.4397,
+        "psnr": 23.25,
+        "ssim": 0.4771
+      },
+      "roughness": {
+        "mse": 5751.914,
+        "psnr": 10.53,
+        "ssim": 0.2897
+      },
+      "height": {
+        "mse": 3344.4657,
+        "psnr": 12.89,
+        "ssim": 0.4185
+      }
+    }
+  ]
+}

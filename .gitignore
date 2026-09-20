@@ -49,5 +49,6 @@ data/rgb/diode_*
 data/ground_truth/normals/diode_*
 data/ground_truth/roughness/diode_*
 data/ground_truth/height/diode_*
+data/benchmark_checkpoint.jsonl
 scratch/
 

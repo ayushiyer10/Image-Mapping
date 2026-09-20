@@ -29,16 +29,13 @@ from build_manifest import build_manifest
 from engine import process_surface_maps, diode_npy_to_rgb, evaluate_normal_angular_metrics, evaluate_map_metrics
 
 
-def run_benchmark(max_per_source: int = 150, progress_every: int = 10, seed: int = 42):
+def run_benchmark(max_per_source: int = 500, progress_every: int = 20, seed: int = 42):
     start_time = time.time()
     random.seed(seed)
     np.random.seed(seed)
 
-    if not MANIFEST_PATH.exists():
-        manifest = build_manifest(max_diode_samples=max_per_source)
-    else:
-        with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
-            manifest = json.load(f)
+    # Always ensure manifest is updated for max_per_source
+    manifest = build_manifest(max_diode_samples=max_per_source)
 
     # Group samples by source
     sources_map = {}
@@ -54,105 +51,170 @@ def run_benchmark(max_per_source: int = 150, progress_every: int = 10, seed: int
         else:
             sampled_manifest.extend(items)
 
+    CHECKPOINT_PATH = DATA_DIR / "benchmark_checkpoint.jsonl"
+    DONE_PATH = DATA_DIR / "BENCHMARK_DONE.txt"
+
+    # Remove stale BENCHMARK_DONE.txt if starting a new or resumed benchmark run
+    if DONE_PATH.exists():
+        try:
+            DONE_PATH.unlink()
+        except Exception:
+            pass
+
+    # Load existing checkpoint if present
+    completed_asset_ids = set()
+    results = []
+    if CHECKPOINT_PATH.exists():
+        with open(CHECKPOINT_PATH, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    item = json.loads(line)
+                    completed_asset_ids.add(item["asset_id"])
+                    results.append(item)
+                except Exception:
+                    pass
+        print(f"[Checkpoint] Resuming run: loaded {len(results)} previously evaluated samples from '{CHECKPOINT_PATH.name}'.", flush=True)
+
     print(f"\n{'='*105}")
     print(f"   SURFACE MAP BENCHMARK SUITE — FLAT BASELINE vs CLASSICAL DIP vs DEEP LEARNING (MiDaS)")
     print(f"   Total manifest items: {len(manifest)} | Sampled items: {len(sampled_manifest)} (max {max_per_source}/source)")
-    print(f"{'='*105}\n")
+    for src in sorted(sources_map.keys()):
+        count_in_sampled = len([s for s in sampled_manifest if s["source"] == src])
+        total_avail = len(sources_map[src])
+        note = ""
+        if count_in_sampled < max_per_source:
+            note = f" (capped at {count_in_sampled} due to available local files)"
+        print(f"     - {src.capitalize():<12}: {count_in_sampled}/{max_per_source} target samples{note}")
+    print(f"   Already completed: {len(completed_asset_ids)}/{len(sampled_manifest)}")
+    print(f"{'='*105}\n", flush=True)
 
-    results = []
     source_counts = {}
+    total_by_source = {}
+    for s in sampled_manifest:
+        total_by_source[s["source"]] = total_by_source.get(s["source"], 0) + 1
 
-    for idx, sample in enumerate(sampled_manifest, 1):
-        asset_id = sample["asset_id"]
-        src = sample["source"]
-        source_counts[src] = source_counts.get(src, 0) + 1
-        src_idx = source_counts[src]
-        total_src = len([s for s in sampled_manifest if s["source"] == src])
+    session_start_time = time.time()
+    session_processed_count = 0
 
-        rgb_abs = BASE_DIR / sample["rgb_path"]
-        if not rgb_abs.exists():
-            continue
+    # Open checkpoint file in append mode
+    with open(CHECKPOINT_PATH, "a", encoding="utf-8") as chk_file:
+        for idx, sample in enumerate(sampled_manifest, 1):
+            asset_id = sample["asset_id"]
+            src = sample["source"]
+            source_counts[src] = source_counts.get(src, 0) + 1
+            src_idx = source_counts[src]
+            total_src = total_by_source[src]
 
-        rgb_img_bgr = cv2.imread(str(rgb_abs))
-        if rgb_img_bgr is None:
-            continue
-        rgb_img = cv2.cvtColor(rgb_img_bgr, cv2.COLOR_BGR2RGB)
+            if asset_id in completed_asset_ids:
+                # Already processed in previous run
+                continue
 
-        gt_normal = None
-        gt_mask = None
-        gt_roughness = None
-        gt_height = None
+            rgb_abs = BASE_DIR / sample["rgb_path"]
+            if not rgb_abs.exists():
+                continue
 
-        if sample.get("gt_normal_path"):
-            gt_nor_abs = BASE_DIR / sample["gt_normal_path"]
-            if gt_nor_abs.suffix == ".npy":
-                gt_normal = np.load(gt_nor_abs)
-                if sample.get("gt_mask_path"):
-                    gt_mask_abs = BASE_DIR / sample["gt_mask_path"]
-                    if gt_mask_abs.exists():
-                        gt_mask = np.load(gt_mask_abs)
-            elif gt_nor_abs.exists():
-                nor_bgr = cv2.imread(str(gt_nor_abs))
-                if nor_bgr is not None:
-                    gt_normal = cv2.cvtColor(nor_bgr, cv2.COLOR_BGR2RGB)
+            rgb_img_bgr = cv2.imread(str(rgb_abs))
+            if rgb_img_bgr is None:
+                continue
+            rgb_img = cv2.cvtColor(rgb_img_bgr, cv2.COLOR_BGR2RGB)
 
-        if sample.get("gt_roughness_path"):
-            r_abs = BASE_DIR / sample["gt_roughness_path"]
-            if r_abs.exists():
-                gt_roughness = cv2.imread(str(r_abs), cv2.IMREAD_GRAYSCALE)
+            gt_normal = None
+            gt_mask = None
+            gt_roughness = None
+            gt_height = None
 
-        if sample.get("gt_height_path"):
-            h_abs = BASE_DIR / sample["gt_height_path"]
-            if h_abs.exists():
-                gt_height = cv2.imread(str(h_abs), cv2.IMREAD_GRAYSCALE)
+            if sample.get("gt_normal_path"):
+                gt_nor_abs = BASE_DIR / sample["gt_normal_path"]
+                if gt_nor_abs.suffix == ".npy":
+                    gt_normal = np.load(gt_nor_abs)
+                    if sample.get("gt_mask_path"):
+                        gt_mask_abs = BASE_DIR / sample["gt_mask_path"]
+                        if gt_mask_abs.exists():
+                            gt_mask = np.load(gt_mask_abs)
+                elif gt_nor_abs.exists():
+                    nor_bgr = cv2.imread(str(gt_nor_abs))
+                    if nor_bgr is not None:
+                        gt_normal = cv2.cvtColor(nor_bgr, cv2.COLOR_BGR2RGB)
 
-        # 1. Evaluate Trivial Flat Baseline (Nx=0, Ny=0, Nz=1 -> RGB [128, 128, 255])
-        flat_m = {"mae": None, "pct_11_25": None, "pct_22_5": None, "mse": None, "psnr": None, "ssim": None}
-        if gt_normal is not None:
-            h, w = rgb_img.shape[:2]
-            flat_normal_rgb = np.full((h, w, 3), [128, 128, 255], dtype=np.uint8)
-            gt_norm_rgb = gt_normal if gt_normal.dtype == np.uint8 else diode_npy_to_rgb(gt_normal, gt_mask)
+            if sample.get("gt_roughness_path"):
+                r_abs = BASE_DIR / sample["gt_roughness_path"]
+                if r_abs.exists():
+                    gt_roughness = cv2.imread(str(r_abs), cv2.IMREAD_GRAYSCALE)
 
-            ang_flat = evaluate_normal_angular_metrics(flat_normal_rgb, gt_normal, mask=gt_mask)
-            map_flat = evaluate_map_metrics(flat_normal_rgb, gt_norm_rgb, mask=gt_mask)
-            flat_m.update(ang_flat)
-            flat_m.update(map_flat)
+            if sample.get("gt_height_path"):
+                h_abs = BASE_DIR / sample["gt_height_path"]
+                if h_abs.exists():
+                    gt_height = cv2.imread(str(h_abs), cv2.IMREAD_GRAYSCALE)
 
-        # 2. Run Surface Map Generation (both Classical DIP and Deep Learning MiDaS)
-        res = process_surface_maps(
-            rgb_image=rgb_img,
-            method="both",
-            gt_normal=gt_normal,
-            gt_roughness=gt_roughness,
-            gt_height=gt_height,
-            gt_mask=gt_mask
-        )
+            # 1. Evaluate Trivial Flat Baseline (Nx=0, Ny=0, Nz=1 -> RGB [128, 128, 255])
+            flat_m = {"mae": None, "pct_11_25": None, "pct_22_5": None, "mse": None, "psnr": None, "ssim": None}
+            if gt_normal is not None:
+                h, w = rgb_img.shape[:2]
+                flat_normal_rgb = np.full((h, w, 3), [128, 128, 255], dtype=np.uint8)
+                gt_norm_rgb = gt_normal if gt_normal.dtype == np.uint8 else diode_npy_to_rgb(gt_normal, gt_mask)
 
-        metrics = res["metrics"]
-        dip_m = metrics.get("normal_dip", {})
-        dl_m = metrics.get("normal_dl", {})
-        rough_m = metrics.get("roughness", {})
-        height_m = metrics.get("height", {})
+                ang_flat = evaluate_normal_angular_metrics(flat_normal_rgb, gt_normal, mask=gt_mask)
+                map_flat = evaluate_map_metrics(flat_normal_rgb, gt_norm_rgb, mask=gt_mask)
+                flat_m.update(ang_flat)
+                flat_m.update(map_flat)
 
-        elapsed = time.time() - start_time
+            # 2. Run Surface Map Generation (both Classical DIP and Deep Learning MiDaS)
+            res = process_surface_maps(
+                rgb_image=rgb_img,
+                method="both",
+                gt_normal=gt_normal,
+                gt_roughness=gt_roughness,
+                gt_height=gt_height,
+                gt_mask=gt_mask
+            )
 
-        if src_idx % progress_every == 0 or src_idx == total_src:
-            flat_mae_str = f"{flat_m['mae']:.2f}°" if flat_m.get('mae') is not None else "N/A"
-            dip_mae_str = f"{dip_m['mae']:.2f}°" if dip_m.get('mae') is not None else "N/A"
-            dl_mae_str = f"{dl_m['mae']:.2f}°" if dl_m.get('mae') is not None else "N/A"
-            print(f"[{src} {src_idx}/{total_src}] flat_mae={flat_mae_str} dip_mae={dip_mae_str} dl_mae={dl_mae_str} elapsed={elapsed:.1f}s", flush=True)
+            metrics = res["metrics"]
+            dip_m = metrics.get("normal_dip", {})
+            dl_m = metrics.get("normal_dl", {})
+            rough_m = metrics.get("roughness", {})
+            height_m = metrics.get("height", {})
 
-        results.append({
-            "asset_id": asset_id,
-            "source": src,
-            "scene_type": sample.get("scene_type", "outdoor"),
-            "has_gt": gt_normal is not None,
-            "normal_flat": flat_m,
-            "normal_dip": dip_m,
-            "normal_dl": dl_m,
-            "roughness": rough_m,
-            "height": height_m
-        })
+            result_item = {
+                "asset_id": asset_id,
+                "source": src,
+                "scene_type": sample.get("scene_type", "outdoor"),
+                "has_gt": gt_normal is not None,
+                "normal_flat": flat_m,
+                "normal_dip": dip_m,
+                "normal_dl": dl_m,
+                "roughness": rough_m,
+                "height": height_m
+            }
+
+            # Immediately write to checkpoint file
+            chk_file.write(json.dumps(result_item) + "\n")
+            chk_file.flush()
+
+            completed_asset_ids.add(asset_id)
+            results.append(result_item)
+
+            session_processed_count += 1
+            session_elapsed = time.time() - session_start_time
+            avg_time = session_elapsed / session_processed_count
+            remaining_total = len(sampled_manifest) - len(completed_asset_ids)
+            eta_seconds = remaining_total * avg_time
+
+            if eta_seconds >= 60:
+                eta_str = f"{int(eta_seconds // 60)}m {int(eta_seconds % 60)}s"
+            else:
+                eta_str = f"{eta_seconds:.0f}s"
+
+            if src_idx % progress_every == 0 or src_idx == total_src:
+                flat_mae_str = f"{flat_m['mae']:.2f}°" if flat_m.get('mae') is not None else "N/A"
+                dip_mae_str = f"{dip_m['mae']:.2f}°" if dip_m.get('mae') is not None else "N/A"
+                dl_mae_str = f"{dl_m['mae']:.2f}°" if dl_m.get('mae') is not None else "N/A"
+                print(
+                    f"[{src} {src_idx}/{total_src}] flat_mae={flat_mae_str} dip_mae={dip_mae_str} dl_mae={dl_mae_str} elapsed={session_elapsed:.1f}s eta={eta_str}",
+                    flush=True
+                )
 
     total_wall_time = time.time() - start_time
     skipped_count = len(manifest) - len(results)
@@ -277,11 +339,24 @@ def run_benchmark(max_per_source: int = 150, progress_every: int = 10, seed: int
     with open(REPORT_PATH, "w", encoding="utf-8") as f:
         f.write("\n".join(report_lines))
 
-    print(f"\n{'='*105}")
-    print(f"   BENCHMARK COMPLETE IN {total_wall_time:.2f}s!")
-    print(f"   Saved JSON: {RESULTS_PATH}")
-    print(f"   Saved Report: {REPORT_PATH}")
-    print(f"{'='*105}\n")
+    # Write BENCHMARK_DONE.txt
+    from datetime import datetime
+    completion_time_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(DONE_PATH, "w", encoding="utf-8") as f:
+        f.write(f"BENCHMARK COMPLETE\n")
+        f.write(f"Timestamp: {completion_time_str}\n")
+        f.write(f"Total Samples Evaluated: {len(results)}\n")
+        f.write(f"Max Per Source: {max_per_source}\n")
+        f.write(f"Wall Clock Seconds: {total_wall_time:.2f}\n")
+
+    # Terminal Bell and Banner
+    print("\a", end="", flush=True)  # Terminal bell sound
+    banner_border = "=" * 105
+    print(f"\n{banner_border}", flush=True)
+    print(f"   BENCHMARK COMPLETE — {len(results)}-sample run finished in {total_wall_time:.2f}s!", flush=True)
+    print(f"   See data/benchmark_report.md & data/BENCHMARK_DONE.txt for results.", flush=True)
+    print(f"{banner_border}\n", flush=True)
+
     return export_json
 
 

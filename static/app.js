@@ -22,6 +22,15 @@ const elements = {
     btnGenerate: document.getElementById('btn-generate'),
     btnGenerateText: document.getElementById('btn-generate-text'),
 
+    // Zip and Map Download Buttons
+    btnDownloadZip: document.getElementById('btn-download-zip'),
+    btnDownloadZipText: document.getElementById('btn-download-zip-text'),
+    btnDownloadInputRgb: document.getElementById('btn-download-input-rgb'),
+    btnDownloadNormalDip: document.getElementById('btn-download-normal-dip'),
+    btnDownloadNormalDl: document.getElementById('btn-download-normal-dl'),
+    btnDownloadRoughness: document.getElementById('btn-download-roughness'),
+    btnDownloadHeight: document.getElementById('btn-download-height'),
+
     // Toggle Buttons
     toggleBoth: document.getElementById('toggle-both'),
     toggleDip: document.getElementById('toggle-dip'),
@@ -142,6 +151,94 @@ function initEventListeners() {
                 showError("Please select an image file first.");
             }
         });
+    }
+
+    if (elements.btnDownloadZip) {
+        elements.btnDownloadZip.addEventListener('click', downloadZipArchive);
+    }
+
+    if (elements.btnDownloadInputRgb) {
+        elements.btnDownloadInputRgb.addEventListener('click', () => downloadSingleMap('input_rgb', '01_input_rgb.png'));
+    }
+    if (elements.btnDownloadNormalDip) {
+        elements.btnDownloadNormalDip.addEventListener('click', () => downloadSingleMap('normal_dip', '02_normal_dip_classical.png'));
+    }
+    if (elements.btnDownloadNormalDl) {
+        elements.btnDownloadNormalDl.addEventListener('click', () => downloadSingleMap('normal_dl', '03_normal_midas_dl.png'));
+    }
+    if (elements.btnDownloadRoughness) {
+        elements.btnDownloadRoughness.addEventListener('click', () => downloadSingleMap('roughness', '04_roughness_map.png'));
+    }
+    if (elements.btnDownloadHeight) {
+        elements.btnDownloadHeight.addEventListener('click', () => downloadSingleMap('height', '05_height_poisson_map.png'));
+    }
+}
+
+function downloadSingleMap(mapKey, defaultFilename) {
+    if (!state.currentMapData || !state.currentMapData.maps) {
+        showError("No generated maps available for download. Please process an image first.");
+        return;
+    }
+    const maps = state.currentMapData.maps;
+    const mapUrl = maps[mapKey] || (mapKey === 'normal_dl' ? maps.normal : null);
+    if (!mapUrl) {
+        showError(`Map '${mapKey}' is not available.`);
+        return;
+    }
+    const a = document.createElement('a');
+    a.href = mapUrl;
+    a.download = defaultFilename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+async function downloadZipArchive() {
+    if (!state.currentMapData || !state.currentMapData.maps) {
+        showError("No generated maps available to package into ZIP. Please process an image first.");
+        return;
+    }
+
+    if (elements.btnDownloadZip) {
+        elements.btnDownloadZip.disabled = true;
+        if (elements.btnDownloadZipText) elements.btnDownloadZipText.textContent = "Packing ZIP...";
+    }
+
+    try {
+        const resp = await fetch('/api/download_zip', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ maps: state.currentMapData.maps })
+        });
+
+        if (!resp.ok) {
+            let detail = 'Failed to generate ZIP file.';
+            try {
+                const errJson = await resp.json();
+                if (errJson.detail) detail = errJson.detail;
+            } catch (e) {}
+            showError(detail);
+            return;
+        }
+
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'surface_maps.zip';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+    } catch (err) {
+        console.error('ZIP Download failed:', err);
+        showError(`ZIP Download failed: ${err.message || err}`);
+    } finally {
+        if (elements.btnDownloadZip) {
+            elements.btnDownloadZip.disabled = false;
+            if (elements.btnDownloadZipText) elements.btnDownloadZipText.textContent = "Download All Maps (.zip)";
+        }
     }
 }
 

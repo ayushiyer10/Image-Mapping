@@ -7,12 +7,14 @@ Supports Classical DIP (Sobel + 2D DFT + Poisson Integration) and Deep Learning 
 import os
 import io
 import json
+import base64
+import zipfile
 import cv2
 import numpy as np
 from pathlib import Path
 from PIL import Image
 
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
@@ -200,6 +202,60 @@ async def generate_maps(
     if gt_roughness is not None:
         result["maps"]["gt_roughness"] = image_to_base64(gt_roughness, fmt="PNG")
     return result
+
+
+@app.post("/api/download_zip")
+async def download_zip(request: Request):
+    """Package base64 map images into a downloadable ZIP archive."""
+    try:
+        body = await request.json()
+        maps = body.get("maps", {})
+        if not maps:
+            raise HTTPException(status_code=400, detail="No map data provided.")
+
+        zip_buffer = io.BytesIO()
+
+        name_mapping = {
+            "input_rgb": "01_input_rgb.png",
+            "normal_dip": "02_normal_dip_classical.png",
+            "normal_dl": "03_normal_midas_dl.png",
+            "normal": "03_normal_map.png",
+            "roughness": "04_roughness_map.png",
+            "height": "05_height_poisson_map.png",
+            "gt_normal": "06_gt_normal_map.png",
+            "gt_roughness": "07_gt_roughness_map.png"
+        }
+
+        with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
+            for key, base64_str in maps.items():
+                if not base64_str or not isinstance(base64_str, str):
+                    continue
+
+                if "," in base64_str:
+                    _, b64data = base64_str.split(",", 1)
+                else:
+                    b64data = base64_str
+
+                try:
+                    img_bytes = base64.b64decode(b64data)
+                    file_name = name_mapping.get(key, f"{key}.png")
+                    zip_file.writestr(file_name, img_bytes)
+                except Exception as e:
+                    print(f"[Zip Download Warning] Failed to decode image for key '{key}': {e}")
+
+        zip_buffer.seek(0)
+        return Response(
+            content=zip_buffer.getvalue(),
+            media_type="application/zip",
+            headers={
+                "Content-Disposition": "attachment; filename=surface_maps.zip",
+                "Access-Control-Expose-Headers": "Content-Disposition"
+            }
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate ZIP archive: {str(e)}")
 
 
 @app.get("/api/benchmark")
